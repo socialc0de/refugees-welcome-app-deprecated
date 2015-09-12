@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Refugees Welcome</string>
+    <string name="app_name">Germany says Welcome</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="hello_world">Hello world!</string>
@@ -12,6 +12,6 @@
     <string name="faq">FAQ</string>
     <string name="authority_map">Authority Map</string>
     <string name="about">About</string>
-    
+
     <string name="title_activity_product_view">ProductView</string>
 </resources>

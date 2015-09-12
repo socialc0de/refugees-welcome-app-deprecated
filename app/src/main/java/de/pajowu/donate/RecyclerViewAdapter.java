@@ -1,6 +1,7 @@
 package de.pajowu.donate;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ContactViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ContactViewHolder> {
 
-    private List<ContactInfo> contactList;
+    private List<CategoryCardItem> contactList;
 
-    public MyAdapter(List<ContactInfo> contactList) {
+    public RecyclerViewAdapter(List<CategoryCardItem> contactList) {
         this.contactList = contactList;
     }
 
@@ -24,7 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ContactViewHolder>
 
     @Override
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
-        ContactInfo ci = contactList.get(i);
+        CategoryCardItem ci = contactList.get(i);
         contactViewHolder.vCategory.setText(ci.category);
         contactViewHolder.vImage.setImageResource(ci.image);
     }
@@ -34,6 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ContactViewHolder>
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.faq_layout, viewGroup, false);
+
 
         return new ContactViewHolder(itemView);
     }
@@ -49,4 +51,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ContactViewHolder>
             vCategory = (TextView) v.findViewById(R.id.txtName);
         }
     }
+
+
 }

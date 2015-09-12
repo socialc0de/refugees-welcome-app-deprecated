@@ -65,7 +65,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_list, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_list_fab, container, false);
         Log.d("MainActivity","onCreateView Local");
         //Implementation of custom Toolbar
         /*SpannableString s = new SpannableString("XCHANGED");
@@ -91,33 +91,38 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         return viewRoot;
     }
     public void fillLayout() {
-        FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
-        editButton.setOnClickListener(this);
-        editButton.setVisibility(View.VISIBLE);
-        Log.d("MainActivity","fillLayout Locals");
-        ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-        tbs.add(new ListTabFragment(this.offerList, "Offer"));
-        Log.d("MainActivity","create ViewPagerAdapter");
-        ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
-        Log.d("MainActivity","created ViewPagerAdapter");
-        // Assigning ViewPager View and setting the adapter
-        ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
-        pager.setAdapter(adapter);
+        try {
+            FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
+            editButton.setOnClickListener(this);
+            editButton.setVisibility(View.VISIBLE);
+            Log.d("MainActivity","fillLayout Locals");
+            ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
+            tbs.add(new ListTabFragment(this.offerList, "Offer"));
+            Log.d("MainActivity","create ViewPagerAdapter");
+            ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
+            Log.d("MainActivity","created ViewPagerAdapter");
+            // Assigning ViewPager View and setting the adapter
+            ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
+            pager.setAdapter(adapter);
 
-        // Assiging the Sliding Tab Layout View
-        SlidingTabLayout tabs = (SlidingTabLayout) viewRoot.findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
- 
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.accentColor);
-            }
-        });
- 
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
+            // Assiging the Sliding Tab Layout View
+            SlidingTabLayout tabs = (SlidingTabLayout) viewRoot.findViewById(R.id.tabs);
+            tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+     
+            // Setting Custom Color for the Scroll bar indicator of the Tab View
+            tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                @Override
+                public int getIndicatorColor(int position) {
+                    return getResources().getColor(R.color.accentColor);
+                }
+            });
+     
+            // Setting the ViewPager For the SlidingTabsLayout
+            tabs.setViewPager(pager); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
     public void loadFragmentData() {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();

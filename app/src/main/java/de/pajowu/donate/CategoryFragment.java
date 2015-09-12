@@ -48,7 +48,7 @@ public class CategoryFragment extends Fragment{
         categories = mMainActivity.categories;
         Log.d("MainActivity",categories.toString());
         // Inflate the layout for this fragment
-        View viewRoot = inflater.inflate(R.layout.fragment_list, container, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
         SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

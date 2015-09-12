@@ -8,6 +8,11 @@ import android.text.SpannableString;
 import android.text.Spannable;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import android.widget.TextView;
+import java.io.InputStream;
+import android.text.Html;
+import java.lang.Exception;
+import android.text.method.LinkMovementMethod;
+
 public class AboutFragment extends Fragment {
 
     public AboutFragment() {
@@ -20,8 +25,20 @@ public class AboutFragment extends Fragment {
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
-        TextView aboutTextView = (TextView)inflatedView.findViewById(R.id.about);
-        aboutTextView.setText("Wichtiges Zeugs, Lizensen und so!");
+        try {
+            TextView aboutTextView = (TextView)inflatedView.findViewById(R.id.about);
+            InputStream is = getActivity().getAssets().open("about.html");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String about_text = new String(buffer, "UTF-8");
+            aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
+            aboutTextView.setText(Html.fromHtml(about_text));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return inflatedView;
     }
 }

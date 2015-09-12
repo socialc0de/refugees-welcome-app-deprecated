@@ -71,7 +71,7 @@ import android.util.Base64;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
 
-public class NewOfferFragment extends android.app.Fragment implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, OnDateSetListener {
+public class NewOfferFragment extends android.support.v4.app.Fragment implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, OnDateSetListener {
     private final String TAG = "MainActivity";
     public ScrollView scrollView;
     public ExpandableGridView gridView;

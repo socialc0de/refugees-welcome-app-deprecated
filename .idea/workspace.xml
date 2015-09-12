@@ -86,9 +86,11 @@
       <file leaf-file-name="FAQFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7299843">
-              <caret line="44" column="49" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
-              <folding />
+            <state vertical-scroll-proportion="0.83516484">
+              <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+              <folding>
+                <element signature="e#3158#3166#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1952,7 +1954,6 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/CategoryCardItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/faq_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/MyExpandableAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/NewOfferFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/group.xml" />
@@ -1960,6 +1961,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_faqcategory.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQCategoryFragment.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQFragment.java" />
       </list>
     </option>
   </component>
@@ -2291,7 +2293,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2311,7 +2313,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17493796" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -2346,18 +2348,18 @@
             <element signature="imports" expanded="false" />
             <element signature="e#2405#2423#0" expanded="false" />
             <element signature="e#3994#4022#0" expanded="false" />
-            <element signature="e#12129#12147#0" expanded="false" />
-            <element signature="e#13224#14785#0" expanded="false" />
-            <element signature="e#14204#14383#0" expanded="false" />
-            <element signature="e#14382#14383#0" expanded="false" />
-            <element signature="e#14784#14785#0" expanded="false" />
-            <element signature="e#15117#16849#0" expanded="false" />
-            <element signature="e#16268#16447#0" expanded="false" />
-            <element signature="e#16446#16447#0" expanded="false" />
-            <element signature="e#16848#16849#0" expanded="false" />
-            <element signature="e#17559#17575#0" expanded="false" />
-            <element signature="e#17824#17840#0" expanded="false" />
-            <element signature="e#18422#18430#0" expanded="false" />
+            <element signature="e#12269#12287#0" expanded="false" />
+            <element signature="e#13364#14925#0" expanded="false" />
+            <element signature="e#14344#14523#0" expanded="false" />
+            <element signature="e#14522#14523#0" expanded="false" />
+            <element signature="e#14924#14925#0" expanded="false" />
+            <element signature="e#15257#16989#0" expanded="false" />
+            <element signature="e#16408#16587#0" expanded="false" />
+            <element signature="e#16586#16587#0" expanded="false" />
+            <element signature="e#16988#16989#0" expanded="false" />
+            <element signature="e#17699#17715#0" expanded="false" />
+            <element signature="e#17964#17980#0" expanded="false" />
+            <element signature="e#18562#18570#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2675,9 +2677,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7299843">
-          <caret line="44" column="49" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
-          <folding />
+        <state vertical-scroll-proportion="0.83516484">
+          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding>
+            <element signature="e#3158#3166#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -60,39 +60,39 @@ public class PhraseFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-public ArrayList<HashMap<String,String>> loadPhrasesFromAsset(String filename) {
-    String json = null;
-    try {
-        InputStream is = getActivity().getAssets().open(filename);
-        int size = is.available();
-        byte[] buffer = new byte[size];
-        is.read(buffer);
-        is.close();
-        json = new String(buffer, "UTF-8");
-        //JSONObject obj = new JSONObject(json);
-        JSONArray m_jArry = new JSONArray(json);
-        ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
+    public ArrayList<HashMap<String,String>> loadPhrasesFromAsset(String filename) {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open(filename);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            //JSONObject obj = new JSONObject(json);
+            JSONArray m_jArry = new JSONArray(json);
+            ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
 
-        for (int i = 0; i < m_jArry.length(); i++) {
-            JSONObject jo_inside = m_jArry.getJSONObject(i);
-            HashMap<String, String> phrase = new HashMap<String, String>();
-            Iterator<?> keys = jo_inside.keys();
-            while( keys.hasNext() ) {
-                String key = (String)keys.next();
-                if ( jo_inside.get(key) instanceof String ) {
-                    phrase.put(key, (String)jo_inside.get(key));
+            for (int i = 0; i < m_jArry.length(); i++) {
+                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                HashMap<String, String> phrase = new HashMap<String, String>();
+                Iterator<?> keys = jo_inside.keys();
+                while( keys.hasNext() ) {
+                    String key = (String)keys.next();
+                    if ( jo_inside.get(key) instanceof String ) {
+                        phrase.put(key, (String)jo_inside.get(key));
+                    }
                 }
+                Log.d("MainActivity",jo_inside.toString());
+                formList.add(phrase);
             }
-            Log.d("MainActivity",jo_inside.toString());
-            formList.add(phrase);
+            return formList;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return formList;
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        return null;
+        
     }
-    
-}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

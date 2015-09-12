@@ -144,6 +144,7 @@ public class MainActivity extends MaterialNavigationDrawer {
         MaterialSection profileFragment = newSection("Profile", new ProfileFragment());
         MaterialSection phraseFragment = newSection("German - Arabic", new PhraseFragment());
         MaterialSection faqFragment = newSection("FAQ", new FAQFragment());
+        MaterialSection authorityFragment = newSection("Authority Map", new AuthorityMapFragment());
 
         //addSection(homeFragment);
         addSection(localFragment);
@@ -151,6 +152,7 @@ public class MainActivity extends MaterialNavigationDrawer {
         addSection(profileFragment);
         addSection(phraseFragment);
         addSection(faqFragment);
+        addSection(authorityFragment);
         //setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
         /*
 

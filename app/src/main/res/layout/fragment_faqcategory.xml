@@ -1,13 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MyActivity"
-    android:background="@color/textWhite"
-    android:id="@+id/fragment_relative_layout">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cardList"
-        android:layout_width="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/textGrey">
+
+    <ExpandableListView
+        android:id="@+id/list"
         android:layout_height="match_parent"
-        />
-</RelativeLayout>
+        android:layout_width="match_parent"
+        android:groupIndicator="@null" />
+
+</LinearLayout>

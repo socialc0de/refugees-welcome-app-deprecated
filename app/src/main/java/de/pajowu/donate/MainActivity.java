@@ -1,56 +1,48 @@
 package de.pajowu.donate;
 
 
-import android.app.ProgressDialog;
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.appspot.donate_backend.donate.*;
-import com.appspot.donate_backend.donate.Donate.*;
-import com.appspot.donate_backend.donate.model.*;
-import com.google.android.gms.maps.model.LatLng;
+import com.appspot.donate_backend.donate.Donate;
+import com.appspot.donate_backend.donate.Donate.Builder;
+import com.appspot.donate_backend.donate.model.Category;
+import com.appspot.donate_backend.donate.model.CategoryCollection;
+import com.appspot.donate_backend.donate.model.UserProtoImAddressName;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.json.JsonFactory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;
-import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
-
-import org.json.JSONObject;
-import org.json.JSONArray;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Map;
-import org.json.JSONException;
-import com.google.api.client.json.JsonFactory;
-import android.graphics.Bitmap;
-import java.io.InputStream;
-import android.graphics.BitmapFactory;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class MainActivity extends MaterialNavigationDrawer {
     private Toolbar toolbar;
@@ -90,24 +82,25 @@ public class MainActivity extends MaterialNavigationDrawer {
     //TODO Implement Server functions
 
 
-/*
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
+    /*
+        @Override
+        protected void onPostCreate(Bundle savedInstanceState) {
+            super.onPostCreate(savedInstanceState);
+            drawerToggle.syncState();
+        }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
+        @Override
+        public void onConfigurationChanged(Configuration newConfig) {
+            super.onConfigurationChanged(newConfig);
+            drawerToggle.onConfigurationChanged(newConfig);
+        }
 
 
-*/
-    public HashMap<String,Category> getCategories() {
+    */
+    public HashMap<String, Category> getCategories() {
         return categories;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -143,20 +136,21 @@ public class MainActivity extends MaterialNavigationDrawer {
 */
 
 
-
         // create sections
         String[] offersList = new String[0];
         //MaterialSection homeFragment = newSection("Home", new HomeFragment(getApplicationContext()));
-        MaterialSection localFragment = newSection("Local", new LocalFragment(this));
-        MaterialSection categoriesFragment = newSection("Categories", new CategoryFragment(this));
+        MaterialSection localFragment = newSection("Sharing - Local", new LocalFragment(this));
+        MaterialSection categoriesFragment = newSection("Sharing - Categories", new CategoryFragment(this));
         MaterialSection profileFragment = newSection("Profile", new ProfileFragment());
-        MaterialSection phraseFragment = newSection("Phrases", new PhraseFragment());
+        MaterialSection phraseFragment = newSection("German - Arabic", new PhraseFragment());
+        MaterialSection faqFragment = newSection("FAQ", new FAQFragment());
 
         //addSection(homeFragment);
         addSection(localFragment);
         addSection(categoriesFragment);
         addSection(profileFragment);
         addSection(phraseFragment);
+        addSection(faqFragment);
         //setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
         /*
 
@@ -335,17 +329,18 @@ public class MainActivity extends MaterialNavigationDrawer {
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
     }
-    public HashMap<String,Category> parseCat(String json) {
+
+    public HashMap<String, Category> parseCat(String json) {
         try {
             JSONObject cat_json = new JSONObject(json);
             HashMap<String, Category> map = new HashMap<String, Category>();
 
             Iterator<String> keysItr = cat_json.keys();
-            while(keysItr.hasNext()) {
+            while (keysItr.hasNext()) {
                 String key = keysItr.next();
                 Object value = cat_json.get(key);
                 Category cat = new Category();
-                if(value instanceof JSONObject) {
+                if (value instanceof JSONObject) {
                     JsonFactory factory = new AndroidJsonFactory();
                     cat = (Category) factory.fromString(value.toString(), Category.class);
                 }
@@ -353,16 +348,17 @@ public class MainActivity extends MaterialNavigationDrawer {
             }
             return map;
         } catch (Exception e) {
-            Log.d(TAG,"Error",e);
+            Log.d(TAG, "Error", e);
             return null;
         }
     }
+
     public void loadCategories() {
         /*final ProgressDialog progdialog = ProgressDialog.show(MainActivity.this, "", "Lade ...", true);
         progdialog.setProgressStyle(R.style.CustomHeaderLight);*/
         if (mTinyDB.getString("categories") != "") {
             categories = parseCat(mTinyDB.getString("categories"));
-            Log.d(TAG,mTinyDB.getString("categories"));
+            Log.d(TAG, mTinyDB.getString("categories"));
         }
         Runnable runnable = new Runnable() {
             @Override
@@ -379,7 +375,7 @@ public class MainActivity extends MaterialNavigationDrawer {
                     for (Category cat : result.getItems()) {
                         categories.put(cat.getId(), cat);
                     }
-                    mTinyDB.putString("categories",new JSONObject(categories).toString());
+                    mTinyDB.putString("categories", new JSONObject(categories).toString());
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     runOnUiThread(new Runnable() {
@@ -401,8 +397,9 @@ public class MainActivity extends MaterialNavigationDrawer {
             }
         };
         new Thread(runnable).start();
-        
+
     }
+
     public void loadAccount() {
         /*final ProgressDialog progdialog = ProgressDialog.show(MainActivity.this, "", "Lade ...", true);
         progdialog.setProgressStyle(R.style.CustomHeaderLight);*/
@@ -421,9 +418,9 @@ public class MainActivity extends MaterialNavigationDrawer {
                     //public Bitmap getImage(String path)
                     //boolean putImage(String theFolder, String theImageName, Bitmap theBitmap) {
                     Log.d("MainActivity", result.toString());
-                    Map<String,Object> im = jsonToMap(new JSONObject(result.getIm().toString()));
-                    gplus_url = (String)((HashMap)im.get("gplus")).get("url");
-                    mTinyDB.putString("gplus_url",gplus_url);
+                    Map<String, Object> im = jsonToMap(new JSONObject(result.getIm().toString()));
+                    gplus_url = (String) ((HashMap) im.get("gplus")).get("url");
+                    mTinyDB.putString("gplus_url", gplus_url);
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     runOnUiThread(new Runnable() {
@@ -445,8 +442,9 @@ public class MainActivity extends MaterialNavigationDrawer {
             }
         };
         new Thread(runnable).start();
-        
+
     }
+
     public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -461,10 +459,11 @@ public class MainActivity extends MaterialNavigationDrawer {
             return null;
         }
     }
+
     public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
         Map<String, Object> retMap = new HashMap<String, Object>();
 
-        if(json != JSONObject.NULL) {
+        if (json != JSONObject.NULL) {
             retMap = toMap(json);
         }
         return retMap;
@@ -474,15 +473,13 @@ public class MainActivity extends MaterialNavigationDrawer {
         Map<String, Object> map = new HashMap<String, Object>();
 
         Iterator<String> keysItr = object.keys();
-        while(keysItr.hasNext()) {
+        while (keysItr.hasNext()) {
             String key = keysItr.next();
             Object value = object.get(key);
 
-            if(value instanceof JSONArray) {
+            if (value instanceof JSONArray) {
                 value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 value = toMap((JSONObject) value);
             }
             map.put(key, value);
@@ -492,13 +489,11 @@ public class MainActivity extends MaterialNavigationDrawer {
 
     public static List<Object> toList(JSONArray array) throws JSONException {
         List<Object> list = new ArrayList<Object>();
-        for(int i = 0; i < array.length(); i++) {
+        for (int i = 0; i < array.length(); i++) {
             Object value = array.get(i);
-            if(value instanceof JSONArray) {
+            if (value instanceof JSONArray) {
                 value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 value = toMap((JSONObject) value);
             }
             list.add(value);

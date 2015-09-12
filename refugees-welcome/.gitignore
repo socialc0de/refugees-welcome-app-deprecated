@@ -1,7 +1,0 @@
-local.properties
-config.properties
-app/build/
-build/
-.gradle/
-ignore/
-.DS_Store

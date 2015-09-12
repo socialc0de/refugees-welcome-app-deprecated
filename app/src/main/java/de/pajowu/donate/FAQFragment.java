@@ -36,20 +36,20 @@ public class FAQFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-
         MyAdapter ca = new MyAdapter(createList(30));
         recList.setAdapter(ca);
         return v;
     }
+
 
     private List<ContactInfo> createList(int size) {
 
         List<ContactInfo> result = new ArrayList<ContactInfo>();
         for (int i=1; i <= size; i++) {
             ContactInfo ci = new ContactInfo();
-            ci.name = ContactInfo.NAME_PREFIX + i;
-            ci.surname = ContactInfo.SURNAME_PREFIX + i;
-            ci.email = ContactInfo.EMAIL_PREFIX + i + "@test.com";
+            ci.category = "Category" + i;
+            ci.image = R.drawable.bike;
+
 
             result.add(ci);
 

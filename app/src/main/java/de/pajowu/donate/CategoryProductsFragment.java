@@ -51,7 +51,7 @@ public class CategoryProductsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_list, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
 
         //Implementation of custom Toolbar
         SpannableString s = new SpannableString(getString(R.string.app_name));

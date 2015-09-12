@@ -65,7 +65,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_list, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_list_fab, container, false);
         Log.d("MainActivity","onCreateView Local");
         //Implementation of custom Toolbar
         /*SpannableString s = new SpannableString("XCHANGED");

@@ -14,6 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +81,40 @@ public class FAQFragment extends Fragment {
         return v;
     }
 
+    private ArrayList<String> populate() {
+        ArrayList<String> items = new ArrayList<String>();
 
+        try {
+            URL url = new URL
+                    ("http://SOMETHING.json");
+            HttpURLConnection urlConnection =
+                    (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+            // gets the server json data
+            BufferedReader bufferedReader =
+                    new BufferedReader(new InputStreamReader(
+                            urlConnection.getInputStream()));
+            String next;
+            while ((next = bufferedReader.readLine()) != null){
+                JSONArray ja = new JSONArray(next);
 
-
+                for (int i = 0; i < ja.length(); i++) {
+                    JSONObject jo = (JSONObject) ja.get(i);
+                    items.add(jo.getString("text"));
+                }
+            }
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return items;
+    }
 }
+

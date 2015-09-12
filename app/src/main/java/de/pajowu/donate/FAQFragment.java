@@ -2,9 +2,11 @@ package de.pajowu.donate;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,31 +34,41 @@ public class FAQFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_faqfragment, container, false);
         RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+
+        ArrayList<CategoryCardItem> categoryItems = new ArrayList<CategoryCardItem>(){};
+        categoryItems.add(new CategoryCardItem("Transport", R.drawable.bike));
+        categoryItems.add(new CategoryCardItem("Real Estates", R.drawable.flat));
+        categoryItems.add(new CategoryCardItem("Nature", R.drawable.animal));
+        categoryItems.add(new CategoryCardItem("Shops", R.drawable.profile));
+        categoryItems.add(new CategoryCardItem("Food", R.drawable.restaurant));
+        categoryItems.add(new CategoryCardItem("Jobs", R.drawable.topview));
+
+
+        recList.addOnItemTouchListener(
+                new RecyclerItemClickListener(v.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Log.d("pos = ", position + "");
+                        FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                        transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                })
+        );
+
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        MyAdapter ca = new MyAdapter(createList(30));
+        RecyclerViewAdapter ca = new RecyclerViewAdapter(categoryItems);
         recList.setAdapter(ca);
         return v;
     }
 
 
-    private List<ContactInfo> createList(int size) {
-
-        List<ContactInfo> result = new ArrayList<ContactInfo>();
-        for (int i=1; i <= size; i++) {
-            ContactInfo ci = new ContactInfo();
-            ci.category = "Category" + i;
-            ci.image = R.drawable.bike;
-
-
-            result.add(ci);
-
-        }
-
-        return result;
-    }
 
 
 }

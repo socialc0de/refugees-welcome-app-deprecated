@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.pajowu.donate.ProductView">
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/actionbar_shadow" />
+    
+
+        <View
+            android:id="@+id/fragment_profile_mainImageView"
+            android:layout_width="match_parent"
+
+            android:layout_height="250dp" />
+
+        <View
+            android:id="@+id/fragment_profile_mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="200dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar"
+            android:orientation="vertical"
+            android:weightSum="15">
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/fragment_product_mainImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/productback" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="110dp"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical">
+
+                        <!--<TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Premium Offer"
+                            android:textAllCaps="true"
+                            android:textColor="@color/accentColor"
+                            android:id="@+id/offer"
+                            android:textSize="20sp" />-->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-14dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Wanted:"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textWhite"
+                            android:id="@+id/title"
+                            android:textSize="40sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-18dp"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Developer"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textWhite"
+                            android:id="@+id/subtitle"
+                            android:textSize="40sp" />
+
+                    </LinearLayout>
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="8">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Offer Text"
+                    android:id="@+id/offerText"/>
+            </FrameLayout>
+            <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/fragment_product_messageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="-185dp"
+                    fab:fab_colorNormal="@color/accentColor"
+                    fab:fab_colorPressed="@color/accentColor2"
+                    android:src="@drawable/ic_mail_white" />
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+</RelativeLayout>

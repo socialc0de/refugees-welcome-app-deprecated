@@ -1,0 +1,79 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.pajowu.donate.ListFragmentTab">
+
+
+    <ScrollView
+        android:id="@+id/fragment_list_scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/textWhite"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_weight="4"
+                    android:background="@color/textGrey2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="Within 10km"
+                    android:textAllCaps="true"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_weight="4"
+                    android:background="@color/textGrey2" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/textGrey2"
+                android:layout_marginTop="10dp" />
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:divider="@drawable/list_border"
+                android:dividerHeight="1px"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/pink_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        fab:fab_colorNormal="@color/accentColor"
+        fab:fab_colorPressed="@color/accentColor2"
+        android:src="@drawable/ic_add_white"
+        />
+</FrameLayout>

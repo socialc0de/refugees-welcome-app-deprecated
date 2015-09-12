@@ -1,21 +1,17 @@
 <resources>
-    <string name="app_name">Refugees Welcome</string>
+    <string name="app_name">Germany says Welcome</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sharing_local">Sharing - Local</string>
+    <string name="sharing_categories">Sharing - Categories</string>
+    <string name="profile">Profile</string>
+    <string name="phrasebook">Phrasebook</string>
+    <string name="faq">FAQ</string>
+    <string name="authority_map">Authority Map</string>
+    <string name="about">About</string>
 
-    <string-array name="navItems">
-        <item>Home</item>
-        <item>Categories</item>
-        <item>Trending</item>
-        <item>Local Deals</item>
-        <item>Personalized</item>
-        <item>Profile</item>
-        <item>Settings</item>
-    </string-array>
     <string name="title_activity_product_view">ProductView</string>
 </resources>

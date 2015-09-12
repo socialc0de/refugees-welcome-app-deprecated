@@ -34,11 +34,11 @@ public class AuthorityMapFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.fragment_authority_map, container, false);
         SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        View inflatedView = inflater.inflate(R.layout.fragment_authority_map, container, false);
         MapsInitializer.initialize(getActivity());
         mMapView = (MapView) inflatedView.findViewById(R.id.map);
         mMapView.onCreate(mBundle);

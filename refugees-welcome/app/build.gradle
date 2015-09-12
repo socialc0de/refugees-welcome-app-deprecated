@@ -1,0 +1,127 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+   maven {
+        url 'http://google-api-client-libraries.appspot.com/mavenrepo'
+    }
+    mavenCentral()
+    mavenLocal()
+    jcenter()
+}
+
+
+apply plugin: 'com.android.application'
+
+Properties props = new Properties()
+props.load(new FileInputStream(file("../config.properties")))
+
+android {
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+    signingConfigs {
+        release {
+            storeFile file("release.keystore")
+            storePassword props['keystore.password']
+            keyAlias "donate"
+            keyPassword props['keystore.password']
+        }
+    }
+    defaultConfig {
+        applicationId "de.pajowu.donate"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.etsy.android.grid:library:1.0.5'
+    compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
+    compile 'com.github.androidprogresslayout:library:2.0.2@aar'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.github.rey5137:material:1.1.1'
+    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'com.wdullaer:materialdatetimepicker:1.4.1'
+    compile ('com.github.ganfra:material-spinner:1.1.0'){
+        exclude group: 'com.nineoldandroids', module: 'library'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
+    compile 'com.getbase:floatingactionbutton:1.10.0'
+       // BEGIN Google APIs
+
+    // Play Services will validate the application prior to allowing OAuth2 access.
+    compile 'com.google.android.gms:play-services:6.5+'
+
+    // The following lines implement maven imports as defined at:
+    // https://code.google.com/p/google-api-java-client/wiki/Setup
+
+    // Add the Google API client library.
+    compile(group: 'com.google.api-client', name: 'google-api-client', version: '1.18.0-rc') {
+        // Exclude artifacts that the Android SDK/Runtime provides.
+        exclude(group: 'xpp3', module: 'xpp3')
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+        exclude(group: 'junit', module: 'junit')
+        exclude(group: 'com.google.android', module: 'android')
+    }
+
+    // Add the Android extensions for the Google API client library.
+    // This will automatically include play services as long as you have download that library
+    // from the Android SDK manager.
+    // Add the Android extensions for the Google API client library.
+    compile(group: 'com.google.api-client', name: 'google-api-client-android',
+            version: '1.18.0-rc')
+    {
+        // Exclude play services, since we're not using this yet.
+        exclude(group: 'com.google.android.gms:play-services', module: 'google-play-services')
+    }
+
+    // END Google APIs
+
+
+    // The following client libraries make HTTP/JSON on Android easier.
+
+    // Android extensions for Google HTTP Client.
+    compile(group: 'com.google.http-client', name: 'google-http-client-android',
+            version: '1.18.0-rc') {
+        exclude(group: 'com.google.android', module: 'android')
+    }
+
+    // This is used by the Google HTTP client library.
+    // compile(group: 'com.google.guava', name: 'guava', version: '18.0.+')
+
+}

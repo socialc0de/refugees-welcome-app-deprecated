@@ -1,14 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.pajowu.donate.FAQCategoryFragment"
-    android:background="@color/textWhite">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context=".MyActivity"
+    android:background="@color/textWhite"
+    android:id="@+id/fragment_relative_layout">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cardList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        />
+</RelativeLayout>

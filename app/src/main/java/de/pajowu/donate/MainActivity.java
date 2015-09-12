@@ -139,13 +139,13 @@ public class MainActivity extends MaterialNavigationDrawer {
         // create sections
         String[] offersList = new String[0];
         //MaterialSection homeFragment = newSection("Home", new HomeFragment(getApplicationContext()));
-        MaterialSection localFragment = newSection("Sharing - Local", new LocalFragment(this));
-        MaterialSection categoriesFragment = newSection("Sharing - Categories", new CategoryFragment(this));
-        MaterialSection profileFragment = newSection("Profile", new ProfileFragment());
-        MaterialSection phraseFragment = newSection("German - Arabic", new PhraseFragment());
-        MaterialSection faqFragment = newSection("FAQ", new FAQFragment());
-        MaterialSection authorityFragment = newSection("Authority Map", new AuthorityMapFragment());
-
+        MaterialSection localFragment = newSection(getString(R.string.sharing_local), new LocalFragment(this));
+        MaterialSection categoriesFragment = newSection(getString(R.string.sharing_categories), new CategoryFragment(this));
+        MaterialSection profileFragment = newSection(getString(R.string.profile), new ProfileFragment());
+        MaterialSection phraseFragment = newSection(getString(R.string.phrasebook), new PhraseFragment());
+        MaterialSection faqFragment = newSection(getString(R.string.faq), new FAQFragment());
+        MaterialSection authorityFragment = newSection(getString(R.string.authority_map), new AuthorityMapFragment());
+        MaterialSection aboutFragment = newSection(getString(R.string.about), new AboutFragment());
         //addSection(homeFragment);
         addSection(localFragment);
         addSection(categoriesFragment);
@@ -153,6 +153,7 @@ public class MainActivity extends MaterialNavigationDrawer {
         addSection(phraseFragment);
         addSection(faqFragment);
         addSection(authorityFragment);
+        addSection(aboutFragment);
         //setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
         /*
 

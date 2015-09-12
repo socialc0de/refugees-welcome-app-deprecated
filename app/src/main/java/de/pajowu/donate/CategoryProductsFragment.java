@@ -66,7 +66,7 @@ public class CategoryProductsFragment extends Fragment {
         mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Offers"),
                 ListFragmentTab.class, bundleTab1);*/
 
-        loadFragmentData();
+        loadFragmentData(getLocation());
         return viewRoot;
     }
     public void fillLayout() {
@@ -109,7 +109,7 @@ public class CategoryProductsFragment extends Fragment {
         mTabHost.addTab(mTabHost.newTabSpec("fragmentd").setIndicator("All"),
                 ListFragmentTab.class, bundleTab3);*/
     }
-    public void loadFragmentData() {
+    public void loadFragmentData(final Location loc) {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
         Runnable runnable = new Runnable() {
             @Override
@@ -121,53 +121,78 @@ public class CategoryProductsFragment extends Fragment {
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesCollection result;
-                try {
-                    result = service.offer().bycat().setCategories(Arrays.asList(cat_id)).execute();
-                    offerList = new ArrayList<ListItem>();
-                    if (result.getItems() != null) {
-                        for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
-                            ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
-                            String catstr = "";
-                            for (String cat : off.getCategories()) {
-                                Category category = ((MainActivity) getActivity()).categories.get(cat);
-                                if (category != null) {
-                                    catstr += category.getName() + " ";
+                //Log.d("MainActivity", loc.toString());
+                if (loc != null)  {
+
+
+                    double r = 6371;  // earth radius in km
+
+                    double radius = 10; // km
+
+                    String bbox = new Double(loc.getLongitude() - Math.toDegrees(radius / r / Math.cos(Math.toRadians(loc.getLatitude())))).toString() + ",";
+                    bbox += new Double(loc.getLatitude() - Math.toDegrees(radius / r)).toString() + ",";
+                    bbox += new Double(loc.getLongitude() + Math.toDegrees(radius / r / Math.cos(Math.toRadians(loc.getLatitude())))).toString() + ",";
+                    bbox += new Double(loc.getLatitude() + Math.toDegrees(radius / r)).toString();
+                    try {
+                        result = service.offer().bycat().setCategories(Arrays.asList(cat_id)).setBbox(bbox).execute();
+                        offerList = new ArrayList<ListItem>();
+                        if (result.getItems() != null) {
+                            for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
+                                ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
+                                String catstr = "";
+                                for (String cat : off.getCategories()) {
+                                    Category category = ((MainActivity) getActivity()).categories.get(cat);
+                                    if (category != null) {
+                                        catstr += category.getName() + " ";
+                                    }
+                                
                                 }
-                            
-                            }
-                            li.category = catstr;
-                            if (off.getImageUrls() != null) {
-                                if (off.getImageUrls().size() >= 1) {
-                                    //IMAGES.add(off.getImageUrls().get(0));
-                                    // tmp fix, save image from url, give the path to HomeFragment
-                                    li.resourceImage = off.getImageUrls().get(0);
+                                li.category = catstr;
+                                if (off.getImageUrls() != null) {
+                                    if (off.getImageUrls().size() >= 1) {
+                                        //IMAGES.add(off.getImageUrls().get(0));
+                                        // tmp fix, save image from url, give the path to HomeFragment
+                                        li.resourceImage = off.getImageUrls().get(0);
+                                    }
                                 }
+                                
+                                offerList.add(li);
                             }
-                            
-                            offerList.add(li);
                         }
+
+                    } catch (UserRecoverableAuthIOException e) {
+                        final UserRecoverableAuthIOException e2 = e;
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                startActivityForResult(e2.getIntent(), 2);
+                            }
+                        });
+                        Log.d("MainActivity", "e", e);
+                    } catch (Exception e) {
+                        Log.d("MainActivity", "e", e);
                     }
 
-                } catch (UserRecoverableAuthIOException e) {
-                    final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            startActivityForResult(e2.getIntent(), 2);
+                            fillLayout();
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
                         }
                     });
-                    Log.d("MainActivity", "e", e);
-                } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't get Location");
+                        }
+                    });
                 }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        fillLayout();
-                        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
-                    }
-                });
             }
         };
         new Thread(runnable).start();
+    }
+    public Location getLocation() {
+        // Get the location manager
+        LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        return location;
     }
 }

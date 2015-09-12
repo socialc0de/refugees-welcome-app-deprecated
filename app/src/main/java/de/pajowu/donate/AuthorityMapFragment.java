@@ -23,7 +23,7 @@ import android.location.LocationManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.Marker;
 import android.widget.TextView;
-
+import android.util.Log;
 public class AuthorityMapFragment extends Fragment {
 
     private MapView mMapView;
@@ -34,6 +34,7 @@ public class AuthorityMapFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("MainActivity","onCreateView");
         SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -54,21 +55,21 @@ public class AuthorityMapFragment extends Fragment {
     }
 
     private void setUpMapIfNeeded(View inflatedView) {
-        if (mMap == null) {
-            mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
-            if (mMap != null) {
-                setUpMap();
-            }
+        mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
+        if (mMap != null) {
+            setUpMap();
         }
     }
 
     private void setUpMap() {
+        Log.d("MainActivity","setupMap");
         Location loc = getLocation();
         if (loc != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 12));
         }
         mMap.setMyLocationEnabled(true);
         ArrayList<Authority> auths = loadAuthoritiesFromAsset();
+        Log.d("MainActivity",auths.toString());
         if (auths != null) {
            for (Authority auth : auths) {
                 mMap.addMarker(new MarkerOptions().position(auth.location).snippet(auth.getDetailText()));

@@ -1,8 +1,12 @@
 package de.pajowu.donate;
 
 
+<<<<<<< HEAD
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+=======
+import android.support.v4.app.Fragment;
+>>>>>>> 261dad9e4b92456cac991e4df18a606f7fc97928
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

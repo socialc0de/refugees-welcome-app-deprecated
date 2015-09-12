@@ -57,10 +57,11 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
               <folding>
-                <element signature="e#1730#2374#0" expanded="true" />
-                <element signature="e#2373#2374#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1840#2484#0" expanded="true" />
+                <element signature="e#2483#2484#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2622,10 +2623,11 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/de/pajowu/donate/FAQFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding>
-            <element signature="e#1730#2374#0" expanded="true" />
-            <element signature="e#2373#2374#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1840#2484#0" expanded="true" />
+            <element signature="e#2483#2484#0" expanded="true" />
           </folding>
         </state>
       </provider>

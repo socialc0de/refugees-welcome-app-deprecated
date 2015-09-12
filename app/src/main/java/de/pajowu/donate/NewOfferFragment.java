@@ -135,7 +135,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         onMapReady(map);
         map.setOnMapClickListener(this);
         MaterialEditText enddate = (MaterialEditText) viewRoot.findViewById(R.id.end_date);
-        //enddate.setOnClickListener(this);
+        enddate.setOnClickListener(this);
         enddate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -212,7 +212,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
-        dpd.show(getActivity().getSupportFragmentManager(), "Datepickerdialog");
+        dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
     }
 
     @Override

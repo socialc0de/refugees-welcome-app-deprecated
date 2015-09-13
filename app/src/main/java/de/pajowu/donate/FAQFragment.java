@@ -30,6 +30,14 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
+import com.appspot.donate_backend.donate.*;
+import com.appspot.donate_backend.donate.Donate.*;
+import com.appspot.donate_backend.donate.model.*;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.json.JsonFactory;
+import com.github.androidprogresslayout.ProgressLayout;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -37,171 +45,94 @@ public class FAQFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] posCats = {"Shopping","Healthcare","Food","Jobs","Real_Estates", "Social_Help","Kids","Education","Proposal","Law","Transport","Basic_Information"};
-
-
+    View viewRoot;
     Map<String, Integer> num;
-
-    public enum IMAGES {
-        SHOPPING, HEALTHCARE, FOOD, JOBS, REAL_ESTATES, SOCIAL_HELP, KIDS, EDUCATION, PROPOSALS, LAW, TRANSPORT, BASIC_INFORMATION;
-
-        public int getImage() {
-            if (this == SHOPPING)
-                return R.drawable.flat;
-            else if (this == HEALTHCARE)
-                return R.drawable.topview;
-            else if (this == FOOD)
-                return R.drawable.topview;
-            else if (this == JOBS)
-                return R.drawable.topview;
-            else if (this == REAL_ESTATES)
-                return R.drawable.topview;
-            else if (this == SOCIAL_HELP)
-                return R.drawable.topview;
-            else if (this == KIDS)
-                return R.drawable.topview;
-            else if (this == EDUCATION)
-                return R.drawable.topview;
-            else if (this == PROPOSALS)
-                return R.drawable.topview;
-            else if (this == LAW)
-                return R.drawable.topview;
-            else if (this == TRANSPORT)
-                return R.drawable.topview;
-            else if (this == BASIC_INFORMATION)
-                return R.drawable.topview;
-            return R.drawable.restaurant;
-        }
-    }
-
+    HashMap<String,FAQCategory> cats;
 
     public FAQFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_faqfragment, container, false);
-        final RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+        viewRoot = inflater.inflate(R.layout.fragment_faqfragment, container, false);
+        if (cats == null) {
+            loadFragmentData();
+        } else {
+            fillLayout();
+        }
+        return viewRoot;
+    }
 
-        num = new HashMap<String, Integer>();
-        num.put("Shopping", R.drawable.topview);
-        num.put("Healthcare", R.drawable.restaurant);
-        num.put("Food", R.drawable.profile);
-        num.put("Jobs", R.drawable.topview);
-        num.put("Real_Estates", R.drawable.topview);
-        num.put("Social_Help", R.drawable.restaurant);
-        num.put("Kids", R.drawable.restaurant);
-        num.put("Education", R.drawable.restaurant);
-        num.put("Proposal", R.drawable.restaurant);
-        num.put("Law", R.drawable.restaurant);
-        num.put("Transport", R.drawable.restaurant);
-        num.put("Basic_Information", R.drawable.restaurant);
+    public void fillLayout() {
+        final ArrayList<CategoryCardItem> list = new ArrayList<CategoryCardItem>();
+        final RecyclerView recList = (RecyclerView) viewRoot.findViewById(R.id.cardList);
+        for (HashMap.Entry<String,FAQCategory> entry : cats.entrySet()) {
+            list.add(new CategoryCardItem(entry.getValue().getName(), entry.getValue().getImage(), entry.getValue().getId()));
+        }
+        recList.addOnItemTouchListener(
+                new RecyclerItemClickListener(viewRoot.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Log.d("pos = ", position + "");
+                        FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment(list.get(position).id);
+                        ((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
+                    }
+                })
+        );
 
-        /*
-        final ArrayList<CategoryCardItem> categoryItems = new ArrayList<CategoryCardItem>(){};
-        categoryItems.add(new CategoryCardItem("Transport", R.drawable.bike));
-        categoryItems.add(new CategoryCardItem("Real Estates", R.drawable.flat));
-        categoryItems.add(new CategoryCardItem("Nature", R.drawable.animal));
-        categoryItems.add(new CategoryCardItem("Shops", R.drawable.profile));
-        categoryItems.add(new CategoryCardItem("Food", R.drawable.restaurant));
-        categoryItems.add(new CategoryCardItem("Jobs", R.drawable.topview));
-        */
+        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(viewRoot.getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+        Log.d("CategoryItems1: ", list + "");
+        RecyclerViewAdapter ca = new RecyclerViewAdapter(list);
+        recList.setAdapter(ca);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://54.93.67.220")
-                .build();
-        APIService service = retrofit.create(APIService.class);
-        Call<ResponseBody> repos = service.getDataFromAPI();
-
-        //final ArrayList<CategoryCardItem> categoryItems1 = new ArrayList<CategoryCardItem>() {};
-        final List list = Collections.synchronizedList(new ArrayList<CategoryCardItem>());
-
-
-        repos.enqueue(new Callback<ResponseBody>() {
+    }
+    public void loadFragmentData() {
+        Log.d("MainActivity","loadFragmentData");
+        ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showProgress();
+        Runnable runnable = new Runnable() {
             @Override
-            public void onResponse(Response<ResponseBody> response) {
+            public void run() {
                 try {
+                    Log.d("MainActivity","try");
+                    Builder endpointBuilder = new Donate.Builder(
+                        AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(),
+                        CloudEndpointBuilderHelper.getRequestInitializer());
 
-                    String myString;
-                    myString = response.body().string().replaceAll("\\d+", "\"$0\"");
-
-                    JSONArray jsonArray = new JSONArray(myString);
-
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        Log.e("JSONObject: ", jsonArray.get(i).toString());
+                    Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
+                    FAQCategoryCollection result;
+                    result = service.faqcat().list().execute();
+                    cats = new HashMap<String,FAQCategory>();
+                    Log.d("MainActivity res", result.toString());
+                    for (FAQCategory cat : result.getItems()) {
+                        cats.put(cat.getId(), cat);
                     }
-                    Log.d("Testausgabe", "");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        Log.d("jsonArrayobject: ", "" + jsonArray.getJSONObject(i).getInt("language"));
-
-                        if (jsonArray.getJSONObject(i).getInt("language") == 0) {
-                            final String categoryName = jsonArray.getJSONObject(i).getString("name");
-                            Log.d("jsonArrayobject: ", categoryName);
-                            int categoryImage = R.drawable.snackbar_background;
-                            try {
-                                categoryImage = num.get(categoryName);
-                            } catch (Exception e) {
-                                Log.e("Exception", e.toString());
-                            }
-
-                            Log.d("jsonArrayobject: ", categoryImage + "");
-                            list.add(new CategoryCardItem(categoryName, categoryImage));
-                            //Log.d("CategoryCardItem: ",categoryItems1+"");
-
-
-
+                } catch (UserRecoverableAuthIOException e) {
+                    final UserRecoverableAuthIOException e2 = e;
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            startActivityForResult(e2.getIntent(), 2);
                         }
-                    }
-                    recList.addOnItemTouchListener(
-                            new RecyclerItemClickListener(v.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    Log.d("pos = ", position + "");
-                                    FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("recPosition", posCats[position]);
-                                    faqCategoryFragment.setArguments(bundle);
-
-                                    /*FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                                    transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
-                                    transaction.addToBackStack(null);
-                                    transaction.commit();*/
-                                    ((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
-                                }
-                            })
-                    );
-
-                    recList.setHasFixedSize(true);
-                    LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
-                    llm.setOrientation(LinearLayoutManager.VERTICAL);
-                    recList.setLayoutManager(llm);
-                    Log.d("CategoryItems1: ", list + "");
-                    RecyclerViewAdapter ca = new RecyclerViewAdapter(list);
-                    recList.setAdapter(ca);
-
-                    //categoryItems.add();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    });
+                    Log.d("MainActivity", "e", e);
+                } catch (Exception e) {
+                    Log.d("MainActivity", "e", e);
                 }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        fillLayout();
+                        ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showContent();
+                    }
+                });
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("onFailure: ", "Connection Failed");
-            }
-        });
-
-        //Log.d("repos.toString = ", "" + repos.toString());
-
-        return v;
+        };
+        new Thread(runnable).start();
     }
 
 }

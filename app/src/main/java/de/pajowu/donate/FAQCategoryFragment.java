@@ -28,109 +28,113 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-
+import com.appspot.donate_backend.donate.*;
+import com.appspot.donate_backend.donate.Donate.*;
+import com.appspot.donate_backend.donate.model.*;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.json.JsonFactory;
+import com.github.androidprogresslayout.ProgressLayout;
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FAQCategoryFragment extends Fragment {
     private ArrayList<String> parentItems = new ArrayList<String>();
     private ArrayList<Object> childItems = new ArrayList<Object>();
-
-
-    public FAQCategoryFragment() {
+    private View viewRoot;
+    private String cat_id;
+    FAQItemCollection result;
+    public FAQCategoryFragment(String cid) {
         // Required empty public constructor
+        cat_id = cid;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_faqcategory, container, false);
-        final ExpandableListView expandableList = (ExpandableListView) v.findViewById(R.id.list); // you can use (ExpandableListView) findViewById(R.id.list)
-
-        Bundle bundle = this.getArguments();
-        final String stringFromOldFragment = bundle.getString("recPosition", "test");
-
-        expandableList.setDividerHeight(2);
-        expandableList.setGroupIndicator(null);
-        expandableList.setClickable(true);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://54.93.67.220")
-                .build();
-        APIService2 service = retrofit.create(APIService2.class);
-        Call<ResponseBody> repos = service.getDataFromAPI();
-
-        //final ArrayList<CategoryCardItem> categoryItems1 = new ArrayList<CategoryCardItem>() {};
-        final List list = Collections.synchronizedList(new ArrayList<CategoryCardItem>());
-
-
-        repos.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Response<ResponseBody> response) {
-                try {
-
-                    String myString;
-                    myString = ""+response.body().string().replaceAll("\\d+", "\"$0\"")+"";
-                    //myString = myString.replaceAll("\"009","");
-                    Log.d("myString = ",myString);
-
-                    //String decoded = new String(myString.getBytes("UTF-8"));
-
-                    JSONArray jsonArray = new JSONArray(myString);
-
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        //Log.d("jsonArrayobject: ", "" + jsonArray.getJSONObject(i).getInt("language"));
-
-                        if (jsonArray.getJSONObject(i).getString("category_name").equals(stringFromOldFragment)) {
-                            //String categoryName = jsonArray.getJSONObject(i).getString("name");
-                            //Log.d("jsonArrayobject: ", categoryName);
-                            //int categoryImage = R.drawable.snackbar_background;
-                            Log.d("jsonArray = ", jsonArray.getJSONObject(i).getString("category_name")+" oldOne: "+stringFromOldFragment);
-                            String question = jsonArray.getJSONObject(i).getString("question_translation");
-                            String answer = jsonArray.getJSONObject(i).getString("question_answer");
-
-                            ArrayList<String> answer_child = new ArrayList<String>();
-                            answer_child.add(answer);
-
-                            parentItems.add(question);
-                            childItems.add(answer_child);
-
-                            //Log.d("jsonArrayobject: ", categoryImage + "");
-                            //list.add(new CategoryCardItem(categoryName, categoryImage));
-                            //Log.d("CategoryCardItem: ",categoryItems1+"");
-
-                        }
-                    }
-                    FAQCategoryAdapter adapter = new FAQCategoryAdapter(parentItems, childItems);
-
-                    adapter.setInflater((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE), getActivity());
-                    expandableList.setAdapter(adapter);
-
-                    //categoryItems.add();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("onFailure: ", "Connection Failed");
-            }
-        });
-
-        //Log.d("repos.toString = ", "" + repos.toString());
-
-
-
-
-
-        return v;
+        viewRoot = inflater.inflate(R.layout.fragment_faqcategory, container, false);
+        loadFragmentData();
+        return viewRoot;
     }
+    public void fillLayout() {
 
+        if (result.getItems() != null) {
+            final ExpandableListView expandableList = (ExpandableListView) viewRoot.findViewById(R.id.list); // you can use (ExpandableListView) findViewById(R.id.list)
+            expandableList.setDividerHeight(2);
+            expandableList.setGroupIndicator(null);
+            expandableList.setClickable(true);
+            FAQCategoryAdapter adapter = new FAQCategoryAdapter(new ArrayList<FAQItem>(result.getItems()), getActivity().getApplicationContext());
+            expandableList.setAdapter(adapter);
+        } else {
+            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("No Questions found");
+        }
+        
+    }
+    public void loadFragmentData() {
+        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Builder endpointBuilder = new Donate.Builder(
+                        AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(),
+                        CloudEndpointBuilderHelper.getRequestInitializer());
+
+                Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
+
+                
+                try {
+                    result = service.faqitem().bycat().setCategory(cat_id).execute();
+                    /*offerList = new ArrayList<FAQItem>();
+                    if (result.getItems() != null) {
+                        for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
+                            ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
+                            String catstr = "";
+                            for (String cat : off.getCategories()) {
+                                Category category = ((MainActivity) getActivity()).categories.get(cat);
+                                if (category != null) {
+                                    catstr += category.getName() + " ";
+                                }
+                            
+                            }
+                            li.category = catstr;
+                            if (off.getImageUrls() != null) {
+                                if (off.getImageUrls().size() >= 1) {
+                                    //IMAGES.add(off.getImageUrls().get(0));
+                                    // tmp fix, save image from url, give the path to HomeFragment
+                                    li.resourceImage = off.getImageUrls().get(0);
+                                }
+                            }
+                            
+                            offerList.add(li);
+                        }
+                    }*/
+                    Log.d("MainActivity",result.toString());
+
+                } catch (UserRecoverableAuthIOException e) {
+                    final UserRecoverableAuthIOException e2 = e;
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            startActivityForResult(e2.getIntent(), 2);
+                        }
+                    });
+                    Log.d("MainActivity", "e", e);
+                } catch (Exception e) {
+                    Log.d("MainActivity", "e", e);
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
+                        fillLayout();
+                        
+                    }
+                });
+            }
+        };
+        new Thread(runnable).start();
+    }
     public void setGroupParents() {
         parentItems.add("Where may I get food for little money?");
         parentItems.add("Does german food contain pig flesh?");

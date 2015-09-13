@@ -13,30 +13,23 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.appspot.donate_backend.donate.model.*;
 import java.util.ArrayList;
-
+import android.content.Context;
+import android.util.Log;
 public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 
-    private Activity activity;
-    private ArrayList<Object> childtems;
-    private LayoutInflater inflater;
-    private ArrayList<String> parentItems, child;
-
-    public FAQCategoryAdapter(ArrayList<String> parents, ArrayList<Object> childern) {
-        this.parentItems = parents;
-        this.childtems = childern;
-    }
-
-    public void setInflater(LayoutInflater inflater, Activity activity) {
-        this.inflater = inflater;
-        this.activity = activity;
+    private ArrayList<FAQItem> items;
+    LayoutInflater inflater;
+    public FAQCategoryAdapter(ArrayList<FAQItem> items, Context context) {
+        this.items = items;
+        Log.d("MainActivity",items.toString());
+        inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-        child = (ArrayList<String>) childtems.get(groupPosition);
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         TextView textView = null;
 
@@ -45,14 +38,12 @@ public class FAQCategoryAdapter extends BaseExpandableListAdapter {
         }
 
         textView = (TextView) convertView.findViewById(R.id.textView1);
-        textView.setText(child.get(childPosition));
+        textView.setText(items.get(groupPosition).getAnswer());
 
         convertView.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, child.get(childPosition),
-                        Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity",items.get(groupPosition).getAnswer());
             }
         });
 
@@ -65,8 +56,7 @@ public class FAQCategoryAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.row, null);
         }
-
-        ((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
+        ((CheckedTextView) convertView).setText(items.get(groupPosition).getQuestion());
         ((CheckedTextView) convertView).setChecked(isExpanded);
 
         return convertView;
@@ -84,7 +74,7 @@ public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ((ArrayList<String>) childtems.get(groupPosition)).size();
+        return 1;
     }
 
     @Override
@@ -94,7 +84,7 @@ public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return parentItems.size();
+        return items.size();
     }
 
     @Override

@@ -6,6 +6,7 @@
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="25dp"
+    android:paddingRight="2dp"
     tools:context=".MainActivity" >
 
     <LinearLayout
@@ -18,7 +19,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textIsSelectable="true"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold" />

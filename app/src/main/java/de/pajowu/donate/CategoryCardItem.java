@@ -5,10 +5,12 @@ package de.pajowu.donate;
  */
 public class CategoryCardItem {
     protected String category;
-    protected int image;
+    protected String image;
+    protected String id;
 
-    public CategoryCardItem(String category, int image){
+    public CategoryCardItem(String category, String image, String id){
         this.category = category;
         this.image = image;
+        this.id = id;
     }
 }

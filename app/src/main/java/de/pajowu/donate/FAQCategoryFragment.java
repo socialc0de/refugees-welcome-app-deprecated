@@ -87,7 +87,7 @@ public class FAQCategoryFragment extends Fragment {
                             //String categoryName = jsonArray.getJSONObject(i).getString("name");
                             //Log.d("jsonArrayobject: ", categoryName);
                             //int categoryImage = R.drawable.snackbar_background;
-
+                            Log.d("jsonArray = ", jsonArray.getJSONObject(i).getString("category_name")+" oldOne: "+stringFromOldFragment);
                             String question = jsonArray.getJSONObject(i).getString("question_translation");
                             String answer = jsonArray.getJSONObject(i).getString("question_answer");
 

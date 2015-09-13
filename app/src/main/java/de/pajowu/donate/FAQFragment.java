@@ -37,6 +37,7 @@ public class FAQFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String[] posCats = {"Shopping","Healthcare","Food","Jobs","Real_Estates", "Social_Help","Kids","Education","Proposal","Law","Transport","Basic_Information"};
 
 
     Map<String, Integer> num;
@@ -152,35 +153,36 @@ public class FAQFragment extends Fragment {
                             list.add(new CategoryCardItem(categoryName, categoryImage));
                             //Log.d("CategoryCardItem: ",categoryItems1+"");
 
-                            recList.addOnItemTouchListener(
-                                    new RecyclerItemClickListener(v.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(View view, int position) {
-                                            Log.d("pos = ", position + "");
-                                            FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment();
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("recPosition", categoryName);
-                                            faqCategoryFragment.setArguments(bundle);
 
-                                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                                            transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
-                                            transaction.addToBackStack(null);
-                                            transaction.commit();
-                                        }
-                                    })
-                            );
-
-                            recList.setHasFixedSize(true);
-                            LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
-                            llm.setOrientation(LinearLayoutManager.VERTICAL);
-                            recList.setLayoutManager(llm);
-                            Log.d("CategoryItems1: ", list + "");
-                            RecyclerViewAdapter ca = new RecyclerViewAdapter(list);
-                            recList.setAdapter(ca);
 
                         }
                     }
+                    recList.addOnItemTouchListener(
+                            new RecyclerItemClickListener(v.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Log.d("pos = ", position + "");
+                                    FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("recPosition", posCats[position]);
+                                    faqCategoryFragment.setArguments(bundle);
+
+                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                                    transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                }
+                            })
+                    );
+
+                    recList.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    recList.setLayoutManager(llm);
+                    Log.d("CategoryItems1: ", list + "");
+                    RecyclerViewAdapter ca = new RecyclerViewAdapter(list);
+                    recList.setAdapter(ca);
 
                     //categoryItems.add();
                 } catch (IOException e) {

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="donate-v1-1.20.0-SNAPSHOT">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/donate-v1-1.20.0-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

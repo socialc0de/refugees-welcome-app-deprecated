@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import com.squareup.okhttp.ResponseBody;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -22,11 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.*;

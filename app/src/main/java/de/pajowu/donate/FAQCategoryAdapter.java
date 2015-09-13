@@ -16,14 +16,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MyExpandableAdapter extends BaseExpandableListAdapter {
+public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 
     private Activity activity;
     private ArrayList<Object> childtems;
     private LayoutInflater inflater;
     private ArrayList<String> parentItems, child;
 
-    public MyExpandableAdapter(ArrayList<String> parents, ArrayList<Object> childern) {
+    public FAQCategoryAdapter(ArrayList<String> parents, ArrayList<Object> childern) {
         this.parentItems = parents;
         this.childtems = childern;
     }

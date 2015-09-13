@@ -103,7 +103,7 @@ public class FAQCategoryFragment extends Fragment {
 
                         }
                     }
-                    MyExpandableAdapter adapter = new MyExpandableAdapter(parentItems, childItems);
+                    FAQCategoryAdapter adapter = new FAQCategoryAdapter(parentItems, childItems);
 
                     adapter.setInflater((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE), getActivity());
                     expandableList.setAdapter(adapter);

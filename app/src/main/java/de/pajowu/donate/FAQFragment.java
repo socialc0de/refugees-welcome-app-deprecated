@@ -29,7 +29,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-
+import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -167,11 +167,12 @@ public class FAQFragment extends Fragment {
                                     bundle.putString("recPosition", posCats[position]);
                                     faqCategoryFragment.setArguments(bundle);
 
-                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                    /*FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                                     transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
                                     transaction.addToBackStack(null);
-                                    transaction.commit();
+                                    transaction.commit();*/
+                                    ((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
                                 }
                             })
                     );

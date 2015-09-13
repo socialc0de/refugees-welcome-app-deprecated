@@ -1,12 +1,9 @@
 package de.pajowu.donate;
 
 
-
-import android.support.v4.app.Fragment;
-
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,22 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.api.client.json.Json;
 import com.squareup.okhttp.ResponseBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketAddress;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,31 +44,30 @@ public class FAQFragment extends Fragment {
     public enum IMAGES {
         SHOPPING, HEALTHCARE, FOOD, JOBS, REAL_ESTATES, SOCIAL_HELP, KIDS, EDUCATION, PROPOSALS, LAW, TRANSPORT, BASIC_INFORMATION;
 
-        public int getImage()
-        {
-            if ( this == SHOPPING )
+        public int getImage() {
+            if (this == SHOPPING)
                 return R.drawable.flat;
-            else if ( this == HEALTHCARE )
+            else if (this == HEALTHCARE)
                 return R.drawable.topview;
-            else if ( this == FOOD )
+            else if (this == FOOD)
                 return R.drawable.topview;
-            else if ( this == JOBS )
+            else if (this == JOBS)
                 return R.drawable.topview;
-            else if ( this == REAL_ESTATES )
+            else if (this == REAL_ESTATES)
                 return R.drawable.topview;
-            else if ( this == SOCIAL_HELP)
+            else if (this == SOCIAL_HELP)
                 return R.drawable.topview;
-            else if ( this == KIDS )
+            else if (this == KIDS)
                 return R.drawable.topview;
-            else if ( this == EDUCATION )
+            else if (this == EDUCATION)
                 return R.drawable.topview;
-            else if ( this == PROPOSALS )
+            else if (this == PROPOSALS)
                 return R.drawable.topview;
-            else if ( this == LAW )
+            else if (this == LAW)
                 return R.drawable.topview;
-            else if ( this == TRANSPORT )
+            else if (this == TRANSPORT)
                 return R.drawable.topview;
-            else if ( this == BASIC_INFORMATION )
+            else if (this == BASIC_INFORMATION)
                 return R.drawable.topview;
             return R.drawable.restaurant;
         }
@@ -93,19 +83,19 @@ public class FAQFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_faqfragment, container, false);
-        RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+        final View v = inflater.inflate(R.layout.fragment_faqfragment, container, false);
+        final RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
 
         num = new HashMap<String, Integer>();
-        num.put("Shopping",R.drawable.topview);
-        num.put("Healthcare",R.drawable.restaurant);
-        num.put("Food",R.drawable.profile);
-        num.put("Jobs",R.drawable.topview);
-        num.put("Real_Estates",R.drawable.topview);
+        num.put("Shopping", R.drawable.topview);
+        num.put("Healthcare", R.drawable.restaurant);
+        num.put("Food", R.drawable.profile);
+        num.put("Jobs", R.drawable.topview);
+        num.put("Real_Estates", R.drawable.topview);
         num.put("Social_Help", R.drawable.restaurant);
         num.put("Kids", R.drawable.restaurant);
         num.put("Education", R.drawable.restaurant);
-        num.put("Proposals", R.drawable.restaurant);
+        num.put("Proposal", R.drawable.restaurant);
         num.put("Law", R.drawable.restaurant);
         num.put("Transport", R.drawable.restaurant);
         num.put("Basic_Information", R.drawable.restaurant);
@@ -126,28 +116,69 @@ public class FAQFragment extends Fragment {
         APIService service = retrofit.create(APIService.class);
         Call<ResponseBody> repos = service.getDataFromAPI();
 
-        final ArrayList<CategoryCardItem> categoryItems1 = new ArrayList<CategoryCardItem>(){};
+        //final ArrayList<CategoryCardItem> categoryItems1 = new ArrayList<CategoryCardItem>() {};
+        final List list = Collections.synchronizedList(new ArrayList<CategoryCardItem>());
+
 
         repos.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response) {
                 try {
-                    Log.d("onResponse: ",response.body().string());
 
-                    ArrayList<JSONObject> arrayListJSON = new ArrayList<>();
-                    JSONArray jsonArray = new JSONArray(response.body().string());
-                    for (JSONObject temp : arrayListJSON) {
+                    String myString;
+                    myString = response.body().string().replaceAll("\\d+", "\"$0\"");
 
+                    JSONArray jsonArray = new JSONArray(myString);
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Log.e("JSONObject: ", jsonArray.get(i).toString());
                     }
-                    Log.d("Testausgabe","");
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        Log.d("jsonArrayobject: ", ""+jsonArray.getJSONObject(i).getInt("language"));
-                        if (jsonArray.getJSONObject(i).getInt("language") == 0){
-                            String categoryName = jsonArray.getJSONObject(i).getString("name");
-                            int categoryImage = num.get(jsonArray.getJSONObject(i).getString("name"));
-                            if (categoryImage != 0){
-                                categoryItems1.add(new CategoryCardItem(categoryName,categoryImage));
+                    Log.d("Testausgabe", "");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Log.d("jsonArrayobject: ", "" + jsonArray.getJSONObject(i).getInt("language"));
+
+                        if (jsonArray.getJSONObject(i).getInt("language") == 0) {
+                            final String categoryName = jsonArray.getJSONObject(i).getString("name");
+                            Log.d("jsonArrayobject: ", categoryName);
+                            int categoryImage = R.drawable.snackbar_background;
+                            try {
+                                categoryImage = num.get(categoryName);
+                            } catch (Exception e) {
+                                Log.e("Exception", e.toString());
                             }
+
+                            Log.d("jsonArrayobject: ", categoryImage + "");
+                            list.add(new CategoryCardItem(categoryName, categoryImage));
+                            //Log.d("CategoryCardItem: ",categoryItems1+"");
+
+                            recList.addOnItemTouchListener(
+                                    new RecyclerItemClickListener(v.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(View view, int position) {
+                                            Log.d("pos = ", position + "");
+                                            FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("recPosition", categoryName);
+                                            faqCategoryFragment.setArguments(bundle);
+
+                                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                                            transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
+                                            transaction.addToBackStack(null);
+                                            transaction.commit();
+                                        }
+                                    })
+                            );
+
+                            recList.setHasFixedSize(true);
+                            LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
+                            llm.setOrientation(LinearLayoutManager.VERTICAL);
+                            recList.setLayoutManager(llm);
+                            Log.d("CategoryItems1: ", list + "");
+                            RecyclerViewAdapter ca = new RecyclerViewAdapter(list);
+                            recList.setAdapter(ca);
+
                         }
                     }
 
@@ -165,32 +196,8 @@ public class FAQFragment extends Fragment {
             }
         });
 
+        //Log.d("repos.toString = ", "" + repos.toString());
 
-
-        Log.d("repos.toString = ",""+repos.toString());
-
-
-        recList.addOnItemTouchListener(
-                new RecyclerItemClickListener(v.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Log.d("pos = ", position + "");
-                        FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment();
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                        transaction.replace(R.id.fragment_relative_layout, faqCategoryFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                    }
-                })
-        );
-
-        recList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recList.setLayoutManager(llm);
-        RecyclerViewAdapter ca = new RecyclerViewAdapter(categoryItems1);
-        recList.setAdapter(ca);
         return v;
     }
 

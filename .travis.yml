@@ -9,14 +9,15 @@ android:
 addons:
   ssh_known_hosts: pajowu.de
 before_install:
-- openssl aes-256-cbc -K $encrypted_f34328c04a8c_key -iv $encrypted_f34328c04a8c_iv
-  -in ssh_key.enc -out .travis/ssh_key -d
-- openssl aes-256-cbc -K $encrypted_f34328c04a8c_key -iv $encrypted_f34328c04a8c_iv
-  -in config.properties.enc -out config.properties -d
+- echo $super_secret_password | gpg config.properties.gpg
 after_success:
 - eval "$(ssh-agent -s)"
+- echo $super_secret_password | gpg .travis/ssh_key.gpg
 - chmod 600 .travis/ssh_key
 - ssh-add .travis/ssh_key
-- scp -rp ~/clone/* pajowu@pajowu.de:travis/
+- scp -rp app/build/ pajowu@pajowu.de:travis/
 script:
 - gradle build
+env:
+  global:
+    secure: IgNnFUYlc04DsvtTNSRtBeG5bqsSyoBSobNXkuV0cFyZUt5WN3SiOxXr8ugCWjTCErDlmtA/V3uWLoIeV/CHbhSca+VPe/MbQuURlN1eXBKCpSsJLe0WXQZh5oTtE15QpIjnN5vNUeAg0cVomUA1X8cbZU3KOcIgls1RJjRIy9DkBwrafJOwP4T/LAV/71zIpDocDhiVNaHq2jWgNVoWyjnb4hYoYOuh6sqebqqdIHVcIHkBKn6dBtnBJDA7dsDReTHpwgktXaQIgUg5lim1lfC0PnuUw1f1XkLhjk7LqX7CsUMlr8IqaAGKBfs0orMZVeD75obQRwQZl0drE6EVEg6RascpKRH8150KFYKTa+n1PUPSzXMqnDotTE/3Hi8Rb1S0X7Smpzmm5PtR1PjuFbeeukZnHgNmruKgMwNdrWUK5dK6HhKmX/XToq1GEADDCpJBpglFO5YKjqMmPKlb2+Z6ZC+iOomNbQ7cv5xvhy2+JJUHPKBmFmqwu6czaWsPNckxd5YigZx82QqDfXEma+LaPrPXKv8cB9rG9+fkMEC7/tQClAr2j4pOCyUmitiwRSJu9CFshZdZdjh9Oeq++L/mxrpfl2VaGNgH15Kj0UWKoWg7BSy+3CslUjyAJtc0hNGRwiS2okWklkf4SfexxaziIxKe1PtqGDkawDJNpQo=

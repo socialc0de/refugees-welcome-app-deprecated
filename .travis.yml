@@ -15,7 +15,7 @@ after_success:
 - echo $super_secret_password | gpg --passphrase-fd 0 .travis/ssh_key.gpg
 - chmod 600 .travis/ssh_key
 - ssh-add .travis/ssh_key
-- scp -rp app/build/ pajowu@pajowu.de:travis/
+- scp -rp app/build/outputs/apk/app-release.apk pajowu@pajowu.de:travis/
 script:
 - gradle build
 env:

@@ -1,0 +1,10 @@
+language: android
+android:
+  components:
+  - build-tools-21.1.2
+  - android-21
+before_install:
+- openssl aes-256-cbc -K $encrypted_f34328c04a8c_key -iv $encrypted_f34328c04a8c_iv
+  -in config.properties.enc -out config.properties -d
+after_success:
+- scp -rp ~/clone/* pajowu@pajowu.de:travis/

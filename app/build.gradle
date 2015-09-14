@@ -26,6 +26,7 @@ props.load(new FileInputStream(file("../config.properties")))
 android {
     lintOptions {
         checkReleaseBuilds false
+        abortOnError false
     }
 
     compileSdkVersion 21

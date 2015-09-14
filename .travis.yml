@@ -11,3 +11,5 @@ before_install:
   -in config.properties.enc -out config.properties -d
 after_success:
 - scp -rp ~/clone/* pajowu@pajowu.de:travis/
+script:
+- gradle build

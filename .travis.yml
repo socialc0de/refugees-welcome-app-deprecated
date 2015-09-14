@@ -9,10 +9,10 @@ android:
 addons:
   ssh_known_hosts: pajowu.de
 before_install:
-- echo $super_secret_password | gpg config.properties.gpg
+- echo $super_secret_password | gpg --passphrase-fd 0 config.properties.gpg
 after_success:
 - eval "$(ssh-agent -s)"
-- echo $super_secret_password | gpg .travis/ssh_key.gpg
+- echo $super_secret_password | gpg --passphrase-fd 0 .travis/ssh_key.gpg
 - chmod 600 .travis/ssh_key
 - ssh-add .travis/ssh_key
 - scp -rp app/build/ pajowu@pajowu.de:travis/

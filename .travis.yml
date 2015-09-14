@@ -6,6 +6,8 @@ android:
   - extra-android-m2repository
   - extra-google-google_play_services
   - extra-google-m2repository  
+addons:
+    ssh_known_hosts: pajowu.de
 before_install:
 - openssl aes-256-cbc -K $encrypted_f34328c04a8c_key -iv $encrypted_f34328c04a8c_iv
   -in config.properties.enc -out config.properties -d

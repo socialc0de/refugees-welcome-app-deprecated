@@ -62,6 +62,7 @@ import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.*;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also
  * implements integration with Google Play Services and Google Accounts.
@@ -149,7 +150,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         // do something with the clicked item :D
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position)).commit();
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position)).addToBackStack(null).commit();
         // closes Drawer
         return false;
     }

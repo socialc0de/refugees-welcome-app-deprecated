@@ -56,6 +56,8 @@ public class PhraseListTabFragment extends Fragment{
                 Log.d("ListView clicked: ", ""+position);
                 Log.d("MainActivity",arrayList.get(position).toString());
                 //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new PhraseDetailFragment(arrayList.get(position)),"Phrase");
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PhraseDetailFragment(arrayList.get(position))).addToBackStack(null).commit();
+                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                 
             }
         });

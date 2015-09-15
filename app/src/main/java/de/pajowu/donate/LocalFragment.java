@@ -246,7 +246,9 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.fab:
                 Log.d("MainActivity", "pressed");
-                //((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(context),"New Offer");
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewOfferFragment(context)).addToBackStack(null).commit();
+                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+    
                 //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited

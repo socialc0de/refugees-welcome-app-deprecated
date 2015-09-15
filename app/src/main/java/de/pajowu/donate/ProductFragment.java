@@ -154,6 +154,8 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                                     ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
                                     LocalFragment newFragment = new LocalFragment();
                                     //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment,"Local");
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+                                    ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                                 }
                             });
 
@@ -171,6 +173,8 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
         } else {
             ContactFragment contactFragment = new ContactFragment(mContext, im_data);
             //((MaterialNavigationDrawer) getActivity()).setFragment(contactFragment,"Owner");
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, contactFragment).addToBackStack(null).commit();
+            ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
         }
         
     }

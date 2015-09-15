@@ -60,7 +60,9 @@ public class ListTabFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //primaryKeyValue = arrayList.get(position).primaryKey;
-                //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey),"Offer");
+                
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey)).addToBackStack(null).commit();
+                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                 Log.d("ListView clicked: ", ""+position);
                 Log.d("ListView Pos: ", ""+primaryKeyValue);
                 

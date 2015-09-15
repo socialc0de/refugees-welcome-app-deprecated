@@ -372,6 +372,9 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
                         LocalFragment newFragment = new LocalFragment();
                         //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+                        ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+    
                     }
                 });
 

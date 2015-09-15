@@ -53,11 +53,10 @@ public class CategoryListTabFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //primaryKeyValue = arrayList.get(position).primaryKey;
-                //((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey),"Offer");
                 Log.d("ListView clicked: ", ""+position);
                 //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id),"Category Products");
-                //Log.d("ListView Pos: ", ""+primaryKeyValue);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id)).addToBackStack(null).commit();
+                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                 
             }
         });

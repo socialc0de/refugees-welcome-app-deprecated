@@ -70,6 +70,8 @@ public class FAQFragment extends Fragment {
                         Log.d("pos = ", position + "");
                         FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment(list.get(position).id);
                         //((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, faqCategoryFragment).addToBackStack(null).commit();
+                        ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                     }
                 })
         );

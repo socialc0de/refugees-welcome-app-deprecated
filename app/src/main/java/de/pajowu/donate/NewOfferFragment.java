@@ -56,8 +56,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 //import de.pajowu.donate.*;
 
 public class NewOfferFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, OnDateSetListener {
@@ -94,10 +92,10 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_new_offer, container, false);
-        SpannableString s = new SpannableString(getString(R.string.app_name));
+        /*SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         //Implementation of custom Toolbar
         Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
         submitButton.setOnClickListener(this);
@@ -221,51 +219,16 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         ((MaterialEditText) viewRoot.findViewById(R.id.end_date)).setText(date);
     }
 
-    /*private void fillLayout() {
-        if (arrayList != null) {
-            gridView = (ExpandableGridView) viewRoot.findViewById(R.id.gridView1);
-            gridView.setAdapter(new ImageAdapter(getActivity(), arrayList));
-
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //TODO Call Activity with Parameters -> PrimaryKey
-                    MainActivity mac = (MainActivity) getActivity();
-                    //mac.showOffer(id);
-                    ((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(mContext, arrayList.get(position).primaryKey),"Offer");
-                    Log.d("position was clicked:", position + "");
-                    Log.d("Equivalent ID is", arrayList.get(position) + "");
-
-                }
-            });
-
-            scrollView = (ScrollView) viewRoot.findViewById(R.id.scrollView);
-            gridView.setExpanded(true);
-
-            scrollView.smoothScrollTo(0, 0);
-        }
-        
-    }
-
-    */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
                 Log.d("MainActivity", "pressed");
-                //((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(mContext),"New Offer");
-                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 submit();
-                //TODO Set Editable = true (search fitting code for it
-                //TODO Maybe add lines again to make obvious, that they can be edited
                 break;
             case R.id.offerImage:
                 Log.d("MainActivity", "pressed");
-                //((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(mContext),"New Offer");
-                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 choosePic();
-                //TODO Set Editable = true (search fitting code for it
-                //TODO Maybe add lines again to make obvious, that they can be edited
                 break;
             case R.id.end_date:
                 chooseDate();
@@ -408,7 +371,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                     public void run() {
                         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
                         LocalFragment newFragment = new LocalFragment();
-                        ((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
+                        //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
                     }
                 });
 

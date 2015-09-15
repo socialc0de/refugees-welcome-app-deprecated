@@ -17,8 +17,6 @@ import android.widget.ListView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.*;
@@ -54,10 +52,10 @@ public class CategoryProductsFragment extends Fragment {
         viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
 
         //Implementation of custom Toolbar
-        SpannableString s = new SpannableString(getString(R.string.app_name));
+        /*SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         
         /*mTabHost = (FragmentTabHost) viewRoot.findViewById(R.id.tabhost);
         Log.d("TabHost ", "" + mTabHost);

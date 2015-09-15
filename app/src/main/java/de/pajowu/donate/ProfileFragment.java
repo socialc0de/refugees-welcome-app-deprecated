@@ -15,8 +15,6 @@ import android.widget.EditText;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import org.json.JSONObject;
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.*;
@@ -70,7 +68,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(viewRoot.getContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        //((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
         if (appOwner != null) {
             fillLayout();
         } else {

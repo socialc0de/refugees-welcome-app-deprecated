@@ -17,8 +17,6 @@ import android.widget.ListView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.*;
@@ -68,21 +66,11 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         viewRoot = inflater.inflate(R.layout.fragment_list_fab, container, false);
         Log.d("MainActivity","onCreateView Local");
         //Implementation of custom Toolbar
-        /*SpannableString s = new SpannableString("XCHANGED");
+
+        /*SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
-        
-        /*mTabHost = (FragmentTabHost) viewRoot.findViewById(R.id.tabhost);
-        Log.d("TabHost ", "" + mTabHost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.fragment_list_mainContent);
-        bundleTab1.putSerializable("lstObject", (Serializable) new ArrayList<ListItem>());
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Offers"),
-                ListFragmentTab.class, bundleTab1);*/
-        SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
         if (offerList != null) {
             fillLayout();
         } else {
@@ -146,6 +134,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         loadData(getLocation());
     }
     public void loadData(final Location loc) {
+        Log.d("MainActivity",loc.toString());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -257,7 +246,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.fab:
                 Log.d("MainActivity", "pressed");
-                ((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(context),"New Offer");
+                //((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(context),"New Offer");
                 //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited

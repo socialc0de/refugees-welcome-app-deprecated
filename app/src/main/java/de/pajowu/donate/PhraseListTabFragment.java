@@ -13,8 +13,6 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -55,12 +53,9 @@ public class PhraseListTabFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //primaryKeyValue = arrayList.get(position).primaryKey;
-                //((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey),"Offer");
                 Log.d("ListView clicked: ", ""+position);
                 Log.d("MainActivity",arrayList.get(position).toString());
-                ((MaterialNavigationDrawer) getActivity()).setFragmentChild(new PhraseDetailFragment(arrayList.get(position)),"Phrase");
-                //Log.d("ListView Pos: ", ""+primaryKeyValue);
+                //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new PhraseDetailFragment(arrayList.get(position)),"Phrase");
                 
             }
         });

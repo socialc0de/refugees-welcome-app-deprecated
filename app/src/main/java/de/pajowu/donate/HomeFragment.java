@@ -23,8 +23,6 @@ import com.github.androidprogresslayout.ProgressLayout;
 
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.melnykov.fab.FloatingActionButton;
 
 public class HomeFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
@@ -52,10 +50,10 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         viewRoot = inflater.inflate(R.layout.fragment_home, container, false);
 
         //Implementation of custom Toolbar
-        SpannableString s = new SpannableString(getString(R.string.app_name));
-        /*s.setSpan(new de.pajowu.donate.TypefaceSpan(mContext, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        /*SpannableString s = new SpannableString(getString(R.string.app_name));
+        //s.setSpan(new de.pajowu.donate.TypefaceSpan(mContext, "fabiolo.otf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
         editButton.setOnClickListener(this);
         if (arrayList != null) {
@@ -79,7 +77,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                     //TODO Call Activity with Parameters -> PrimaryKey
                     MainActivity mac = (MainActivity) getActivity();
                     //mac.showOffer(id);
-                    ((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(mContext, arrayList.get(position).primaryKey),"Offer");
+                    //((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(mContext, arrayList.get(position).primaryKey),"Offer");
                     /*Bundle b = new Bundle();
                     b.putLong("primaryKey", arrayList.get(position).primaryKey);
                     Intent productView = new Intent(getActivity(), ProductView.class);
@@ -166,7 +164,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         switch (v.getId()) {
             case R.id.fab:
                 Log.d("MainActivity", "pressed");
-                ((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(mContext),"New Offer");
+                //((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(mContext),"New Offer");
                 //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited

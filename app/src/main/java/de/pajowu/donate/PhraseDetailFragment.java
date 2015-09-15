@@ -22,8 +22,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.github.androidprogresslayout.ProgressLayout;
 
 import org.json.JSONObject;
@@ -62,7 +60,7 @@ public class PhraseDetailFragment extends android.support.v4.app.Fragment{
         SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        //((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
         LinearLayout ll = (LinearLayout) viewRoot.findViewById(R.id.linearlayout);
         for (HashMap.Entry<String,String> lang: translations.entrySet()) {
             TextView tv = new TextView(getActivity().getApplicationContext());

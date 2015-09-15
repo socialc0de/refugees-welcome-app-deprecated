@@ -12,9 +12,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import java.util.HashMap;
 import java.util.ArrayList;
-
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.*;
 import com.appspot.donate_backend.donate.model.*;
@@ -49,10 +46,10 @@ public class CategoryFragment extends Fragment{
         Log.d("MainActivity",categories.toString());
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
-        SpannableString s = new SpannableString(getString(R.string.app_name));
+        /*SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         itemList = new ArrayList<CategoryListItem>();
         serviceList = new ArrayList<CategoryListItem>();
         for (HashMap.Entry<String,Category> cat: categories.entrySet()) {

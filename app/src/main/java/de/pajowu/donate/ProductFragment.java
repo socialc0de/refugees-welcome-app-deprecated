@@ -22,8 +22,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.github.androidprogresslayout.ProgressLayout;
 
 import org.json.JSONObject;
@@ -68,7 +66,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
         SpannableString s = new SpannableString(getString(R.string.app_name));
         s.setSpan(new de.pajowu.donate.TypefaceSpan(mContext, "fabiolo.otf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
+        //((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
 
         loadFragmentData();
 
@@ -155,7 +153,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                                 public void run() {
                                     ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
                                     LocalFragment newFragment = new LocalFragment();
-                                    ((MaterialNavigationDrawer) getActivity()).setFragment(newFragment,"Local");
+                                    //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment,"Local");
                                 }
                             });
 
@@ -172,7 +170,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
             alert.show();
         } else {
             ContactFragment contactFragment = new ContactFragment(mContext, im_data);
-            ((MaterialNavigationDrawer) getActivity()).setFragment(contactFragment,"Owner");
+            //((MaterialNavigationDrawer) getActivity()).setFragment(contactFragment,"Owner");
         }
         
     }

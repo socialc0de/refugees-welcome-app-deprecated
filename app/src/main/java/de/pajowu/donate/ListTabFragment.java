@@ -12,8 +12,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
-
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -62,7 +60,7 @@ public class ListTabFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //primaryKeyValue = arrayList.get(position).primaryKey;
-                ((MaterialNavigationDrawer) getActivity()).setFragmentChild(new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey),"Offer");
+                //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey),"Offer");
                 Log.d("ListView clicked: ", ""+position);
                 Log.d("ListView Pos: ", ""+primaryKeyValue);
                 

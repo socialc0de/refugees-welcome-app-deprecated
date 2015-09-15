@@ -24,7 +24,7 @@ import com.google.api.client.http.HttpRequestInitializer;
  * CLoud Endpoints exposed from an App Engine backend that run locally during development.
  */
 class CloudEndpointBuilderHelper {
-  private static final boolean LOCAL_ANDROID_RUN = false;
+  private static final boolean LOCAL_ANDROID_RUN = true;
   private static final String LOCAL_APP_ENGINE_SERVER_URL = "http://192.168.42.46:8080";
   //Don't commit if the URL can not be reachsoed by others
 
@@ -60,8 +60,8 @@ class CloudEndpointBuilderHelper {
    * require users to be signed in or not.
    */
   static HttpRequestInitializer getRequestInitializer() {
-    if (SignInActivity.SIGN_IN_REQUIRED) {
-      return SignInActivity.credential;
+    if (MainActivity.credential.getSelectedAccountName() != null) {
+      return MainActivity.credential;
     } else {
       HttpRequestInitializer httpRequestInitializer = new HttpRequestInitializer() {
         @Override

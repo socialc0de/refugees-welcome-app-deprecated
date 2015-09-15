@@ -13,8 +13,6 @@ import android.widget.ScrollView;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.*;
 import com.appspot.donate_backend.donate.model.*;
@@ -99,21 +97,6 @@ public class PhraseFragment extends Fragment{
         //categories = mMainActivity.categories;
         //Log.d("MainActivity",categories.toString());
         View viewRoot = inflater.inflate(R.layout.fragment_phrase_tab, container, false);
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
-        itemList = new ArrayList<CategoryListItem>();
-        serviceList = new ArrayList<CategoryListItem>();
-        for (HashMap.Entry<String,Category> cat: categories.entrySet()) {
-            Log.d("MainActivity",cat.getValue().getGroup());
-            if (cat.getValue().getGroup().equals("service")) {
-                serviceList.add(new CategoryListItem("", cat.getValue().getName(), cat.getValue().getDescription(), cat.getValue().getId()));
-            } else if (cat.getValue().getGroup().equals("item")) {
-                itemList.add(new CategoryListItem("", cat.getValue().getName(), cat.getValue().getDescription(), cat.getValue().getId()));
-            }
-        }
-        Log.d("MainActivity",itemList.toString());*/
         ArrayList<PhraseListTabFragment> tbs = new ArrayList<PhraseListTabFragment>();
         tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("basic.json"), "Basic Conversation"));
         tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("medical.json"), "Medical Terms"));

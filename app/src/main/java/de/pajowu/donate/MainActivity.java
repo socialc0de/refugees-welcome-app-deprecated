@@ -1,6 +1,25 @@
+/*
+ * Copyright (c) 2012 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package de.pajowu.donate;
 
-
+import android.accounts.AccountManager;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -15,325 +34,289 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.appspot.donate_backend.donate.Donate;
+import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.Category;
-import com.appspot.donate_backend.donate.model.CategoryCollection;
-import com.appspot.donate_backend.donate.model.UserProtoImAddressName;
+import com.appspot.donate_backend.donate.model.*;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.json.JsonFactory;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
+import java.lang.Exception;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.support.v4.app.FragmentActivity;
+import com.mikepenz.materialdrawer.*;
+import com.mikepenz.materialdrawer.model.*;
+import com.mikepenz.materialdrawer.model.interfaces.*;
+import android.support.v4.app.Fragment;
+/**
+ * Activity that allows the user to select the account they want to use to sign in. The class also
+ * implements integration with Google Play Services and Google Accounts.
+ */
+public class MainActivity extends FragmentActivity {
+  static final boolean SIGN_IN_REQUIRED = false;
+  private static final String AUDIENCE = "server:client_id:760560844994-04u6qkvpf481an26cnhkaauaf2dvjfk0.apps.googleusercontent.com";
+  private static final String ACCOUNT_NAME_SETTING_NAME = "accountName";
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-import it.neokree.materialnavigationdrawer.elements.MaterialSection;
+  // constants for startActivityForResult flow
+  private static final int REQUEST_ACCOUNT_PICKER = 1;
+  private static final int REQUEST_GOOGLE_PLAY_SERVICES = 2;
+  private static final int REQUEST_AUTHORIZATION = 3;
 
-public class MainActivity extends MaterialNavigationDrawer {
-    private Toolbar toolbar;
-    public TextView app_bar_textview;
-    public Typeface mainTitleTypeface;
-    public DrawerLayout navDraw;
-    public ListView navListView;
-    private ActionBarDrawerToggle drawerToggle;
-    public CharSequence mainTitle;
-    public ArrayList<ListItem> arrayList;
-    private Logger log = Logger.getLogger(MainActivity.class.getName());
-    final static String TAG = "Donate";
-    // Fragment Management
-    public android.support.v4.app.FragmentManager fragmentManager;
-    public android.support.v4.app.FragmentTransaction fragmentTransaction;
-    public HomeFragment homeFragment;
-    public ProfileFragment profileFragment;
-    Donate service;
-    public HashMap<String, Category> categories = new HashMap<String, Category>();
-    // NAVIGATION BAR INITIATION
-    public String[] navStrings;
-    public String gplus_url;
-    public int[] navDrawables = new int[]{
-            R.drawable.ic_home_white,
-            R.drawable.ic_view_module_white,
-            R.drawable.ic_favorite_white,
-            R.drawable.ic_pin_drop_white,
-            R.drawable.ic_folder_special_white,
-            R.drawable.ic_person_white,
-            R.drawable.ic_settings_white
+  static GoogleAccountCredential credential;
+  final static String TAG = "Donate";
+  public HashMap<String, Category> categories = new HashMap<String, Category>();
+  public String gplus_url;
+  public TinyDB mTinyDB;
+  Drawer mDrawer;
+  final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+  final ArrayList<String> mTitles = new ArrayList<String>();
 
+  /**
+   * Initializes the activity content and then navigates to the MainActivity if the user is already
+   * signed in or if the app is configured to not require the sign in. Otherwise it initiates
+   * starting the UI for the account selection and a check for Google Play Services being up to
+   * date.
+   */
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    new DrawerBuilder().withActivity(this).build();
+
+    /*allowArrowAnimation();
+
+    this.disableLearningPattern();
+    this.getToolbar().setTitle(getString(R.string.app_name));*/
+    if (!checkGooglePlayServicesAvailable()) {
+      // Google Play Services are required, so don't proceed until they are installed.
+      return;
+    }
+    if (isSignedIn()) {
+      startMainActivity();
+    } else {
+      startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+    }
+
+  }
+  private void fillLayout() {
+
+
+    mTinyDB = new TinyDB(this);
+    loadCategories();
+    loadAccount();
+
+    //create the drawer and remember the `Drawer` result object
+    
+    mTitles.add(getString(R.string.sharing_local));
+    mFragments.add(new LocalFragment(this));
+    mTitles.add(getString(R.string.sharing_categories));
+    mFragments.add(new CategoryFragment(this));
+    mTitles.add(getString(R.string.profile));
+    mFragments.add(new ProfileFragment());
+    mTitles.add(getString(R.string.phrasebook));
+    mFragments.add(new PhraseFragment());
+    mTitles.add(getString(R.string.faq));
+    mFragments.add(new FAQFragment());
+    mTitles.add(getString(R.string.authority_map));
+    mFragments.add(new AuthorityMapFragment());
+    mTitles.add(getString(R.string.about));
+    mFragments.add(new AboutFragment());
+
+    DrawerBuilder drawerBuilder = new DrawerBuilder()
+        .withActivity(this)
+        .withToolbar((Toolbar) findViewById(R.id.app_bar))
+        .withActionBarDrawerToggle(true);
+    for (int i = 0; i < mFragments.size(); i++) {
+        drawerBuilder.addDrawerItems(
+          new PrimaryDrawerItem().withName(mTitles.get(i))
+        );
+    }
+    drawerBuilder.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+    @Override
+    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+        // do something with the clicked item :D
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position)).commit();
+        // closes Drawer
+        return false;
+    }
+    });
+    mDrawer = drawerBuilder.build();
+    getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(0)).commit();
+  }
+  /**
+   * Handles the results from activities launched to select an account and to install Google Play
+   * Services.
+   */
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    switch (requestCode) {
+      case REQUEST_ACCOUNT_PICKER:
+        if (data != null && data.getExtras() != null) {
+          String accountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
+          if (accountName != null) {
+            onSignedIn(accountName);
+          } 
+        } else if (!SIGN_IN_REQUIRED) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+              alert.setTitle("Are you sure?");
+              alert.setMessage("Without signing in you can't use all features of this app?");
+              alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int whichButton) {
+                    startMainActivity();
+                  }
+              });
+              alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int whichButton) {
+                    startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+                  }
+              });
+              alert.show();
+            
+          }
+        // Signing in is required so display the dialog again
+        /*if (SIGN_IN_REQUIRED && accountName == null) {
+          startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+        } else if (accountName != null) {
+          } else {
+            showMainActivity();
+          }*/
+        break;
+      case REQUEST_GOOGLE_PLAY_SERVICES:
+        if (resultCode != Activity.RESULT_OK) {
+          checkGooglePlayServicesAvailable();
+        }
+        break;
+    }
+  }
+
+  /**
+   * Retrieves the previously used account name from the application preferences and checks if the
+   * credential object can be set to this account.
+   */
+  private boolean isSignedIn() {
+    credential = GoogleAccountCredential.usingOAuth2(this, Collections.singleton(DonateScopes.USERINFO_EMAIL + " " + DonateScopes.PLUS_LOGIN));
+    SharedPreferences settings = getSharedPreferences("refugees", 0);
+    String accountName = settings.getString(ACCOUNT_NAME_SETTING_NAME, null);
+    credential.setSelectedAccountName(accountName);
+
+    return credential.getSelectedAccount() != null;
+  }
+
+  /**
+   * Called when the user selected an account. The account name is stored in the application
+   * preferences and set in the credential object.
+   *
+   * @param accountName the account that the user selected.
+   */
+  private void onSignedIn(String accountName) {
+    SharedPreferences settings = getSharedPreferences("refugees", 0);
+    Log.d("MainActivity",accountName);
+    SharedPreferences.Editor editor = settings.edit();
+    editor.putString(ACCOUNT_NAME_SETTING_NAME, accountName);
+    editor.commit();
+    credential.setSelectedAccountName(accountName);
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+          Builder endpointBuilder = new Donate.Builder(
+              AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(),
+              CloudEndpointBuilderHelper.getRequestInitializer());
+
+          Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
+
+          User result;
+          try {
+              result = service.user().create(new UserProto()).execute();
+              Log.d("MainAc login",result.toString());
+              runOnUiThread(new Runnable() {
+                  public void run() {
+                      startMainActivity();
+                  }
+              });
+          } catch (UserRecoverableAuthIOException e) {
+              Log.d("MainActivity","e",e);
+              final UserRecoverableAuthIOException e2 = e;
+              runOnUiThread(new Runnable() {
+                  public void run() {
+                      startActivityForResult(e2.getIntent(), 2);
+                  }
+              });
+              
+          } catch (IOException e) {
+              Log.d("MainActivity","e",e);
+          }
+      }
     };
-    public TinyDB mTinyDB;
-
-    //TODO Create other Fragments and accordingly other Layouts
-    //TODO Get Data from API
-    //TODO Implement Server functions
+    new Thread(runnable).start();
+  }
 
 
-    /*
-        @Override
-        protected void onPostCreate(Bundle savedInstanceState) {
-            super.onPostCreate(savedInstanceState);
-            drawerToggle.syncState();
-        }
+  /**
+   * Called to sign out the user, so user can later on select a different account.
+   *
+   * @param activity activity that initiated the sign out.
+   */
+  static void onSignOut(Activity activity) {
+    SharedPreferences settings = activity.getSharedPreferences("reguees", 0);
 
-        @Override
-        public void onConfigurationChanged(Configuration newConfig) {
-            super.onConfigurationChanged(newConfig);
-            drawerToggle.onConfigurationChanged(newConfig);
-        }
+    SharedPreferences.Editor editor = settings.edit();
+    editor.putString(ACCOUNT_NAME_SETTING_NAME, "");
 
+    editor.commit();
+    credential.setSelectedAccountName("");
 
-    */
-    public HashMap<String, Category> getCategories() {
-        return categories;
+    Intent intent = new Intent(activity, MainActivity.class);
+    activity.startActivity(intent);
+  }
+
+  /**
+   * Navigates to the MainActivity
+   */
+  private void startMainActivity() {
+    fillLayout();
+  }
+  /**
+   * Checks if Google Play Services are installed and if not it initializes opening the dialog to
+   * allow user to install Google Play Services.
+   */
+  private boolean checkGooglePlayServicesAvailable() {
+    final int connectionStatusCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+    if (GooglePlayServicesUtil.isUserRecoverableError(connectionStatusCode)) {
+      showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
+      return false;
     }
+    return true;
+  }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public void init(Bundle bundle) {
-
-        View view = LayoutInflater.from(this).inflate(R.layout.custom_drawer, null);
-        //setDrawerHeaderCustom(view);
-        allowArrowAnimation();
-
-        this.disableLearningPattern();
-        this.getToolbar().setTitle(getString(R.string.app_name));
-
-        mainTitleTypeface = Typeface.createFromAsset(getAssets(), "fabiolo.otf");
-        mTinyDB = new TinyDB(this);
-        loadCategories();
-        loadAccount();
-
-/*
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("");
-        app_bar_textview = (TextView) findViewById(R.id.app_bar_title);
-        app_bar_textview.setTypeface(mainTitleTypeface);
-
-        this.setSupportActionBar(toolbar);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setHomeButtonEnabled(true);
-        this.getSupportActionBar().setElevation(0);
-
-*/
-
-
-        // create sections
-        String[] offersList = new String[0];
-        //MaterialSection homeFragment = newSection("Home", new HomeFragment(getApplicationContext()));
-        MaterialSection localFragment = newSection(getString(R.string.sharing_local), new LocalFragment(this));
-        MaterialSection categoriesFragment = newSection(getString(R.string.sharing_categories), new CategoryFragment(this));
-        MaterialSection profileFragment = newSection(getString(R.string.profile), new ProfileFragment());
-        MaterialSection phraseFragment = newSection(getString(R.string.phrasebook), new PhraseFragment());
-        MaterialSection faqFragment = newSection(getString(R.string.faq), new FAQFragment());
-        MaterialSection authorityFragment = newSection(getString(R.string.authority_map), new AuthorityMapFragment());
-        MaterialSection aboutFragment = newSection(getString(R.string.about), new AboutFragment());
-        //addSection(homeFragment);
-        addSection(localFragment);
-        addSection(categoriesFragment);
-        addSection(profileFragment);
-        addSection(phraseFragment);
-        addSection(faqFragment);
-        addSection(authorityFragment);
-        addSection(aboutFragment);
-        //setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
-        /*
-
-        CREATE CUSTOM TOOLBAR
-        In following steps, a Typeface with a costum font was assigned
-        The textView was referenced, which is going to be the TITLE
-        Finally, the SUPPORTACTIONBAR was set and configured, to let Android show our custom ActionBar
-
-         */
-        /*
-
-        mainTitle = getTitle();
-        */
-        Log.d("mainTitle = ", "" + getTitle());
-
-        
-
-        /*
-
-        IMPLEMENT NAVIGATION BAR
-        navStrings is an Array containing the "Topics" in the Navigation Bar
-        navDraw is a DrawerLayout referenced to R.id.drawer_layout, which is needed to create the ActionBarDrawerToggle
-        navListView is the Object responsible for having a list of objects in our navBar
-        drawerToggle handles Opening- and Closing-Events of the NavBar
-
-         */
-        /*
-        Intent intent;
-        intent = new Intent(this,NavDrawer.class);
-        startActivity(intent);
-        */
-
-        /*
-        navStrings = getResources().getStringArray(R.array.navItems);
-        navDraw = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navListView = (ListView) findViewById(R.id.left_drawer);
-        drawerToggle = new ActionBarDrawerToggle(this, navDraw, toolbar, R.drawable.ic_menu_white, R.drawable.ic_menu_white) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("");
-                invalidateOptionsMenu();
-            }
-        };*/
-
-        /*
-
-        CONFIGURE DRAWER LISTENER AND OnItemClickListener
-        To handle Clicks in the NavBar, a Listener therefor is needed
-
-         */
-
-        // Set default data for Lists
-
-
-        //TODO Get data from Database
-        //TODO Implement TinyDB
-
-        /*
-        navDraw.setDrawerListener(drawerToggle);
-        navListView.setAdapter(new NavDrawerAdapter(this, R.layout.drawer_layout, navStrings, navDrawables));
-        navListView.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Click event", " on: " + position);
-                //TODO Create other individual events for each click
-
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                // TODO implement OnClickListener
-
-                switch (position) {
-                    case 0:
-                        // TODO: start homefragment
-                        showHomeFragment();
-
-                        //navDraw.closeDrawers();
-
-                        break;
-                    case 1:
-                        //TODO Configure custom arrayList by data from API (Not always the same arrayList)
-
-                        showListFragment();
-
-                        //navDraw.closeDrawers();
-                        break;
-                    case 2:
-                        //TODO Configure custom arrayList by data from API (Not always the same arrayList)
-                        showTrendingFragment();
-
-                        Log.d("Transaction performed", "");
-                        //navDraw.closeDrawers();
-                        Log.d("NavigationDrawer", " closed");
-                        break;
-                    case 3:
-                        //TODO Configure custom arrayList by data from API (Not always the same arrayList)
-
-                        showLocalFragment();
-
-                        //navDraw.closeDrawers();
-
-                        break;
-                    case 4:
-                        //TODO Configure custom arrayList by data from API (Not always the same arrayList)
-
-                        listFragment1 = new ListFragment(getApplicationContext(), arrayList, arrayList, arrayList);
-                        fragmentTransaction.replace(R.id.container, listFragment1);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-
-                        //navDraw.closeDrawers();
-
-                        break;
-
-                    case 5:
-                        String[] arrayList6 = {"Set Database Primary Key for each offer here"};
-
-                        //TODO Get Primary Key from Database to reference offer
-                        //TODO Border around image
-
-                        profileFragment = new ProfileFragment(new Person("John Smith", "DE", "Berlin", "john@smith.com", "01674891239", "johnsmith.com", "", arrayList6));
-                        fragmentTransaction.replace(R.id.container, profileFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-
-                        //navDraw.closeDrawers();
-
-                        // TODO Add other needed cases
-                        // TODO Create User Interface and Fragment for and Profile
-
-                }
-            }
-        });*/
-    }
-
-    /*
-    @Override
-    public void init(Bundle bundle) {
-        //View view = LayoutInflater.from(this).inflate(R.layout.custom_drawer,null);
-        //setDrawerHeaderCustom(view);
-        this.addSection(newSection("Section 1", new FragmentIndex()));
-
-    }
-    */
-
-    /*
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        //boolean drawerOpen = navDraw.isDrawerOpen(navListView);
-        //menu.findItem(R.id.action_categories).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-*/
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-    }
-
-    public HashMap<String, Category> parseCat(String json) {
+  /**
+   * Shows the Google Play Services dialog on UI thread.
+   */
+  void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        Dialog dialog = GooglePlayServicesUtil.getErrorDialog(
+            connectionStatusCode, MainActivity.this, REQUEST_GOOGLE_PLAY_SERVICES);
+        dialog.show();
+      }
+    });
+  }
+  public HashMap<String, Category> parseCat(String json) {
         try {
             JSONObject cat_json = new JSONObject(json);
             HashMap<String, Category> map = new HashMap<String, Category>();
@@ -357,8 +340,6 @@ public class MainActivity extends MaterialNavigationDrawer {
     }
 
     public void loadCategories() {
-        /*final ProgressDialog progdialog = ProgressDialog.show(MainActivity.this, "", "Lade ...", true);
-        progdialog.setProgressStyle(R.style.CustomHeaderLight);*/
         if (mTinyDB.getString("categories") != "") {
             categories = parseCat(mTinyDB.getString("categories"));
             Log.d(TAG, mTinyDB.getString("categories"));
@@ -375,9 +356,12 @@ public class MainActivity extends MaterialNavigationDrawer {
                 try {
                     result = service.cat().list().execute();
                     Log.d("MainActivity", result.toString());
-                    for (Category cat : result.getItems()) {
+                    if (result.getItems() != null) {
+                      for (Category cat : result.getItems()) {
                         categories.put(cat.getId(), cat);
+                      }
                     }
+                    
                     mTinyDB.putString("categories", new JSONObject(categories).toString());
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
@@ -390,13 +374,6 @@ public class MainActivity extends MaterialNavigationDrawer {
                 } catch (Exception e) {
                     Log.d("MainActivity", "e", e);
                 }
-                /*progdialog.dismiss();
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        showHomeFragment();
-                    }
-                });*/
-
             }
         };
         new Thread(runnable).start();
@@ -404,8 +381,6 @@ public class MainActivity extends MaterialNavigationDrawer {
     }
 
     public void loadAccount() {
-        /*final ProgressDialog progdialog = ProgressDialog.show(MainActivity.this, "", "Lade ...", true);
-        progdialog.setProgressStyle(R.style.CustomHeaderLight);*/
         gplus_url = mTinyDB.getString("gplus_url");
         Runnable runnable = new Runnable() {
             @Override
@@ -418,8 +393,6 @@ public class MainActivity extends MaterialNavigationDrawer {
                 UserProtoImAddressName result;
                 try {
                     result = service.user().data().execute();
-                    //public Bitmap getImage(String path)
-                    //boolean putImage(String theFolder, String theImageName, Bitmap theBitmap) {
                     Log.d("MainActivity", result.toString());
                     Map<String, Object> im = jsonToMap(new JSONObject(result.getIm().toString()));
                     gplus_url = (String) ((HashMap) im.get("gplus")).get("url");
@@ -435,32 +408,11 @@ public class MainActivity extends MaterialNavigationDrawer {
                 } catch (Exception e) {
                     Log.d("MainActivity", "e", e);
                 }
-                /*progdialog.dismiss();
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        showHomeFragment();
-                    }
-                });*/
 
             }
         };
         new Thread(runnable).start();
 
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            // Log exception
-            return null;
-        }
     }
 
     public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
@@ -504,4 +456,3 @@ public class MainActivity extends MaterialNavigationDrawer {
         return list;
     }
 }
-

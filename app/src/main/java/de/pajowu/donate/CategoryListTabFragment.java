@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -57,7 +56,7 @@ public class CategoryListTabFragment extends Fragment{
                 //primaryKeyValue = arrayList.get(position).primaryKey;
                 //((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey),"Offer");
                 Log.d("ListView clicked: ", ""+position);
-                ((MaterialNavigationDrawer) getActivity()).setFragmentChild(new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id),"Category Products");
+                //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id),"Category Products");
                 //Log.d("ListView Pos: ", ""+primaryKeyValue);
                 
             }

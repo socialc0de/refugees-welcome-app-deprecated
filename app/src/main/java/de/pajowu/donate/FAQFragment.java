@@ -21,9 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import com.appspot.donate_backend.donate.*;
 import com.appspot.donate_backend.donate.Donate.*;
 import com.appspot.donate_backend.donate.model.*;
@@ -72,7 +69,7 @@ public class FAQFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Log.d("pos = ", position + "");
                         FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment(list.get(position).id);
-                        ((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
+                        //((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
                     }
                 })
         );

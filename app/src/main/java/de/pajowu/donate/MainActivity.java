@@ -64,6 +64,9 @@ import com.mikepenz.materialdrawer.model.interfaces.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.ViewGroup;
+import android.text.SpannableString;
+import android.text.Spannable;
+
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also
  * implements integration with Google Play Services and Google Accounts.
@@ -115,8 +118,10 @@ public class MainActivity extends FragmentActivity {
 
   }
   private void fillLayout() {
-
-
+    SpannableString s = new SpannableString(getString(R.string.app_name));
+    s.setSpan(new de.pajowu.donate.TypefaceSpan(getApplicationContext(), "fabiolo.otf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    ((Toolbar) findViewById(R.id.app_bar)).setTitle(s);
     mTinyDB = new TinyDB(this);
     loadCategories();
     loadAccount();

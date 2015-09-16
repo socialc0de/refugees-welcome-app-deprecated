@@ -187,14 +187,14 @@ public class MainActivity extends FragmentActivity {
           } 
         } else if (!SIGN_IN_REQUIRED) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-              alert.setTitle("Are you sure?");
-              alert.setMessage("Without signing in you can't use all features of this app?");
+              alert.setTitle(R.string.are_you_sure);
+              alert.setMessage(R.string.not_all_features);
               alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialog, int whichButton) {
                     startMainActivity();
                   }
               });
-              alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+              alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialog, int whichButton) {
                     startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
                   }

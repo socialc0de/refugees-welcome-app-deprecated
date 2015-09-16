@@ -12,6 +12,10 @@
     <string name="faq">FAQ</string>
     <string name="authority_map">Authority Map</string>
     <string name="about">About</string>
-
-    <string name="title_activity_product_view">ProductView</string>
+    <string name="signin">Signin</string>
+    <string name="cancel">Cancel</string>
+    <string name="not_all_features">Without signing in you can\'t use all features of this app!</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="please_sign_in">Please Sign In</string>
+    <string name="cant_create_offer_if_not_signed_in">Without signing in you can\'t create new offers</string>
 </resources>

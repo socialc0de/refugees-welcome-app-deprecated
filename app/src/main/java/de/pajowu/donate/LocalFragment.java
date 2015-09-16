@@ -254,14 +254,14 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                     ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                    alert.setTitle("Please Sign In");
-                    alert.setMessage("Without signing in you can't create new offers?");
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alert.setTitle(getString(R.string.please_sign_in));
+                    alert.setMessage(R.string.cant_create_offer_if_not_signed_in);
+                    alert.setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             getActivity().startActivityForResult(((MainActivity)getActivity()).credential.newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
                         }
                     });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             
                         }

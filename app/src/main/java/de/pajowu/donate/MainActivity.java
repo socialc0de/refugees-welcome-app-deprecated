@@ -400,6 +400,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void loadAccount() {
+      if (credential.getSelectedAccount() != null) {
         gplus_url = mTinyDB.getString("gplus_url");
         Runnable runnable = new Runnable() {
             @Override
@@ -431,7 +432,10 @@ public class MainActivity extends FragmentActivity {
             }
         };
         new Thread(runnable).start();
-
+      } else {
+        gplus_url = "";
+        mTinyDB.putString("gplus_url", gplus_url);
+      }
     }
 
     public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {

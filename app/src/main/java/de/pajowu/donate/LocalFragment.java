@@ -25,7 +25,8 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.android.gms.maps.model.LatLng;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.location.LocationManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -83,6 +84,8 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
             editButton.setOnClickListener(this);
             editButton.setVisibility(View.VISIBLE);
+
+
             Log.d("MainActivity","fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
             tbs.add(new ListTabFragment(this.offerList, "Offer"));
@@ -246,9 +249,26 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.fab:
                 Log.d("MainActivity", "pressed");
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewOfferFragment(context)).addToBackStack(null).commit();
-                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
-    
+                if (((MainActivity)getActivity()).credential.getSelectedAccountName() != null) {
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewOfferFragment(context)).addToBackStack(null).commit();
+                    ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle("Please Sign In");
+                    alert.setMessage("Without signing in you can't create new offers?");
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            getActivity().startActivityForResult(((MainActivity)getActivity()).credential.newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            
+                        }
+                    });
+                    alert.show();
+                }
+        
                 //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited

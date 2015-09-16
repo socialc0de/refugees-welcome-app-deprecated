@@ -63,6 +63,7 @@ import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.ViewGroup;
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also
  * implements integration with Google Play Services and Google Accounts.
@@ -73,9 +74,9 @@ public class MainActivity extends FragmentActivity {
   private static final String ACCOUNT_NAME_SETTING_NAME = "accountName";
 
   // constants for startActivityForResult flow
-  private static final int REQUEST_ACCOUNT_PICKER = 1;
-  private static final int REQUEST_GOOGLE_PLAY_SERVICES = 2;
-  private static final int REQUEST_AUTHORIZATION = 3;
+  static final int REQUEST_ACCOUNT_PICKER = 1;
+  static final int REQUEST_GOOGLE_PLAY_SERVICES = 2;
+  static final int REQUEST_AUTHORIZATION = 3;
 
   static GoogleAccountCredential credential;
   final static String TAG = "Donate";
@@ -119,15 +120,25 @@ public class MainActivity extends FragmentActivity {
     mTinyDB = new TinyDB(this);
     loadCategories();
     loadAccount();
-
-    //create the drawer and remember the `Drawer` result object
+    if (mDrawer != null && mFragments != null) {
+      for (int i = 0; i < mFragments.size(); i++) {
+          mDrawer.removeItem(i);
+      }
+    }
     
+    //create the drawer and remember the `Drawer` result object
+    mFragments.clear();
+    mTitles.clear();
+
     mTitles.add(getString(R.string.sharing_local));
     mFragments.add(new LocalFragment(this));
     mTitles.add(getString(R.string.sharing_categories));
     mFragments.add(new CategoryFragment(this));
-    mTitles.add(getString(R.string.profile));
-    mFragments.add(new ProfileFragment());
+    //Log.d("MainActivity",credential.getSelectedAccountName());
+    if (credential.getSelectedAccount() != null) {
+      mTitles.add(getString(R.string.profile));
+      mFragments.add(new ProfileFragment());
+    }
     mTitles.add(getString(R.string.phrasebook));
     mFragments.add(new PhraseFragment());
     mTitles.add(getString(R.string.faq));
@@ -136,27 +147,28 @@ public class MainActivity extends FragmentActivity {
     mFragments.add(new AuthorityMapFragment());
     mTitles.add(getString(R.string.about));
     mFragments.add(new AboutFragment());
-
-    DrawerBuilder drawerBuilder = new DrawerBuilder()
-        .withActivity(this)
-        .withToolbar((Toolbar) findViewById(R.id.app_bar))
-        .withActionBarDrawerToggle(true);
+    if (mDrawer == null) {
+      mDrawer = new DrawerBuilder()
+      .withActivity(this)
+      .withToolbar((Toolbar) findViewById(R.id.app_bar))
+      .withActionBarDrawerToggle(true)
+      .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+        @Override
+        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+        // do something with the clicked item :D
+          getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+          getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position)).addToBackStack(null).commit();
+        // closes Drawer
+          return false;
+        }
+      }).build();
+    }
+    mDrawer.removeAllItems();
     for (int i = 0; i < mFragments.size(); i++) {
-        drawerBuilder.addDrawerItems(
+        mDrawer.addItem(
           new PrimaryDrawerItem().withName(mTitles.get(i))
         );
     }
-    drawerBuilder.withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-    @Override
-    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-        // do something with the clicked item :D
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position)).addToBackStack(null).commit();
-        // closes Drawer
-        return false;
-    }
-    });
-    mDrawer = drawerBuilder.build();
     getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(0)).commit();
   }
   /**

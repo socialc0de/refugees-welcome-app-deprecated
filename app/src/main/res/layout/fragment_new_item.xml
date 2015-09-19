@@ -1,0 +1,72 @@
+<com.github.androidprogresslayout.ProgressLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progress_layout"
+        progressLayout:progressBackground="#DDDDDD"
+        progressLayout:progress="false">
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#DDDDDD">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Question"
+                    android:id="@+id/question"
+                    app:met_baseColor="?colorPrimary"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"/>
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Answer (if known)"
+                    android:id="@+id/answer"
+                    app:met_baseColor="?colorPrimary"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"/>
+                <Spinner
+                    android:id="@+id/categories"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"/>
+                <Spinner
+                    android:id="@+id/language"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUBMIT"
+                    app:rd_enable="true"
+                    app:rd_backgroundColor="@color/accentColor"
+                    android:id="@+id/submit"
+                    android:textColor="@color/textWhite"/>
+            </LinearLayout>
+
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/actionbar_shadow" />
+    </RelativeLayout>
+</com.github.androidprogresslayout.ProgressLayout>

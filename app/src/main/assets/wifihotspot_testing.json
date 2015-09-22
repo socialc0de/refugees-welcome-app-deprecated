@@ -1,0 +1,50 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [8.6367452144623, 50.124106921237, 0.0]
+			},
+			"properties": {
+				"name": "wifi",
+				"desc": "WifiLoc"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [8.534866, 50.053978, 0.0]
+			},
+			"properties": {
+				"name": "wifi",
+				"desc": "WifiLoc"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [8.709033, 50.12491, 0.0]
+			},
+			"properties": {
+				"name": "wifi",
+				"desc": "WifiLoc"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [8.69151, 50.10065, 0.0]
+			},
+			"properties": {
+				"name": "wifi",
+				"desc": "WifiLoc"
+			}
+		}
+	]
+}

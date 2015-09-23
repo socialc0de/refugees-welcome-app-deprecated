@@ -1,7 +1,5 @@
 package de.pajowu.donate;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -16,21 +14,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.geojson.GeoJsonFeature;
+import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.geojson.GeoJsonLayer;
-import com.google.maps.android.geojson.GeoJsonPointStyle;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class AuthorityMapFragment extends Fragment implements View.OnClickListener {
@@ -40,6 +37,9 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
     private Bundle mBundle;
     private GeoJsonLayer mWifiLayer;
     private FloatingActionButton wifiButton;
+    private boolean wifi = false;
+    private ClusterManager<WifiLocation> mClusterManager;
+
 
     public AuthorityMapFragment() {
 
@@ -77,6 +77,25 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    private void showMarker(String element) {
+        switch (element) {
+            case "wifi":
+                setUpClusterer();
+                break;
+            case "authorities":
+                ArrayList<Authority> auths = loadAuthoritiesFromAsset();
+                Log.d("MainActivity", auths.toString());
+                if (auths != null) {
+                    for (Authority auth : auths) {
+                        mMap.addMarker(new MarkerOptions().position(auth.location).snippet(auth.getDetailText()));
+                    }
+                }
+                break;
+
+        }
+    }
+
+
     private void setUpMap() {
         Log.d("MainActivity", "setupMap");
         Location loc = getLocation();
@@ -84,45 +103,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 12));
         }
         mMap.setMyLocationEnabled(true);
-        ArrayList<Authority> auths = loadAuthoritiesFromAsset();
-        Log.d("MainActivity", auths.toString());
-        if (auths != null) {
-            for (Authority auth : auths) {
-                mMap.addMarker(new MarkerOptions().position(auth.location).snippet(auth.getDetailText()));
-            }
-        }
-
-
-        String jsonWifi = null;
-        JSONObject jsonWifiObject = null;
-        InputStream is = null;
-        try {
-            is = getActivity().getAssets().open("wifihotspot_testing.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            jsonWifi = new String(buffer, "UTF-8");
-            jsonWifiObject = new JSONObject(jsonWifi.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        mWifiLayer = new GeoJsonLayer(mMap, jsonWifiObject);
-
-        GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-        pointStyle.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        pointStyle.setSnippet("Wifi");
-
-        for (GeoJsonFeature gJF: mWifiLayer.getFeatures()){
-            gJF.setPointStyle(pointStyle);
-
-
-        }
-
+        showMarker("authorities");
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
@@ -197,6 +178,37 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
     }
 
+    public void loadWifiLocationsFromAssets() {
+        InputStream is = null;
+        try {
+            is = getActivity().getAssets().open("wifimap.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        try {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] RowData = line.split(",");
+                Log.d("WIFILOC: ", "RowData[0] = " + RowData[0]);
+                Log.d("WIFILOC: ", "RowData[1] = " + RowData[1]);
+                Double lat = Double.parseDouble(RowData[0]);
+                Double lng = Double.parseDouble(RowData[1]);
+                WifiLocation wLoc = new WifiLocation();
+                wLoc.location = new LatLng(lat, lng);
+                mClusterManager.addItem(wLoc);
+            }
+        } catch (IOException ex) {
+            // handle exception
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                // handle exception
+            }
+        }
+    }
+
     public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
@@ -204,14 +216,36 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
         return location;
     }
 
+    private void setUpClusterer() {
+        // Declare a variable for the cluster manager.
+
+        // Position the map.
+
+        // Initialize the manager with the context and the map.
+        // (Activity extends context, so we can pass 'this' in the constructor.)
+        mClusterManager = new ClusterManager<WifiLocation>(getActivity(), mMap);
+
+        // Point the map's listeners at the listeners implemented by the cluster
+        // manager.
+        mMap.setOnCameraChangeListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+
+        // Add cluster items (markers) to the cluster manager.
+        loadWifiLocationsFromAssets();
+    }
+
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.wifi){
-            if (mWifiLayer.isLayerOnMap()){
-                mWifiLayer.removeLayerFromMap();
-            }
+        if (v.getId() == R.id.wifi) {
+            if (!wifi) {
+                mMap.clear();
+                showMarker("wifi");
+                wifi = true;
+                }
             else {
-                mWifiLayer.addLayerToMap();
+                mMap.clear();
+                showMarker("authorities");
+                wifi = false;
             }
         }
     }

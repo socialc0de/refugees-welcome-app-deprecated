@@ -1,7 +1,8 @@
 package de.pajowu.donate;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 
-public class Authority {
+public class Authority implements ClusterItem{
     public String fax;
     public String open_times;
     public String website;
@@ -23,5 +24,10 @@ public class Authority {
         detail += "Website: " + website + "\n";
         detail += "Data from " + source;
         return detail;
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return location;
     }
 }

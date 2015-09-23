@@ -18,5 +18,5 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_network_wifi_white"
-        fab:fab_colorNormal="@color/accentColor" />
+        />
 </RelativeLayout>

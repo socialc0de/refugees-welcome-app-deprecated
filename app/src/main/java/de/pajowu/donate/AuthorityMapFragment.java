@@ -57,6 +57,9 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
         ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         View inflatedView = inflater.inflate(R.layout.fragment_authority_map, container, false);
         wifiButton = (FloatingActionButton) inflatedView.findViewById(R.id.wifi);
+        wifiButton.setColorNormalResId(R.color.accentColor);
+        wifiButton.setColorPressedResId(R.color.accentColor2);
+        wifiButton.setColorRippleResId(R.color.accentColor);
         wifiButton.setOnClickListener(this);
 
         MapsInitializer.initialize(getActivity());
@@ -225,11 +228,21 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             if (!wifi) {
                 mMap.clear();
                 wifiButton.setImageResource(R.drawable.ic_info_outline_white);
+
+                // Sending little Message to screen
+                Toast.makeText(getActivity(), "Loading Wifi Hotspot Locations",
+                        Toast.LENGTH_LONG).show();
+
                 setUpClusterer("wifi");
                 wifi = true;
             } else {
                 mMap.clear();
                 wifiButton.setImageResource(R.drawable.ic_network_wifi_white);
+
+                // Sending little Message to screen
+                Toast.makeText(getActivity(), "Loading Administration Locations",
+                        Toast.LENGTH_LONG).show();
+
                 setUpClusterer("authorities");
                 wifi = false;
             }

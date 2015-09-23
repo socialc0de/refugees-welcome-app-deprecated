@@ -173,8 +173,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] RowData = line.split(",");
-                Log.d("WIFILOC: ", "RowData[0] = " + RowData[0]);
-                Log.d("WIFILOC: ", "RowData[1] = " + RowData[1]);
                 Double lat = Double.parseDouble(RowData[0]);
                 Double lng = Double.parseDouble(RowData[1]);
                 WifiLocation wLoc = new WifiLocation();
@@ -253,8 +251,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] RowData = line.split(",");
-                    //Log.d("WIFILOC: ", "RowData[0] = " + RowData[0]);
-                    //Log.d("WIFILOC: ", "RowData[1] = " + RowData[1]);
                     Double lat = Double.parseDouble(RowData[0]);
                     Double lng = Double.parseDouble(RowData[1]);
                     WifiLocation wLoc = new WifiLocation();

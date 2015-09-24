@@ -26,6 +26,7 @@ public class Authority implements ClusterItem{
         return detail;
     }
 
+
     @Override
     public LatLng getPosition() {
         return location;

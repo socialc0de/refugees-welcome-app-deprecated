@@ -1,5 +1,6 @@
 package de.pajowu.donate;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -19,7 +20,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -42,6 +45,9 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
     private boolean wifi = false;
     private ClusterManager<WifiLocation> mClusterManager;
     private ClusterManager<Authority> mClusterManager2;
+
+    private Cluster<Authority> clickedCluster;
+    private Authority clickedClusterItem;
 
 
     public AuthorityMapFragment() {
@@ -84,7 +90,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
     }
 
 
-
     private void setUpMap() {
         Log.d("MainActivity", "setupMap");
         Location loc = getLocation();
@@ -92,7 +97,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 12));
         }
         mMap.setMyLocationEnabled(true);
-        setUpClusterer("authorities");
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
@@ -112,6 +116,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                 return v;
             }
         });
+        setUpClusterer("authorities");
     }
 
     @Override
@@ -212,13 +217,40 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             //loadWifiLocationsFromAssets();
             CSVLoader csvLoader = new CSVLoader();
             csvLoader.execute();
-        }
-        else {
+        } else {
+
+
             mClusterManager2 = new ClusterManager<Authority>(getActivity(), mMap);
             mMap.setOnCameraChangeListener(mClusterManager2);
+            mClusterManager2.setRenderer(new MyClusterRenderer(getActivity(), mMap, mClusterManager2));
+
+            mMap.setOnInfoWindowClickListener(mClusterManager2);
+            mMap.setInfoWindowAdapter(mClusterManager2.getMarkerManager());
+            mClusterManager2.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
+            mClusterManager2.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter());
             mMap.setOnMarkerClickListener(mClusterManager2);
 
-            // Add cluster items (markers) to the cluster manager.
+            mClusterManager2
+                    .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Authority>() {
+                        @Override
+                        public boolean onClusterClick(Cluster<Authority> cluster) {
+                            clickedCluster = cluster;
+                            return false;
+                        }
+                    });
+
+            mClusterManager2
+                    .setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<Authority>() {
+                        @Override
+                        public boolean onClusterItemClick(Authority item) {
+                            clickedClusterItem = item;
+                            return false;
+                        }
+                    });
+
+
+            mClusterManager2.cluster();
+
             loadAuthoritiesFromAsset();
 
         }
@@ -288,17 +320,100 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
         @Override
         protected void onPostExecute(ArrayList<WifiLocation> wifiLocations) {
-            for (WifiLocation w : wifiLocations){
+            for (WifiLocation w : wifiLocations) {
                 mClusterManager.addItem(w);
             }
             super.onPostExecute(wifiLocations);
         }
     }
+
+    public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        private final View myContentsView;
+
+        public MarkerInfoWindowAdapter() {
+            myContentsView = getActivity().getLayoutInflater().inflate(
+                    R.layout.map_info_window_dialog, null);
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            // TODO Auto-generated method stub
+
+
+            TextView tvTitle = ((TextView) myContentsView
+                    .findViewById(R.id.txtHeader));
+            TextView tvSnippet = ((TextView) myContentsView
+                    .findViewById(R.id.txtAddress));
+
+            if (clickedClusterItem != null) {
+                tvTitle.setText("Authority Information:");
+                tvSnippet.setText(clickedClusterItem.getDetailText());
+
+            }
+            return myContentsView;
+        }
+    }
+
+    public class ClusterInfoWindow implements GoogleMap.InfoWindowAdapter {
+        private final View myContentsView;
+
+        ClusterInfoWindow() {
+            myContentsView = getActivity().getLayoutInflater().inflate(
+                    R.layout.map_info_window_dialog, null);
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            // TODO Auto-generated method stub
+
+
+            TextView tvTitle = ((TextView) myContentsView
+                    .findViewById(R.id.txtHeader));
+            TextView tvSnippet = ((TextView) myContentsView
+                    .findViewById(R.id.txtAddress));
+            tvSnippet.setVisibility(View.GONE);
+
+            if (clickedCluster != null) {
+                tvTitle.setText(String
+                        .valueOf(clickedCluster.getItems().size())
+                        + " more offers available");
+            }
+            return myContentsView;
+        }
+    }
+
+    class MyClusterRenderer extends DefaultClusterRenderer<Authority> {
+
+
+        public MyClusterRenderer(Context context, GoogleMap map, ClusterManager<Authority> clusterManager) {
+            super(context, map, clusterManager);
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(Authority item, MarkerOptions markerOptions) {
+            super.onBeforeClusterItemRendered(item, markerOptions);
+        }
+
+        @Override
+        protected void onClusterItemRendered(Authority clusterItem, Marker marker) {
+            super.onClusterItemRendered(clusterItem, marker);
+        }
+    }
+
+
 }
 
-/*
-*   ASYNCTASK
- */
+
 
 
 

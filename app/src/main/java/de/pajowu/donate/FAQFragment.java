@@ -29,10 +29,13 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.json.JsonFactory;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.melnykov.fab.FloatingActionButton;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FAQFragment extends Fragment {
+public class FAQFragment extends Fragment implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -83,6 +86,9 @@ public class FAQFragment extends Fragment {
         Log.d("CategoryItems1: ", list + "");
         RecyclerViewAdapter ca = new RecyclerViewAdapter(list);
         recList.setAdapter(ca);
+        FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
+        editButton.setOnClickListener(this);
+        editButton.setVisibility(View.VISIBLE);
 
     }
     public void loadFragmentData() {
@@ -126,6 +132,37 @@ public class FAQFragment extends Fragment {
             }
         };
         new Thread(runnable).start();
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                Log.d("MainActivity", "pressed");
+                if (((MainActivity)getActivity()).credential.getSelectedAccountName() != null) {
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewQuestionFragment(cats)).addToBackStack(null).commit();
+                    ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle(getString(R.string.please_sign_in));
+                    alert.setMessage(R.string.cant_create_offer_if_not_signed_in);
+                    alert.setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            getActivity().startActivityForResult(((MainActivity)getActivity()).credential.newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
+                        }
+                    });
+                    alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            
+                        }
+                    });
+                    alert.show();
+                }
+        
+                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
+                //TODO Set Editable = true (search fitting code for it
+                //TODO Maybe add lines again to make obvious, that they can be edited
+                break;
+        }
     }
 
 }

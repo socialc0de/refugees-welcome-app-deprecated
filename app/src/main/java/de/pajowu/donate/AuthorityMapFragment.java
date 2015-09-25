@@ -49,6 +49,9 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
     private Cluster<Authority> clickedCluster;
     private Authority clickedClusterItem;
 
+    private Cluster<WifiLocation> clickedCluster2;
+    private WifiLocation clickedClusterItem2;
+
 
     public AuthorityMapFragment() {
 
@@ -169,34 +172,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
     }
 
-    public void loadWifiLocationsFromAssets() {
-        InputStream is = null;
-        try {
-            is = getActivity().getAssets().open("wifimap.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        try {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] RowData = line.split(",");
-                Double lat = Double.parseDouble(RowData[0]);
-                Double lng = Double.parseDouble(RowData[1]);
-                WifiLocation wLoc = new WifiLocation();
-                wLoc.location = new LatLng(lat, lng);
-                mClusterManager.addItem(wLoc);
-            }
-        } catch (IOException ex) {
-            // handle exception
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                // handle exception
-            }
-        }
-    }
 
     public Location getLocation() {
         // Get the location manager
@@ -209,10 +184,35 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
         if (cluster.equals("wifi")) {
             mClusterManager = new ClusterManager<WifiLocation>(getActivity(), mMap);
             mMap.setOnCameraChangeListener(mClusterManager);
+            mClusterManager.setRenderer(new DefaultClusterRenderer<WifiLocation>(getActivity(), mMap, mClusterManager));
+
+            mMap.setOnInfoWindowClickListener(mClusterManager);
+            mMap.setInfoWindowAdapter(mClusterManager.getMarkerManager());
+            mClusterManager.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
+            mClusterManager.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(true));
             mMap.setOnMarkerClickListener(mClusterManager);
 
-            // Add cluster items (markers) to the cluster manager.
-            //loadWifiLocationsFromAssets();
+            mClusterManager
+                    .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<WifiLocation>() {
+                        @Override
+                        public boolean onClusterClick(Cluster<WifiLocation> cluster) {
+                            clickedCluster2 = cluster;
+                            return false;
+                        }
+                    });
+
+            mClusterManager
+                    .setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<WifiLocation>() {
+                        @Override
+                        public boolean onClusterItemClick(WifiLocation item) {
+                            clickedClusterItem2 = item;
+                            return false;
+                        }
+                    });
+
+
+            mClusterManager.cluster();
+
             CSVLoader csvLoader = new CSVLoader();
             csvLoader.execute();
         } else {
@@ -225,7 +225,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             mMap.setOnInfoWindowClickListener(mClusterManager2);
             mMap.setInfoWindowAdapter(mClusterManager2.getMarkerManager());
             mClusterManager2.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
-            mClusterManager2.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter());
+            mClusterManager2.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(false));
             mMap.setOnMarkerClickListener(mClusterManager2);
 
             mClusterManager2
@@ -325,10 +325,13 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
     public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         private final View myContentsView;
+        private boolean wifiBoolean = false;
 
-        public MarkerInfoWindowAdapter() {
+        public MarkerInfoWindowAdapter(boolean wifi) {
+            wifiBoolean = wifi;
             myContentsView = getActivity().getLayoutInflater().inflate(
                     R.layout.map_info_window_dialog, null);
+
         }
 
         @Override
@@ -346,9 +349,15 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             TextView tvSnippet = ((TextView) myContentsView
                     .findViewById(R.id.txtAddress));
 
-            if (clickedClusterItem != null) {
-                tvTitle.setText("Authority Information:");
-                tvSnippet.setText(clickedClusterItem.getDetailText());
+            if (clickedClusterItem != null || clickedClusterItem2 != null) {
+                if (wifiBoolean) {
+                    tvTitle.setText("Wifi");
+                    tvSnippet.setText("Free Wifi HotSpot");
+                } else {
+                    tvTitle.setText("Authority Information:");
+                    //Log.d("clickedClusterI: "+clickedClusterItem.getDetailText(),"");
+                    tvSnippet.setText(clickedClusterItem.getDetailText());
+                }
 
             }
             return myContentsView;
@@ -380,10 +389,13 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             tvSnippet.setVisibility(View.GONE);
 
             if (clickedCluster != null) {
-                tvTitle.setText(String
-                        .valueOf(clickedCluster.getItems().size())
-                        + " more offers available");
+                tvTitle.setText(String.valueOf(clickedCluster.getItems().size()) + " more items");
             }
+            if (clickedCluster2 != null) {
+                tvTitle.setText(String.valueOf(clickedCluster2.getItems().size()) + " more items");
+            }
+
+
             return myContentsView;
         }
     }
@@ -408,8 +420,3 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
 
 }
-
-
-
-
-

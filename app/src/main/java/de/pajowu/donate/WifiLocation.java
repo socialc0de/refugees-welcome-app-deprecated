@@ -4,11 +4,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class WifiLocation implements ClusterItem{
-    public String name;
+    public String detail = "wifi";
     public LatLng location;
 
-    public String getWifiInfo() {
-        return name;
+    public String getDetailText() {
+        return detail;
     }
 
     @Override

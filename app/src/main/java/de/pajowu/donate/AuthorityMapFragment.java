@@ -3,13 +3,17 @@ package de.pajowu.donate;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -154,7 +158,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                 Authority auth = new Authority();
-                auth.fax = (String) jo_inside.get("fax");
                 auth.open_times = (String) jo_inside.get("offnungszeiten");
                 auth.website = (String) jo_inside.get("website");
                 Double lat = (Double) ((JSONObject) jo_inside.get("location")).get("lat");
@@ -163,7 +166,8 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                 auth.email = (String) jo_inside.get("email");
                 auth.phone = (String) jo_inside.get("telefon");
                 auth.address = (String) jo_inside.get("adresse");
-                auth.source = "www.amt-de.com";
+                //auth.source = "www.amt-de.com";
+                // Source will be mentioned in "About"
                 mClusterManager2.addItem(auth);
             }
         } catch (Exception ex) {
@@ -348,20 +352,34 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                     .findViewById(R.id.txtHeader));
             TextView tvSnippet = ((TextView) myContentsView
                     .findViewById(R.id.txtAddress));
+            LinearLayout linearLayout = (LinearLayout) myContentsView.findViewById(R.id.icons);
+            TextView location = (TextView) myContentsView.findViewById(R.id.location);
+            TextView phone = (TextView) myContentsView.findViewById(R.id.phone);
+            TextView mail = (TextView) myContentsView.findViewById(R.id.mail);
+            TextView homepage = (TextView) myContentsView.findViewById(R.id.homepage);
 
             if (clickedClusterItem != null || clickedClusterItem2 != null) {
                 if (wifiBoolean) {
                     tvTitle.setText("Wifi");
                     tvSnippet.setText("Free Wifi HotSpot");
+                    linearLayout.setVisibility(View.GONE);
                 } else {
                     tvTitle.setText("Authority Information:");
+                    location.setText(clickedClusterItem.getAddress());
+                    phone.setText(clickedClusterItem.getPhone());
+                    mail.setText(clickedClusterItem.getEmail());
+                    homepage.setText(clickedClusterItem.getWebsite());
                     //Log.d("clickedClusterI: "+clickedClusterItem.getDetailText(),"");
                     tvSnippet.setText(clickedClusterItem.getDetailText());
+
+
                 }
 
             }
             return myContentsView;
         }
+
+
     }
 
     public class ClusterInfoWindow implements GoogleMap.InfoWindowAdapter {

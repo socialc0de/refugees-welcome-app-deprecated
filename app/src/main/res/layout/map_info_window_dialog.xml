@@ -2,22 +2,115 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:background="@color/textWhite"
     android:orientation="vertical"
-    android:background="@color/textWhite">
+    android:padding="10dp">
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:id="@+id/txtHeader"
-        />
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Authority Information"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/txtAddress"
-        android:autoLink="web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:autoLink="all"
         android:linksClickable="true"
-        />
+        android:text="SAMPLE TEXT" />
+
+    <LinearLayout
+        android:id="@+id/icons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:orientation="vertical">
 
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_marginRight="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_my_location_grey600"
+                android:tint="@color/accentColor" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet "/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_marginRight="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_phone_grey600"
+                android:tint="@color/accentColor" />
+
+            <TextView
+                android:autoLink="phone"
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0175812891"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_marginRight="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_mail_grey600"
+                android:tint="@color/accentColor" />
+
+            <TextView
+                android:id="@+id/mail"
+                android:autoLink="email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mail@mail.com"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_marginRight="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_white"
+                android:tint="@color/accentColor" />
+
+            <TextView
+                android:autoLink="web"
+                android:id="@+id/homepage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="www.google.de"/>
+        </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>

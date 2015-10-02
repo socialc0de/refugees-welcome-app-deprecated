@@ -357,6 +357,8 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             TextView phone = (TextView) myContentsView.findViewById(R.id.phone);
             TextView mail = (TextView) myContentsView.findViewById(R.id.mail);
             TextView homepage = (TextView) myContentsView.findViewById(R.id.homepage);
+            TextView openingtimes = (TextView) myContentsView.findViewById(R.id.openingtimes);
+
 
             if (clickedClusterItem != null || clickedClusterItem2 != null) {
                 if (wifiBoolean) {
@@ -364,13 +366,14 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                     tvSnippet.setText("Free Wifi HotSpot");
                     linearLayout.setVisibility(View.GONE);
                 } else {
+                    tvSnippet.setVisibility(View.GONE);
                     tvTitle.setText("Authority Information:");
                     location.setText(clickedClusterItem.getAddress());
                     phone.setText(clickedClusterItem.getPhone());
                     mail.setText(clickedClusterItem.getEmail());
                     homepage.setText(clickedClusterItem.getWebsite());
                     //Log.d("clickedClusterI: "+clickedClusterItem.getDetailText(),"");
-                    tvSnippet.setText(clickedClusterItem.getDetailText());
+                    openingtimes.setText(clickedClusterItem.getOpen_times());
 
 
                 }

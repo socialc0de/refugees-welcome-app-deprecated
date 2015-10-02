@@ -14,6 +14,7 @@ public class Authority implements ClusterItem{
     public Authority() {
 
     }
+    /*
     public String getDetailText() {
         String detail = "";
         //detail += address + "\n";
@@ -21,6 +22,10 @@ public class Authority implements ClusterItem{
         detail += "Opening times: " + open_times + "\n";
         //detail += "Data from " + source;
         return detail;
+    }*/
+
+    public String getOpen_times() {
+        return open_times;
     }
 
     public String getAddress() {

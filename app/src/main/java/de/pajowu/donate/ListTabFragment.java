@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-
+import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
+import android.support.v7.widget.LinearLayoutManager;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -43,20 +44,24 @@ public class ListTabFragment extends Fragment{
                              Bundle savedInstanceState) {
         Log.d("MainActivity","onCreateView ListTabFragment");
         // Inflate the layout for this fragment
-        View viewRoot = inflater.inflate(R.layout.fragment_list_tab, container, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_faqfragment, container, false);
 
-        ListView listView = (ListView) viewRoot.findViewById(R.id.listView);
-        View empty = viewRoot.findViewById(R.id.empty);
-        listView.setEmptyView(empty);
-        ScrollView scrollView = (ScrollView) viewRoot.findViewById(R.id.fragment_list_scrollView);
+        RecyclerView listView = (RecyclerView) viewRoot.findViewById(R.id.cardList);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listView.setLayoutManager(llm);
+
+        /*View empty = viewRoot.findViewById(R.id.empty);
+        listView.setEmptyView(empty);*/
 
         ListAdapter listAdapter = new ListAdapter(getActivity(), R.layout.list_layout, this.arrayList);
 
         Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
-        Log.d("R.layout.list_layout = ", ""+R.layout.list_layout);
+        Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
 
         listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setHasFixedSize(true);
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //primaryKeyValue = arrayList.get(position).primaryKey;
@@ -67,18 +72,15 @@ public class ListTabFragment extends Fragment{
                 Log.d("ListView Pos: ", ""+primaryKeyValue);
                 
             }
-        });
+        });*/
 
-        getTotalHeightofListView(listView, listAdapter);
-
-        // Make List scroll by default to top
-        scrollView.smoothScrollTo(0, 0);
+        //getTotalHeightofListView(listView, listAdapter);
 
 
         return viewRoot;
     }
 
-    public static void getTotalHeightofListView(ListView listView, ListAdapter listAdapter) {
+    /*public static void getTotalHeightofListView(RecyclerView listView, ListAdapter listAdapter) {
 
         int totalHeight = 0;
 
@@ -101,7 +103,7 @@ public class ListTabFragment extends Fragment{
         listView.setLayoutParams(params);
         listView.requestLayout();
 
-    }
+    }*/
     public String getTitle() {
         return title;
     }

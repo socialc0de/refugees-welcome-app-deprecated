@@ -25,7 +25,7 @@ import com.google.api.client.http.HttpRequestInitializer;
  */
 class CloudEndpointBuilderHelper {
   private static final boolean LOCAL_ANDROID_RUN = false;
-  private static final String LOCAL_APP_ENGINE_SERVER_URL = "http://192.168.42.46:8080";
+  private static final String LOCAL_APP_ENGINE_SERVER_URL = "http://10.0.0.8:8080";
   //Don't commit if the URL can not be reachsoed by others
 
   /**

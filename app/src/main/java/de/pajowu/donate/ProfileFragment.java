@@ -40,10 +40,16 @@ import android.net.Uri;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import android.util.Base64;
+import android.widget.TextView;
+
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     UserProtoImAddressName user_data;
     public Person appOwner;
-    public EditText textViewName, textViewPhone, textViewCity, textViewEmail, textViewWebsite;
+    public TextView textViewName;
+    public TextView textViewPhone;
+    public TextView textViewCity;
+    public TextView textViewEmail;
+    public EditText textViewWebsite;
     public FloatingActionButton editButton;
     private boolean editMode = false;
     private final String TAG = "MainActivity";
@@ -223,25 +229,26 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
         int complexUnitDip = TypedValue.COMPLEX_UNIT_DIP;
         float ht_px2 = TypedValue.applyDimension(complexUnitDip, 250, viewRoot.getResources().getDisplayMetrics());
-        textViewName = (EditText) viewRoot.findViewById(R.id.fragment_profile_name);
-        textViewPhone = (EditText) viewRoot.findViewById(R.id.fragment_profile_phone);
-        textViewCity = (EditText) viewRoot.findViewById(R.id.fragment_profile_city);
-        textViewEmail = (EditText) viewRoot.findViewById(R.id.fragment_profile_email);
-        textViewWebsite = (EditText) viewRoot.findViewById(R.id.fragment_profile_website);
+        textViewName = (TextView) viewRoot.findViewById(R.id.fragment_profile_name);
+        textViewPhone = (TextView) viewRoot.findViewById(R.id.fragment_profile_phone);
+        textViewCity = (TextView) viewRoot.findViewById(R.id.fragment_profile_city);
+        textViewEmail = (TextView) viewRoot.findViewById(R.id.fragment_profile_mail);
+        //textViewWebsite = (EditText) viewRoot.findViewById(R.id.fragment_profile_website);
 
-        textViewName.setEnabled(false);
-        textViewPhone.setEnabled(false);
-        
-        textViewCity.setEnabled(false);
-        textViewEmail.setEnabled(false);
-        textViewWebsite.setEnabled(false);
+        if (appOwner.phone.equals("") && appOwner.city.equals("") && appOwner.email.equals("")){
+            textViewPhone.setText("01575 064 5725");
+            textViewCity.setText("Frankfurt");
+            textViewEmail.setText("patrice@5becker.de");
+        }
+        else {
+            textViewPhone.setText(appOwner.phone);
 
+            textViewCity.setText(appOwner.city);
+            textViewEmail.setText(appOwner.email);
+        }
         textViewName.setText(appOwner.name);
-        textViewPhone.setText(appOwner.phone);
-        
-        textViewCity.setText(appOwner.city);
-        textViewEmail.setText(appOwner.email);
-        textViewWebsite.setText(appOwner.url);
+
+        //textViewWebsite.setText(appOwner.url);
     }
     public void loadFragmentData() {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();

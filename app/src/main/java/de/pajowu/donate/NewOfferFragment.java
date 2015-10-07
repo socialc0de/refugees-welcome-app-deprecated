@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-
+import android.text.TextUtils;
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.Category;
@@ -47,6 +47,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
+import android.graphics.PorterDuff;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -58,7 +59,7 @@ import java.util.List;
 
 //import de.pajowu.donate.*;
 
-public class NewOfferFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, OnDateSetListener {
+public class NewOfferFragment extends Fragment implements View.OnClickListener, OnDateSetListener {
     private final String TAG = "MainActivity";
     public ScrollView scrollView;
     public ExpandableGridView gridView;
@@ -71,7 +72,6 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     public static final int LOCATION_PICKER = 3;
     Bitmap offerImage;
     LatLng offerLoc;
-    GoogleMap map;
     String endDate;
     String cat;
 
@@ -92,15 +92,15 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_new_offer, container, false);
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         //Implementation of custom Toolbar
         Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
         submitButton.setOnClickListener(this);
+        submitButton.setEnabled(false);
+        submitButton.setAlpha(.3f);
+        Button chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
+        chooseCategoryButton.setOnClickListener(this);
         viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
-        Spinner spinner = (Spinner) viewRoot.findViewById(R.id.categories);
+        /*Spinner spinner = (Spinner) viewRoot.findViewById(R.id.categories);*/
         // Create an ArrayAdapter using the string array and a default spinner layout
 
         for (HashMap.Entry<String, Category> cat : ((MainActivity) getActivity()).categories.entrySet()) {
@@ -108,29 +108,10 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>(cats.keySet()));
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.spinner_item);
+        /*adapter.setDropDownViewResource(R.layout.spinner_item);*/
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        /*spinner.setAdapter(adapter);*/
 
-        MapView mapView = (MapView) viewRoot.findViewById(R.id.map);
-
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume(); //without this, map showed but was empty 
-
-        // Gets to GoogleMap from the MapView and does initialization stuff
-        map = mapView.getMap();
-        map.getUiSettings().setMyLocationButtonEnabled(false);
-        map.setMyLocationEnabled(true);
-
-
-        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-        try {
-            MapsInitializer.initialize(this.getActivity());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        onMapReady(map);
-        map.setOnMapClickListener(this);
         MaterialEditText enddate = (MaterialEditText) viewRoot.findViewById(R.id.end_date);
         enddate.setOnClickListener(this);
         enddate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -156,29 +137,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-        Log.d("MainActivity", "onMapReady");
-        setMap(map);
-    }
-
-    private void setMap(GoogleMap map) {
-        map.clear();
-        if (offerLoc == null) {
-            Location loc = getLocation();
-            if (loc != null) {
-                offerLoc = new LatLng(loc.getLatitude(), loc.getLongitude());
-            } else {
-                return;
-            }
-        }
-        map.setMyLocationEnabled(false);
-
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(offerLoc, 15));
-
-        map.addMarker(new MarkerOptions().position(offerLoc));
-
-    }
+    
 
     private void choosePic() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -232,14 +191,35 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.end_date:
                 chooseDate();
+            case R.id.choose_category:
+                chooseCategory();
         }
     }
+    public void chooseCategory() {
+        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+        b.setTitle("Example");
+        final String[] catkeys = cats.keySet().toArray(new String[0]);
+        b.setSingleChoiceItems(catkeys, -1, new AlertDialog.OnClickListener() {
 
-    @Override
-    public void onMapClick(LatLng point) {
-        choosePlace();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                cat = cats.get(catkeys[which]);
+                Log.d("MainActivity",cat);
+                if (cat != null) {
+                    Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
+                    submitButton.setEnabled(true); 
+                    submitButton.setAlpha(1f);
+                    //submitButton.setBackgroundColor(0xffff0000);//, PorterDuff.Mode.MULTIPLY);
+                }
+
+            }
+
+        });
+
+        b.show();
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data); 
@@ -264,14 +244,15 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                     offerLoc = place.getLatLng();
                     /*String toastMsg = String.format("Place: %s", place.getName());
                     Toast.makeText(getActivity().getApplicationContext(), toastMsg, Toast.LENGTH_LONG).show();*/
-                    setMap(map);
+                    //setMap(map);
                 }
             case LOCATION_PICKER:
                 Double selectedLat = data.getDoubleExtra(AppConfig.USER_LAT, 00);
                 Double selectedLon = data.getDoubleExtra(AppConfig.USER_LNG, 00);
                 //String selectedLocation=data.getStringExtra(AppConfig.USER_LOCATION);   
                 offerLoc = new LatLng(selectedLat, selectedLon);
-                setMap(map);
+                //setMap(map);
+                submit();
         }
     }
 
@@ -306,10 +287,33 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void submit() {
-        String title = ((MaterialEditText) viewRoot.findViewById(R.id.title)).getText().toString();
-        String subtitle = ((MaterialEditText) viewRoot.findViewById(R.id.subtitle)).getText().toString();
-        String desc = ((MaterialEditText) viewRoot.findViewById(R.id.desc)).getText().toString();
-        cat = cats.get(((Spinner) viewRoot.findViewById(R.id.categories)).getSelectedItem().toString());
+        MaterialEditText titleTextView = (MaterialEditText) viewRoot.findViewById(R.id.title);
+        String title = titleTextView.getText().toString();
+        Boolean error = false;
+        if (TextUtils.isEmpty(title)) {
+            titleTextView.setError("Please Enter Title");
+            error = true;
+        }
+        MaterialEditText subtitleTextView = (MaterialEditText) viewRoot.findViewById(R.id.subtitle);
+        String subtitle = subtitleTextView.getText().toString();
+        if (TextUtils.isEmpty(subtitle)) {
+            subtitleTextView.setError("Please Enter Subtitle");
+            error = true;
+        }
+        MaterialEditText descTextView = (MaterialEditText) viewRoot.findViewById(R.id.desc);
+        String desc = descTextView.getText().toString();
+        if (TextUtils.isEmpty(desc)) {
+            descTextView.setError("Please Enter Description");
+            error = true;
+        }
+        if (error) {
+            return;
+        }
+        if (offerLoc == null) {
+            choosePlace();
+            return;
+        }
+        /*cat = cats.get(((Spinner) viewRoot.findViewById(R.id.categories)).getSelectedItem().toString());*/
         OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate new_offer = new OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate();
         new_offer.setTitle(title);
         new_offer.setSubtitle(subtitle);

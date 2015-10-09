@@ -186,75 +186,74 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
     private void setUpClusterer(String cluster) {
         if (cluster.equals("wifi")) {
-            mClusterManager = new ClusterManager<WifiLocation>(getActivity(), mMap);
-            mMap.setOnCameraChangeListener(mClusterManager);
-            mClusterManager.setRenderer(new DefaultClusterRenderer<WifiLocation>(getActivity(), mMap, mClusterManager));
+            if (mClusterManager == null) {
+                mClusterManager = new ClusterManager<WifiLocation>(getActivity(), mMap);
+                mClusterManager.setRenderer(new DefaultClusterRenderer<WifiLocation>(getActivity(), mMap, mClusterManager));
+                mClusterManager.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
+                mClusterManager.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(true));
+                mClusterManager
+                        .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<WifiLocation>() {
+                            @Override
+                            public boolean onClusterClick(Cluster<WifiLocation> cluster) {
+                                clickedCluster2 = cluster;
+                                return false;
+                            }
+                        });
 
+                mClusterManager
+                        .setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<WifiLocation>() {
+                            @Override
+                            public boolean onClusterItemClick(WifiLocation item) {
+                                clickedClusterItem2 = item;
+                                return false;
+                            }
+                        });
+
+
+                mClusterManager.cluster();
+                CSVLoader csvLoader = new CSVLoader();
+                csvLoader.execute();
+            }
+            mMap.setOnCameraChangeListener(mClusterManager);
             mMap.setOnInfoWindowClickListener(mClusterManager);
             mMap.setInfoWindowAdapter(mClusterManager.getMarkerManager());
-            mClusterManager.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
-            mClusterManager.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(true));
             mMap.setOnMarkerClickListener(mClusterManager);
 
-            mClusterManager
-                    .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<WifiLocation>() {
-                        @Override
-                        public boolean onClusterClick(Cluster<WifiLocation> cluster) {
-                            clickedCluster2 = cluster;
-                            return false;
-                        }
-                    });
-
-            mClusterManager
-                    .setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<WifiLocation>() {
-                        @Override
-                        public boolean onClusterItemClick(WifiLocation item) {
-                            clickedClusterItem2 = item;
-                            return false;
-                        }
-                    });
-
-
-            mClusterManager.cluster();
-
-            CSVLoader csvLoader = new CSVLoader();
-            csvLoader.execute();
+            
         } else {
+            if (mClusterManager2 == null) {
+                mClusterManager2 = new ClusterManager<Authority>(getActivity(), mMap);
+                mClusterManager2.setRenderer(new MyClusterRenderer(getActivity(), mMap, mClusterManager2));
+                mClusterManager2.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
+                mClusterManager2.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(false));
+                
+                mClusterManager2
+                        .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Authority>() {
+                            @Override
+                            public boolean onClusterClick(Cluster<Authority> cluster) {
+                                clickedCluster = cluster;
+                                return false;
+                            }
+                        });
+
+                mClusterManager2
+                        .setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<Authority>() {
+                            @Override
+                            public boolean onClusterItemClick(Authority item) {
+                                clickedClusterItem = item;
+                                return false;
+                            }
+                        });
 
 
-            mClusterManager2 = new ClusterManager<Authority>(getActivity(), mMap);
+                mClusterManager2.cluster();
+
+                loadAuthoritiesFromAsset();
+            }
             mMap.setOnCameraChangeListener(mClusterManager2);
-            mClusterManager2.setRenderer(new MyClusterRenderer(getActivity(), mMap, mClusterManager2));
-
             mMap.setOnInfoWindowClickListener(mClusterManager2);
             mMap.setInfoWindowAdapter(mClusterManager2.getMarkerManager());
-            mClusterManager2.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
-            mClusterManager2.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(false));
             mMap.setOnMarkerClickListener(mClusterManager2);
-
-            mClusterManager2
-                    .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Authority>() {
-                        @Override
-                        public boolean onClusterClick(Cluster<Authority> cluster) {
-                            clickedCluster = cluster;
-                            return false;
-                        }
-                    });
-
-            mClusterManager2
-                    .setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<Authority>() {
-                        @Override
-                        public boolean onClusterItemClick(Authority item) {
-                            clickedClusterItem = item;
-                            return false;
-                        }
-                    });
-
-
-            mClusterManager2.cluster();
-
-            loadAuthoritiesFromAsset();
-
         }
     }
 

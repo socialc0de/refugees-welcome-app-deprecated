@@ -1,9 +1,11 @@
 package de.pajowu.donate;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -12,36 +14,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
-import com.appspot.donate_backend.donate.*;
-import com.appspot.donate_backend.donate.Donate.*;
-import com.appspot.donate_backend.donate.model.*;
-import com.google.android.gms.maps.model.LatLng;
+import com.appspot.donate_backend.donate.Donate;
+import com.appspot.donate_backend.donate.Donate.Builder;
+import com.appspot.donate_backend.donate.model.UserProtoAddressImInterest;
+import com.appspot.donate_backend.donate.model.UserProtoImAddressName;
+import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.github.androidprogresslayout.ProgressLayout;
-import java.util.ArrayList;
-import org.json.JSONArray;
-import java.util.List;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.Map;
-import org.json.JSONException;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import android.util.Base64;
-import android.widget.TextView;
+import com.melnykov.fab.FloatingActionButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     UserProtoImAddressName user_data;
     public Person appOwner;
@@ -54,7 +48,8 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
     private boolean editMode = false;
     private final String TAG = "MainActivity";
     View viewRoot;
-    Map<String,Object> im;
+    Map<String, Object> im;
+
     public ProfileFragment(Person appOwner) {
         this.appOwner = appOwner;
     }
@@ -85,23 +80,24 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
         return viewRoot;
     }
+
     private void updateUser() {
         try {
             final UserProtoAddressImInterest user = new UserProtoAddressImInterest();
             JSONObject im_json = new JSONObject();
             JSONObject phone = new JSONObject();
-            phone.put("url","tel:"+appOwner.phone);
-            phone.put("display",appOwner.phone);
+            phone.put("url", "tel:" + appOwner.phone);
+            phone.put("display", appOwner.phone);
             JSONObject email = new JSONObject();
-            email.put("url","mailto:"+appOwner.email);
-            email.put("display",appOwner.email);
+            email.put("url", "mailto:" + appOwner.email);
+            email.put("display", appOwner.email);
             JSONObject website = new JSONObject();
-            website.put("url",appOwner.url);
-            website.put("display",appOwner.url);
-            im_json.put("mail",email);
-            im_json.put("phone",phone);
-            im_json.put("web",website);
-            Log.d(TAG,im_json.toString());
+            website.put("url", appOwner.url);
+            website.put("display", appOwner.url);
+            im_json.put("mail", email);
+            im_json.put("phone", phone);
+            im_json.put("web", website);
+            Log.d(TAG, im_json.toString());
             user.setIm(im_json.toString());
             if (appOwner.city != null) {
                 user.setAddress(appOwner.city);
@@ -116,7 +112,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
                     Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                    
+
                     try {
                         user_data = service.user().update(user).execute(); //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)*/
                         //user_data = service.user().data().execute(); //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)*/
@@ -169,17 +165,18 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             };
             new Thread(runnable).start();
         } catch (Exception e) {
-            Log.d(TAG,"Error",e);
+            Log.d(TAG, "Error", e);
         }
-        
+
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_profile_editButton:
                 Log.d("EditButton: ", "pressed");
 
-                EditProfileFragment nextFrag= new EditProfileFragment();
+                EditProfileFragment nextFrag = new EditProfileFragment();
                 this.getFragmentManager().beginTransaction()
                         .replace(R.id.container, nextFrag, null)
                         .addToBackStack(null)
@@ -222,7 +219,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
     }
 
     private void fillLayout() {
-        
+
         editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fragment_profile_editButton);
         editButton.setOnClickListener(this);
 
@@ -240,7 +237,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         textViewEmail = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_mail);
         //textViewWebsite = (EditText) viewRoot.findViewById(R.id.fragment_profile_website);
 
-        
+
         textViewPhone.setText(appOwner.phone);
         textViewCity.setText(appOwner.city);
         textViewEmail.setText(appOwner.email);
@@ -252,6 +249,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
         //textViewWebsite.setText(appOwner.url);
     }
+
     public void loadFragmentData() {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
         Runnable runnable = new Runnable() {
@@ -263,27 +261,27 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                
+
                 try {
                     user_data = service.user().data().execute(); //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)*/
-                    im =  jsonToMap(new JSONObject(user_data.getIm().toString()));
-                    appOwner = new Person("","","","","","");
+                    im = jsonToMap(new JSONObject(user_data.getIm().toString()));
+                    appOwner = new Person("", "", "", "", "", "");
                     if (im.get("gplus") != null) {
-                        appOwner.name = ((HashMap<String,String>)im.get("gplus")).get("display");
+                        appOwner.name = ((HashMap<String, String>) im.get("gplus")).get("display");
                     }
                     if (im.get("phone") != null) {
-                        appOwner.phone = ((HashMap<String,String>)im.get("phone")).get("display");
+                        appOwner.phone = ((HashMap<String, String>) im.get("phone")).get("display");
                     }
                     if (im.get("mail") != null) {
-                        appOwner.email = ((HashMap<String,String>)im.get("mail")).get("display");
+                        appOwner.email = ((HashMap<String, String>) im.get("mail")).get("display");
                     }
                     if (im.get("web") != null) {
-                        appOwner.url = ((HashMap<String,String>)im.get("web")).get("display");
+                        appOwner.url = ((HashMap<String, String>) im.get("web")).get("display");
                     }
                     if (user_data.getAddress() != null) {
                         appOwner.city = user_data.getAddress();
                     }
-                    Log.d(TAG,user_data.toString());
+                    Log.d(TAG, user_data.toString());
 
                     // Do NOT use the same variable name for different things, just as dummy and database content
 /*
@@ -334,10 +332,11 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         };
         new Thread(runnable).start();
     }
+
     public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
         Map<String, Object> retMap = new HashMap<String, Object>();
 
-        if(json != JSONObject.NULL) {
+        if (json != JSONObject.NULL) {
             retMap = toMap(json);
         }
         return retMap;
@@ -347,15 +346,13 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         Map<String, Object> map = new HashMap<String, Object>();
 
         Iterator<String> keysItr = object.keys();
-        while(keysItr.hasNext()) {
+        while (keysItr.hasNext()) {
             String key = keysItr.next();
             Object value = object.get(key);
 
-            if(value instanceof JSONArray) {
+            if (value instanceof JSONArray) {
                 value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 value = toMap((JSONObject) value);
             }
             map.put(key, value);
@@ -365,31 +362,32 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
     public static List<Object> toList(JSONArray array) throws JSONException {
         List<Object> list = new ArrayList<Object>();
-        for(int i = 0; i < array.length(); i++) {
+        for (int i = 0; i < array.length(); i++) {
             Object value = array.get(i);
-            if(value instanceof JSONArray) {
+            if (value instanceof JSONArray) {
                 value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
+            } else if (value instanceof JSONObject) {
                 value = toMap((JSONObject) value);
             }
             list.add(value);
         }
         return list;
     }
+
     private void disableTextView(MaterialEditText met) {
         met.setFocusable(false);
         met.setFocusableInTouchMode(false);
         met.setClickable(false);
         met.setHideUnderline(true);
     }
+
     private void enableTextView(MaterialEditText met) {
         met.setFocusable(true);
         met.setFocusableInTouchMode(true);
         met.setClickable(true);
         met.setHideUnderline(false);
     }
+
     /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { 
         //super.onActivityResult(requestCode, resultCode, data); 
@@ -423,11 +421,11 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                 break;
         }
     }*/
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
 }

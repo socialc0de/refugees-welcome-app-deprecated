@@ -56,6 +56,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import android.view.WindowManager;
 
 //import de.pajowu.donate.*;
 
@@ -74,7 +75,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     LatLng offerLoc;
     String endDate;
     String cat;
-
+    Button chooseCategoryButton;
     public NewOfferFragment(Context context, ArrayList<ListItem> arrayList) {
         this.mContext = context;
         this.arrayList = arrayList;
@@ -97,7 +98,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         submitButton.setOnClickListener(this);
         submitButton.setEnabled(false);
         submitButton.setAlpha(.3f);
-        Button chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
+        chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
         chooseCategoryButton.setOnClickListener(this);
         viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
         /*Spinner spinner = (Spinner) viewRoot.findViewById(R.id.categories);*/
@@ -122,17 +123,6 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                 }
             }
         });
-        // Gets to GoogleMap from the MapView and does initialization stuff
-        /*GoogleMap map = mapView.getMap();
-        map.getUiSettings().setMyLocationButtonEnabled(false);
-        map.setMyLocationEnabled(true);*/
-        //choosePlace();
-        /*if (arrayList != null) {
-            fillLayout();
-        } else {
-            loadFragmentData();
-        }*/
-
         return viewRoot;
 
     }
@@ -146,13 +136,6 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void choosePlace() {
-        /*try {
-            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-            Context context = getActivity().getApplicationContext();
-            startActivityForResult(builder.build(context), PLACE_PICKER_REQUEST);
-        } catch (Exception e) {
-
-        }*/
         Intent pickup = new Intent(getActivity().getApplicationContext(), LocationPickerActivity.class);
         pickup.putExtra("lat", "32");
         pickup.putExtra("lon", "32");
@@ -213,7 +196,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                     submitButton.setAlpha(1f);
                     //submitButton.setBackgroundColor(0xffff0000);//, PorterDuff.Mode.MULTIPLY);
                 }
-
+                chooseCategoryButton.setText(catkeys[which]);
             }
 
         });

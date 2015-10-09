@@ -41,14 +41,14 @@ import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import android.util.Base64;
 import android.widget.TextView;
-
+import com.rengwuxian.materialedittext.MaterialEditText;
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     UserProtoImAddressName user_data;
     public Person appOwner;
-    public TextView textViewName;
-    public TextView textViewPhone;
-    public TextView textViewCity;
-    public TextView textViewEmail;
+    public MaterialEditText textViewName;
+    public MaterialEditText textViewPhone;
+    public MaterialEditText textViewCity;
+    public MaterialEditText textViewEmail;
     public EditText textViewWebsite;
     public FloatingActionButton editButton;
     private boolean editMode = false;
@@ -183,25 +183,24 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                     editMode = true;
                     editButton.setImageResource(R.drawable.ic_done_white);
 
-                    //textViewName.setEnabled(true);
-                    textViewPhone.setEnabled(true);
-                    
-                    textViewCity.setEnabled(true);
-                    textViewEmail.setEnabled(true);
-                    textViewWebsite.setEnabled(true);
+                    enableTextView(textViewName);
+                    enableTextView(textViewPhone);
+                    enableTextView(textViewCity);
+                    enableTextView(textViewEmail);
+                    //textViewWebsite.setEnabled(true);
 
                 } else if (editMode) {
                     
                     appOwner.phone = textViewPhone.getText().toString();
                     appOwner.city = textViewCity.getText().toString();
                     appOwner.email = textViewEmail.getText().toString();
-                    appOwner.url = textViewWebsite.getText().toString();
+                    //appOwner.url = textViewWebsite.getText().toString();
 
-                    textViewName.setEnabled(false);
-                    textViewPhone.setEnabled(false);
-                    textViewCity.setEnabled(false);
-                    textViewEmail.setEnabled(false);
-                    textViewWebsite.setEnabled(false);
+                    disableTextView(textViewName);
+                    disableTextView(textViewPhone);
+                    disableTextView(textViewCity);
+                    disableTextView(textViewEmail);
+                    //textViewWebsite.setEnabled(false);
 
 
                     editButton.setImageResource(R.drawable.ic_mode_edit_white);
@@ -229,20 +228,19 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
         int complexUnitDip = TypedValue.COMPLEX_UNIT_DIP;
         float ht_px2 = TypedValue.applyDimension(complexUnitDip, 250, viewRoot.getResources().getDisplayMetrics());
-        textViewName = (TextView) viewRoot.findViewById(R.id.fragment_profile_name);
-        textViewPhone = (TextView) viewRoot.findViewById(R.id.fragment_profile_phone);
-        textViewCity = (TextView) viewRoot.findViewById(R.id.fragment_profile_city);
-        textViewEmail = (TextView) viewRoot.findViewById(R.id.fragment_profile_mail);
+        textViewName = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_name);
+        textViewPhone = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_phone);
+        textViewCity = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_city);
+        textViewEmail = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_mail);
         //textViewWebsite = (EditText) viewRoot.findViewById(R.id.fragment_profile_website);
 
-        if (appOwner.phone.equals("") && appOwner.city.equals("") && appOwner.email.equals("")){
+        if (appOwner.phone.equals("") || appOwner.city.equals("") || appOwner.email.equals("")){
             textViewPhone.setText("01575 064 5725");
             textViewCity.setText("Frankfurt");
             textViewEmail.setText("patrice@5becker.de");
         }
         else {
             textViewPhone.setText(appOwner.phone);
-
             textViewCity.setText(appOwner.city);
             textViewEmail.setText(appOwner.email);
         }
@@ -375,6 +373,18 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             list.add(value);
         }
         return list;
+    }
+    private void disableTextView(MaterialEditText met) {
+        met.setFocusable(false);
+        met.setFocusableInTouchMode(false);
+        met.setClickable(false);
+        met.setHideUnderline(true);
+    }
+    private void enableTextView(MaterialEditText met) {
+        met.setFocusable(true);
+        met.setFocusableInTouchMode(true);
+        met.setClickable(true);
+        met.setHideUnderline(false);
     }
     /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { 

@@ -6,47 +6,46 @@
     android:layout_height="match_parent"
     progressLayout:progress="false"
     progressLayout:progressBackground="#DDDDDD">
-
-    <FrameLayout
-        android:id="@+id/fragment_profile_frameLayoutContent"
+    <RelativeLayout 
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profile" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_profile_name"
-            android:textSize="30sp"
-            android:layout_marginLeft="25dp"
-            android:textColor="@color/textWhite"
-            android:layout_marginTop="185dp"
-            android:layout_gravity="top|left"
-            android:text="Sandra Houston"/>
-
-
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="192dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile" 
+                android:id="@+id/profileImage"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_profile_name"
+                android:textSize="30sp"
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/textWhite"
+                android:layout_alignBottom="@id/profileImage"
+                android:layout_gravity="top|left"
+                android:text="Sandra Houston"/>
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="100dp"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_below="@id/profileImage">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:orientation="horizontal"
                 android:paddingBottom="30dp"
                 android:weightSum="4">
 
                 <LinearLayout
+                    android:paddingTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -66,7 +65,7 @@
                     android:gravity="right"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/fragment_profile_phone"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -98,6 +97,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:paddingTop="10dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -116,7 +116,7 @@
                     android:gravity="right"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/fragment_profile_mail"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -148,6 +148,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:paddingTop="10dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -166,7 +167,7 @@
                     android:gravity="right"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/fragment_profile_city"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -190,19 +191,18 @@
 
 
         </LinearLayout>
-
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fragment_profile_editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_gravity="right|bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_mode_edit_white"
             fab:fab_colorNormal="@color/accentColor"
             fab:fab_colorPressed="@color/accentColor2" />
-    </FrameLayout>
+    </RelativeLayout>
 
 
     <!--<View

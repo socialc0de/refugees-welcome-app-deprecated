@@ -133,6 +133,7 @@
                         app:rd_enable="true"
                         android:id="@+id/submit"
                         android:textColor="@color/textWhite"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
             </RelativeLayout>

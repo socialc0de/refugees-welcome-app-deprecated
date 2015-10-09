@@ -234,16 +234,14 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         textViewEmail = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_mail);
         //textViewWebsite = (EditText) viewRoot.findViewById(R.id.fragment_profile_website);
 
-        if (appOwner.phone.equals("") || appOwner.city.equals("") || appOwner.email.equals("")){
-            textViewPhone.setText("01575 064 5725");
-            textViewCity.setText("Frankfurt");
-            textViewEmail.setText("patrice@5becker.de");
-        }
-        else {
-            textViewPhone.setText(appOwner.phone);
-            textViewCity.setText(appOwner.city);
-            textViewEmail.setText(appOwner.email);
-        }
+        
+        textViewPhone.setText(appOwner.phone);
+        textViewCity.setText(appOwner.city);
+        textViewEmail.setText(appOwner.email);
+        disableTextView(textViewName);
+        disableTextView(textViewPhone);
+        disableTextView(textViewCity);
+        disableTextView(textViewEmail);
         textViewName.setText(appOwner.name);
 
         //textViewWebsite.setText(appOwner.url);

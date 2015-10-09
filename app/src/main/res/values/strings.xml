@@ -18,4 +18,7 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="please_sign_in">Please Sign In</string>
     <string name="cant_create_offer_if_not_signed_in">Without signing in you can\'t create new offers</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

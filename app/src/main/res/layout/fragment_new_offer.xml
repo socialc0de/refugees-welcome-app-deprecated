@@ -1,79 +1,87 @@
-<com.github.androidprogresslayout.ProgressLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+<com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/progress_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/progress_layout"
-    progressLayout:progressBackground="#DDDDDD"
-    progressLayout:progress="false">
+    progressLayout:progress="false"
+    progressLayout:progressBackground="#DDDDDD">
+
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
+            android:paddingBottom="-5dp"
             android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="-5dp">
+            android:paddingRight="0dp">
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6.4"
                 android:orientation="vertical">
+
                 <ImageView
                     android:id="@+id/offerImage"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_image"/>
+                    android:src="@drawable/add_image" />
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="4">
+
                 <ScrollView
                     android:id="@+id/fragment_list_scrollView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:scrollbars="none"
                     android:layout_above="@+id/rel"
-                    android:overScrollMode="never">
+                    android:overScrollMode="never"
+                    android:scrollbars="none">
+
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:orientation="vertical"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp">
+
                         <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Title"
-                            android:id="@+id/title"
                             app:met_baseColor="?colorPrimary"
                             app:met_floatingLabel="highlight"
-                            app:met_primaryColor="?colorAccent"/>
+                            app:met_primaryColor="?colorAccent" />
+
                         <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/subtitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Subtitle"
-                            android:id="@+id/subtitle"
                             app:met_baseColor="?colorPrimary"
                             app:met_floatingLabel="highlight"
-                            app:met_primaryColor="?colorAccent"/>
+                            app:met_primaryColor="?colorAccent" />
+
                         <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/desc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="top"
                             android:hint="Description"
-                            android:id="@+id/desc"
+                            android:inputType="textMultiLine"
+                            android:lines="3"
                             app:cbd_strokeColor="?colorPrimary"
                             app:met_baseColor="?colorPrimary"
                             app:met_floatingLabel="highlight"
-                            app:met_primaryColor="?colorAccent"
-                            android:inputType="textMultiLine"
-                            android:lines="3"
-                            android:gravity="top"/>
+                            app:met_primaryColor="?colorAccent" />
 
                         <!--<com.google.android.gms.maps.MapView
                             android:id="@+id/map"
@@ -86,39 +94,43 @@
                             android:layout_height="match_parent"
                             class="com.google.android.gms.maps.SupportMapFragment"/>-->
                         <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/end_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="End date of Offer"
-                            android:id="@+id/end_date"
                             app:met_baseColor="?colorPrimary"
                             app:met_floatingLabel="highlight"
-                            app:met_primaryColor="?colorAccent"/>
+                            app:met_primaryColor="?colorAccent" />
                     </LinearLayout>
                 </ScrollView>
-                <RelativeLayout 
+
+                <RelativeLayout
+                    android:id="@+id/rel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="25dp"
                     android:paddingBottom="5dp"
-                    android:paddingTop="0dp"
-                    android:id="@+id/rel">
-                    <View android:id="@+id/strut"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="0dp">
+
+                    <View
+                        android:id="@+id/strut"
                         android:layout_width="0dp"
-                        android:layout_height="0dp" 
-                        android:layout_centerHorizontal="true"/>
+                        android:layout_height="0dp"
+                        android:layout_centerHorizontal="true" />
+
                     <Button
+                        android:id="@+id/choose_category"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Choose Category"
-                        app:rd_enable="true"
-                        app:rd_backgroundColor="@color/accentColor"
-                        android:id="@+id/choose_category"
-                        android:layout_alignRight="@id/strut"
                         android:layout_alignParentLeft="true"
+                        android:layout_alignRight="@id/strut"
+                        android:text="Choose Category"
                         android:textColor="@color/accentColor"
-                        style="?android:attr/borderlessButtonStyle"/>
+                        app:rd_backgroundColor="@color/accentColor"
+                        app:rd_enable="true" />
                     <!--<Spinner
                         android:spinnerMode="dialog"
                         android:id="@+id/categories"
@@ -127,17 +139,18 @@
                         android:paddingTop="7dp"
                         android:paddingBottom="7dp"/>-->
                     <Button
+                        android:id="@+id/submit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SUBMIT"
-                        app:rd_enable="true"
-                        android:id="@+id/submit"
-                        android:textColor="@color/textWhite"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"/>
+                        android:text="SUBMIT"
+                        android:textColor="@color/textWhite"
+                        app:rd_enable="true" />
                 </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"

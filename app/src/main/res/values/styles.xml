@@ -8,8 +8,11 @@
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:textColor">@color/textGrey</item>
         <item name="android:activatedBackgroundIndicator">@drawable/drawer_list_selector</item>
-        <item name="colorControlNormal">@color/textGrey</item>
+        <item name="colorControlNormal">@color/textGrey2</item>
         <item name="colorButtonNormal">@color/accentColor</item>
+
+        <item name="colorControlActivated">@color/accentColor</item>
+        <item name="colorControlHighlight">@color/accentColor</item>
     </style>
 
 </resources>

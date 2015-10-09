@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp"
+        tools:context="de.pajowu.donate.EditProfileFragment">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="30dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_grey600"
+                android:tint="@color/primaryColor" />
+
+            <EditText
+                android:id="@+id/editProfileName"
+                android:inputType="textNoSuggestions"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_photo_camera_grey600"
+                android:tint="@color/primaryColor" />
+
+            <ImageView
+                android:id="@+id/editProfileImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/add_image" />
+
+            <Button
+                android:id="@+id/editProfileEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="-5dp"
+                android:text="EDIT"
+                android:textColor="@color/textWhite"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_mail_grey600"
+                android:tint="@color/primaryColor" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editProfileEmailPersonal"
+                    android:inputType="textNoSuggestions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="E-Mail (Personal)" />
+
+                <EditText
+                    android:id="@+id/editProfileEmailWork"
+                    android:inputType="textNoSuggestions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="E-Mail (Work)" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_phone_grey600"
+                android:tint="@color/primaryColor" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editProfilePhonePersonal"
+                    android:inputType="textNoSuggestions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone (Personal)" />
+
+                <EditText
+                    android:id="@+id/editProfilePhoneWork"
+                    android:inputType="textNoSuggestions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone (Work)" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/editProfileFinished"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_done_white"
+        fab:fab_colorNormal="@color/accentColor"
+        fab:fab_colorPressed="@color/accentColor2" />
+</RelativeLayout>

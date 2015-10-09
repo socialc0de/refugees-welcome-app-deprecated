@@ -179,6 +179,12 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             case R.id.fragment_profile_editButton:
                 Log.d("EditButton: ", "pressed");
 
+                EditProfileFragment nextFrag= new EditProfileFragment();
+                this.getFragmentManager().beginTransaction()
+                        .replace(R.id.container, nextFrag, null)
+                        .addToBackStack(null)
+                        .commit();
+                /*
                 if (!editMode) {
                     editMode = true;
                     editButton.setImageResource(R.drawable.ic_done_white);
@@ -207,7 +213,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                     editMode = false;
                     updateUser();
 
-                }
+                }*/
 
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited

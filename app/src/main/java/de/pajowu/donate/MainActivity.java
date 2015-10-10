@@ -33,11 +33,7 @@ import android.view.View;
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.DonateScopes;
-import com.appspot.donate_backend.donate.model.Category;
-import com.appspot.donate_backend.donate.model.CategoryCollection;
-import com.appspot.donate_backend.donate.model.User;
-import com.appspot.donate_backend.donate.model.UserProto;
-import com.appspot.donate_backend.donate.model.UserProtoImAddressName;
+import com.appspot.donate_backend.donate.model.*;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -408,7 +404,7 @@ public class MainActivity extends FragmentActivity {
                             CloudEndpointBuilderHelper.getRequestInitializer());
 
                     Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
-                    UserProtoImAddressName result;
+                    UserProtoImAddressNameImageUrl result;
                     try {
                         result = service.user().data().execute();
                         Log.d("MainActivity", result.toString());

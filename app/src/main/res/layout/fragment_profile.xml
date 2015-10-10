@@ -54,7 +54,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_phone_grey600"
-                        android:tint="@color/primaryColor" />
+                        android:tint="@color/primaryColor" 
+                        android:id="@+id/profileImage"/>
 
                 </LinearLayout>
 

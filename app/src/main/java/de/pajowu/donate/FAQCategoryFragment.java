@@ -37,7 +37,7 @@ public class FAQCategoryFragment extends Fragment {
     private ArrayList<Object> childItems = new ArrayList<Object>();
     private View viewRoot;
     private String cat_id;
-    FAQItemCollection result;
+    FAQItemProtoQuestionAnswerLanguageCollection result;
     public FAQCategoryFragment(String cid) {
         // Required empty public constructor
         cat_id = cid;
@@ -58,7 +58,7 @@ public class FAQCategoryFragment extends Fragment {
             expandableList.setDividerHeight(2);
             expandableList.setGroupIndicator(null);
             expandableList.setClickable(true);
-            FAQCategoryAdapter adapter = new FAQCategoryAdapter(new ArrayList<FAQItem>(result.getItems()), getActivity().getApplicationContext());
+            FAQCategoryAdapter adapter = new FAQCategoryAdapter(new ArrayList<FAQItemProtoQuestionAnswerLanguage>(result.getItems()), getActivity().getApplicationContext());
             expandableList.setAdapter(adapter);
         } else {
             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("No Questions found");
@@ -79,7 +79,7 @@ public class FAQCategoryFragment extends Fragment {
                 
                 try {
                     result = service.faqitem().bycat().setCategory(cat_id).execute();
-                    /*offerList = new ArrayList<FAQItem>();
+                    /*offerList = new ArrayList<FAQItemProtoQuestionAnswerLanguage>();
                     if (result.getItems() != null) {
                         for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
                             ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());

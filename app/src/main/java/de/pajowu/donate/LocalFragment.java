@@ -147,7 +147,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                OfferProtoIdTitleSubtitleImageUrlsCategoriesCollection result;
+                OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
                 //LatLng loc = getLocation();
 
                 //Log.d("MainActivity", loc.toString());
@@ -168,7 +168,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                         Log.d("MainActivity", result.toString());
                         offerList = new ArrayList<ListItem>();
                         if (result.getItems() != null) {
-                            for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
+                            for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
                                 ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                                 String catstr = "";
                                 for (String cat : off.getCategories()) {

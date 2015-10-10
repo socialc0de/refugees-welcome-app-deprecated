@@ -16,8 +16,7 @@ import android.widget.EditText;
 
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.UserProtoAddressImInterest;
-import com.appspot.donate_backend.donate.model.UserProtoImAddressName;
+import com.appspot.donate_backend.donate.model.*;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -36,8 +35,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.widget.ImageView;
+import com.squareup.picasso.Picasso;
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
-    UserProtoImAddressName user_data;
+    UserProtoImAddressNameImageUrl user_data;
     public Person appOwner;
     public MaterialEditText textViewName;
     public MaterialEditText textViewPhone;
@@ -49,12 +50,14 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
     private final String TAG = "MainActivity";
     View viewRoot;
     Map<String, Object> im;
+    private boolean editModePossible = false;
 
     public ProfileFragment(Person appOwner) {
         this.appOwner = appOwner;
     }
 
     public ProfileFragment() {
+        editModePossible = true;
         Log.d("ProfFrag called: ", "no args");
 
     }
@@ -83,7 +86,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
     private void updateUser() {
         try {
-            final UserProtoAddressImInterest user = new UserProtoAddressImInterest();
+            final UserProtoAddressImInterestImage user = new UserProtoAddressImInterestImage();
             JSONObject im_json = new JSONObject();
             JSONObject phone = new JSONObject();
             phone.put("url", "tel:" + appOwner.phone);
@@ -176,11 +179,12 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             case R.id.fragment_profile_editButton:
                 Log.d("EditButton: ", "pressed");
 
-                EditProfileFragment nextFrag = new EditProfileFragment();
+                EditProfileFragment nextFrag = new EditProfileFragment(appOwner);
                 this.getFragmentManager().beginTransaction()
                         .replace(R.id.container, nextFrag, null)
                         .addToBackStack(null)
                         .commit();
+                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                 /*
                 if (!editMode) {
                     editMode = true;
@@ -237,6 +241,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         textViewEmail = (MaterialEditText) viewRoot.findViewById(R.id.fragment_profile_mail);
         //textViewWebsite = (EditText) viewRoot.findViewById(R.id.fragment_profile_website);
 
+        ImageView imageView = (ImageView) viewRoot.findViewById(R.id.profileImage);
 
         textViewPhone.setText(appOwner.phone);
         textViewCity.setText(appOwner.city);
@@ -246,7 +251,10 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         disableTextView(textViewCity);
         disableTextView(textViewEmail);
         textViewName.setText(appOwner.name);
-
+        if (appOwner.profileImage != null && appOwner.profileImage != "") {
+            Picasso.with(getActivity().getApplicationContext()).load(appOwner.profileImage).into(imageView);
+            imageView.setAlpha(0.7f);
+        }
         //textViewWebsite.setText(appOwner.url);
     }
 
@@ -280,6 +288,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                     }
                     if (user_data.getAddress() != null) {
                         appOwner.city = user_data.getAddress();
+                    }
+                    if (user_data.getImageUrl() != null) {
+                        appOwner.profileImage = user_data.getImageUrl();
                     }
                     Log.d(TAG, user_data.toString());
 

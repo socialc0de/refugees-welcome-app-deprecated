@@ -118,7 +118,7 @@ public class CategoryProductsFragment extends Fragment {
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                OfferProtoIdTitleSubtitleImageUrlsCategoriesCollection result;
+                OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
                 //Log.d("MainActivity", loc.toString());
                 if (loc != null)  {
 
@@ -135,7 +135,7 @@ public class CategoryProductsFragment extends Fragment {
                         result = service.offer().bycat().setCategories(Arrays.asList(cat_id)).setBbox(bbox).execute();
                         offerList = new ArrayList<ListItem>();
                         if (result.getItems() != null) {
-                            for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
+                            for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
                                 ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                                 String catstr = "";
                                 for (String cat : off.getCategories()) {

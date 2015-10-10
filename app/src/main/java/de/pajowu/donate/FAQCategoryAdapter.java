@@ -19,9 +19,9 @@ import android.content.Context;
 import android.util.Log;
 public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 
-    private ArrayList<FAQItem> items;
+    private ArrayList<FAQItemProtoQuestionAnswerLanguage> items;
     LayoutInflater inflater;
-    public FAQCategoryAdapter(ArrayList<FAQItem> items, Context context) {
+    public FAQCategoryAdapter(ArrayList<FAQItemProtoQuestionAnswerLanguage> items, Context context) {
         this.items = items;
         Log.d("MainActivity",items.toString());
         inflater = (LayoutInflater) context

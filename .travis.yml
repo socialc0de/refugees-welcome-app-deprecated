@@ -10,6 +10,7 @@ addons:
   ssh_known_hosts: pajowu.de
 before_install:
 - echo $super_secret_password | gpg --passphrase-fd 0 config.properties.gpg
+- echo $super_secret_password | gpg --passphrase-fd 0 app/fabric.properties.gpg
 after_success:
 - eval "$(ssh-agent -s)"
 - echo $super_secret_password | gpg --passphrase-fd 0 .travis/ssh_key.gpg

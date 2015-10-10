@@ -248,7 +248,12 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                     offer_data = service.offer().get(primaryKey).execute();
                     Log.d("MainActivity",offer_data.getOwner().toString());
                     im =  jsonToMap(new JSONObject(offer_data.getOwner().getIm().toString()));
-
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
+                            fillLayout();
+                        }
+                    });
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -259,13 +264,13 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                     Log.d("MainActivity", "e", e);
                 } catch (Exception e) {
                     Log.d("MainActivity", "e", e);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch offer. Please check your network connection and then try again.");
+                        }
+                    });
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
-                        fillLayout();
-                    }
-                });
+                
 
             }
         };

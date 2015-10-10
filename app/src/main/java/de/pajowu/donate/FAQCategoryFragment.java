@@ -104,7 +104,13 @@ public class FAQCategoryFragment extends Fragment {
                         }
                     }*/
                     Log.d("MainActivity",result.toString());
-
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
+                            fillLayout();
+                            
+                        }
+                    });
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -115,15 +121,12 @@ public class FAQCategoryFragment extends Fragment {
                     Log.d("MainActivity", "e", e);
                 } catch (Exception e) {
                     Log.d("MainActivity", "e", e);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch FAQ categories. Please check your network connection and then try again.");
+                        }
+                    });
                 }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
-                        fillLayout();
-                        
-                    }
-                });
             }
         };
         new Thread(runnable).start();

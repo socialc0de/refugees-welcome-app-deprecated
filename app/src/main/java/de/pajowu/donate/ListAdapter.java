@@ -28,7 +28,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         this.arrayList = arrayList;
         // Define Font for ListItem titles
         typeface1 = Typeface.createFromAsset(context.getAssets(), "ralewaybold.ttf");
-        Log.d("MainActivity",arrayList.toString());
     }
 
 // Create new views (invoked by the layout manager)
@@ -68,8 +67,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        Log.d("MainActivity",new Integer(arrayList.size()).toString());
-        return arrayList.size();
+        if (arrayList != null) {
+            return arrayList.size();
+        } else {
+            return 0;
+        }
     }
 
 // inner class to hold a reference to each item of RecyclerView

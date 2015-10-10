@@ -1,5 +1,6 @@
 local.properties
 config.properties
+app/fabric.properties
 app/build/
 build/
 .gradle/

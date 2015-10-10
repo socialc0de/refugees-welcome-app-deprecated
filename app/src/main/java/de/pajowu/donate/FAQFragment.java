@@ -111,6 +111,13 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     for (FAQCategory cat : result.getItems()) {
                         cats.put(cat.getId(), cat);
                     }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            fillLayout();
+                            ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showContent();
+                        }
+                    });
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -121,14 +128,13 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     Log.d("MainActivity", "e", e);
                 } catch (Exception e) {
                     Log.d("MainActivity", "e", e);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showErrorText("Could not fetch FAQ categories. Please check your network connection and then try again.");
+                        }
+                    });
                 }
 
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        fillLayout();
-                        ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showContent();
-                    }
-                });
             }
         };
         new Thread(runnable).start();

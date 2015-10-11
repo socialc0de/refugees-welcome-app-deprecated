@@ -137,7 +137,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         loadData(getLocation());
     }
     public void loadData(final Location loc) {
-        Log.d("MainActivity",loc.toString());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -222,28 +221,21 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         };
         new Thread(runnable).start();
     }
-    /*public LatLng getLocation() {
+    public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(bestProvider);
         Double lat, lon;
-        try {
-            lat = location.getLatitude();
-            lon = location.getLongitude();
-            return new LatLng(lat, lon);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-    public Location getLocation() {
+        return location;
+    }
+    /*public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         return location;
-    }
+    }*/
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

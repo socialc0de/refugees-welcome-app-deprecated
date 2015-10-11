@@ -47,8 +47,8 @@ android {
         applicationId "de.pajowu.donate"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "BETA"
     }
     buildTypes {
         release {
@@ -121,7 +121,7 @@ dependencies {
     // This is used by the Google HTTP client library.
     // compile(group: 'com.google.guava', name: 'guava', version: '18.0.+')
     compile 'com.google.maps.android:android-maps-utils:0.4'
-    compile('com.crashlytics.sdk.android:crashlytics:2.4.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
 }

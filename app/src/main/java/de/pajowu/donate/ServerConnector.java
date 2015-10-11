@@ -1,5 +1,3 @@
-
-
 package de.pajowu.donate;
 
 import java.io.BufferedReader;

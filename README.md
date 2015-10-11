@@ -8,4 +8,4 @@ It contains
 - a Authority Map, with a Navigation to important Places for Refugees
 - a FAQ with much Information for Refugees
 
-
+### This App uses Tracking to optimize the user experience.

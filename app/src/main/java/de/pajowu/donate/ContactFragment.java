@@ -38,7 +38,7 @@ public class ContactFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("MainActivity","onCreateView");
+        Log.d("GSW MainActivity","onCreateView");
         View viewRoot = inflater.inflate(R.layout.fragment_contact, container, false);
         recyclerView = (RecyclerView) viewRoot.findViewById(R.id.contact_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));

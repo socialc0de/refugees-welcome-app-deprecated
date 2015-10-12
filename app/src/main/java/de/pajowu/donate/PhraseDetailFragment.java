@@ -42,7 +42,7 @@ import android.content.DialogInterface;
 import com.melnykov.fab.FloatingActionButton;
 import android.util.TypedValue;
 public class PhraseDetailFragment extends android.support.v4.app.Fragment{
-    private final String TAG = "MainActivity";
+    private final String TAG = "GSW MainActivity";
     private View viewRoot;
     //TODO Get Labels, Sub_labels, categories, images, objects
     HashMap<String,String> translations;

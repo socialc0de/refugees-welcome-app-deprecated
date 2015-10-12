@@ -23,7 +23,7 @@ public class FAQCategoryAdapter extends BaseExpandableListAdapter {
     LayoutInflater inflater;
     public FAQCategoryAdapter(ArrayList<FAQItemProtoQuestionAnswerLanguage> items, Context context) {
         this.items = items;
-        Log.d("MainActivity",items.toString());
+        Log.d("GSW MainActivity",items.toString());
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

@@ -23,7 +23,7 @@ public class AboutFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.fragment_about, container, false);
         try {
             TextView aboutTextView = (TextView)inflatedView.findViewById(R.id.about);
-            InputStream is = getActivity().getAssets().open("about.html");
+            InputStream is = getActivity().getAssets().open(getString(R.string.about_filename));
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

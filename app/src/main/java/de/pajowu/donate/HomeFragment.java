@@ -98,7 +98,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesCollection result;
                 try {
                     result = service.offer().top().execute();
-                    Log.d("MainActivity", result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                     // Do NOT use the same variable name for different things, just as dummy and database content
                     arrayList = new ArrayList<ListItem>();
 
@@ -121,7 +121,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                         }
                         arrayList.add(li);
                     }
-                    Log.d("MainActivity", arrayList.toString());
+                    Log.d("GSW MainActivity", arrayList.toString());
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -129,9 +129,9 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 }
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
@@ -148,7 +148,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 //((MaterialNavigationDrawer) getActivity()).setFragment(new NewOfferFragment(mContext),"New Offer");
                 //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it

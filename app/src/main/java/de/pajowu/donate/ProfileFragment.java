@@ -47,7 +47,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
     public EditText textViewWebsite;
     public FloatingActionButton editButton;
     private boolean editMode = false;
-    private final String TAG = "MainActivity";
+    private final String TAG = "GSW MainActivity";
     View viewRoot;
     Map<String, Object> im;
     private boolean editModePossible = false;
@@ -123,9 +123,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
@@ -246,9 +246,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch profile. Please check your network connection and then try again.");

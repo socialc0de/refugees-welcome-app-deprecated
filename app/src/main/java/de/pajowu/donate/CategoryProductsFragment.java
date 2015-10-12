@@ -55,7 +55,7 @@ public class CategoryProductsFragment extends Fragment {
     }
     public void fillLayout() {
         ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-        tbs.add(new ListTabFragment(this.offerList, "Offer"));
+        tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
         ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
  
         // Assigning ViewPager View and setting the adapter
@@ -133,9 +133,9 @@ public class CategoryProductsFragment extends Fragment {
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -147,7 +147,7 @@ public class CategoryProductsFragment extends Fragment {
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't get Location");
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_location));
                         }
                     });
                 }

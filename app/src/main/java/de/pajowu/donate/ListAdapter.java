@@ -55,12 +55,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         viewHolder.subtitle.setText(currentData.subtitle);
         viewHolder.category.setText(currentData.category);
         if (currentData.resourceImage != null && currentData.resourceImage != ""){
-            Log.d("MainActivity",currentData.toString());
+            Log.d("GSW MainActivity",currentData.toString());
             Picasso.with(this.context).load(currentData.resourceImage).into(viewHolder.imgV);
         } else if (currentData.image != 0){
             Picasso.with(this.context).load(currentData.image).into(viewHolder.imgV);
         }
-        Log.d("MainActivity","onBindViewHolder");
+        Log.d("GSW MainActivity","onBindViewHolder");
 
     }
 
@@ -92,7 +92,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         }
         @Override
         public void onClick(View view) {
-            Log.d("MainActivity","position = " + getPosition());
+            Log.d("GSW MainActivity","position = " + getPosition());
             ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(context, arrayList.get(getPosition()).primaryKey)).addToBackStack(null).commit();
             ((MainActivity)context).mDrawer.setSelection(-1, false);
         }

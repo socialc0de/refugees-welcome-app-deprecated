@@ -44,7 +44,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     private Button editButton;
     private FloatingActionButton finishedButton;
     public static final int CHOOSE_PROFILE_PIC = 1;
-    public static final String TAG = "MainActivity";
+    public final String TAG = "GSW MainActivity";
     private View viewRoot;
     UserProtoImAddressNameImageUrl user_data;
     Bitmap profilePicture;
@@ -72,10 +72,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         name = (MaterialEditText) viewRoot.findViewById(R.id.editProfileName);
         disableTextView(name);
         emailPersonal = (MaterialEditText) viewRoot.findViewById(R.id.editProfileEmailPersonal);
-        emailPersonal.addValidator(new RegexpValidator("Email not valid","^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"));
+        emailPersonal.addValidator(new RegexpValidator(getString(R.string.email_invalid),"^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"));
         //emailWork = (MaterialEditText) view.findViewById(R.id.editProfileEmailWork);
         phonePersonal = (MaterialEditText) viewRoot.findViewById(R.id.editProfilePhonePersonal);
-        phonePersonal.addValidator(new RegexpValidator("Phone number not valid (only digits, starting with country code)","^(\\+|00)[0-9]*$"));
+        phonePersonal.addValidator(new RegexpValidator(getString(R.string.phone_invalid),"^(\\+|00)[0-9]*$"));
         //phoneWork = (MaterialEditText) view.findViewById(R.id.editProfilePhoneWork);
         location = (MaterialEditText) viewRoot.findViewById(R.id.editProfileLocation);
         // ImageView
@@ -180,9 +180,9 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
 
 
 
@@ -266,7 +266,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                         profilePicture = BitmapFactory.decodeStream(imageStream);
                         Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, ((ImageView)viewRoot.findViewById(R.id.editProfileImage)).getWidth()).into((ImageView)viewRoot.findViewById(R.id.editProfileImage));
                     } catch (Exception e) {
-                        Log.d("MainActivity","e",e);
+                        Log.d("GSW MainActivity","e",e);
                     }
                     
                 }

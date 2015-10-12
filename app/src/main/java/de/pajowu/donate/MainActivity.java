@@ -180,7 +180,7 @@ public class MainActivity extends FragmentActivity {
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.setTitle(R.string.are_you_sure);
                     alert.setMessage(R.string.not_all_features);
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             startMainActivity();
                         }
@@ -223,7 +223,7 @@ public class MainActivity extends FragmentActivity {
      */
     private void onSignedIn(String accountName) {
         SharedPreferences settings = getSharedPreferences("refugees", 0);
-        Log.d("MainActivity", accountName);
+        Log.d("GSW MainActivity", accountName);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(ACCOUNT_NAME_SETTING_NAME, accountName);
         editor.commit();
@@ -240,14 +240,14 @@ public class MainActivity extends FragmentActivity {
                 User result;
                 try {
                     result = service.user().create(new UserProto()).execute();
-                    Log.d("MainAc login", result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                     runOnUiThread(new Runnable() {
                         public void run() {
                             startMainActivity();
                         }
                     });
                 } catch (UserRecoverableAuthIOException e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                     final UserRecoverableAuthIOException e2 = e;
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -256,7 +256,7 @@ public class MainActivity extends FragmentActivity {
                     });
 
                 } catch (IOException e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 }
             }
         };
@@ -355,7 +355,7 @@ public class MainActivity extends FragmentActivity {
                 CategoryCollection result;
                 try {
                     result = service.cat().list().execute();
-                    Log.d("MainActivity", result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                     if (result.getItems() != null) {
                         for (Category cat : result.getItems()) {
                             categories.put(cat.getId(), cat);
@@ -370,9 +370,9 @@ public class MainActivity extends FragmentActivity {
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 }
             }
         };
@@ -394,7 +394,7 @@ public class MainActivity extends FragmentActivity {
                     UserProtoImAddressNameImageUrl result;
                     try {
                         result = service.user().data().execute();
-                        Log.d("MainActivity", result.toString());
+                        Log.d("GSW MainActivity", result.toString());
                         Map<String, Object> im = jsonToMap(new JSONObject(result.getIm().toString()));
                         gplus_url = (String) ((HashMap) im.get("gplus")).get("url");
                         mTinyDB.putString("gplus_url", gplus_url);
@@ -405,9 +405,9 @@ public class MainActivity extends FragmentActivity {
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
 
                 }

@@ -61,7 +61,7 @@ public class FAQCategoryFragment extends Fragment {
             FAQCategoryAdapter adapter = new FAQCategoryAdapter(new ArrayList<FAQItemProtoQuestionAnswerLanguage>(result.getItems()), getActivity().getApplicationContext());
             expandableList.setAdapter(adapter);
         } else {
-            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("No Questions found");
+            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_questions));
         }
         
     }
@@ -79,7 +79,7 @@ public class FAQCategoryFragment extends Fragment {
                 
                 try {
                     result = service.faqitem().bycat().setCategory(cat_id).execute();
-                    Log.d("MainActivity",result.toString());
+                    Log.d("GSW MainActivity",result.toString());
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
@@ -94,9 +94,9 @@ public class FAQCategoryFragment extends Fragment {
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch FAQ categories. Please check your network connection and then try again.");

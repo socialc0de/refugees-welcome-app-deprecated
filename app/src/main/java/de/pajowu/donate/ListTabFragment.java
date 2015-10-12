@@ -32,17 +32,17 @@ public class ListTabFragment extends Fragment{
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("MainActivity","onPause");
+        Log.d("GSW MainActivity","onPause");
     }
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("MainActivity","onResume");
+        Log.d("GSW MainActivity","onResume");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("MainActivity","onCreateView ListTabFragment");
+        Log.d("GSW MainActivity","onCreateView ListTabFragment");
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_faqfragment, container, false);
 

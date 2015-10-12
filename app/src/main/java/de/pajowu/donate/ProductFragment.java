@@ -41,7 +41,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import com.melnykov.fab.FloatingActionButton;
 public class ProductFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
-    private final String TAG = "MainActivity";
+    private final String TAG = "GSW MainActivity";
     private View viewRoot;
     //TODO Get Labels, Sub_labels, categories, images, objects
     Context mContext;
@@ -53,7 +53,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
     public ProductFragment(Context context, Long pk) {
         this.mContext = context;
         this.primaryKey = pk;
-        Log.d("MainActivity",new Long(pk).toString());
+        Log.d("GSW MainActivity",new Long(pk).toString());
     }
 
     @Override
@@ -113,13 +113,13 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
     }
     @Override
     public void onClick(View v) {
-        Log.d("MainActivity gp1",gplus_url);
-        Log.d("MainActivity gp2",((MainActivity)getActivity()).gplus_url);
+        Log.d("GSW MainActivity",gplus_url);
+        Log.d("GSW MainActivity",((MainActivity)getActivity()).gplus_url);
         if (gplus_url.equals(((MainActivity)getActivity()).gplus_url)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-            alert.setTitle("Are you sure?");
-            alert.setMessage("Are you sure that you want to delete your offer?");
-            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            alert.setTitle(getString(R.string.sure));
+            alert.setMessage(getString(R.string.sure_delete_offer));
+            alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
                     Runnable runnable = new Runnable() {
@@ -139,9 +139,9 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                                         startActivityForResult(e2.getIntent(), 2);
                                     }
                                 });
-                                Log.d("MainActivity", "e", e);
+                                Log.d("GSW MainActivity", "e", e);
                             } catch (Exception e) {
-                                Log.d("MainActivity", "e", e);
+                                Log.d("GSW MainActivity", "e", e);
                             }
                             getActivity().runOnUiThread(new Runnable() {
                                 public void run() {
@@ -158,7 +158,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                 new Thread(runnable).start();
                 }
             });
-            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                 }
@@ -173,7 +173,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
         
     }
     private void fillLayout() {
-        Log.d("MainActivity",((MainActivity)getActivity()).gplus_url);
+        Log.d("GSW MainActivity",((MainActivity)getActivity()).gplus_url);
         ImageView imageView = (ImageView) getActivity().findViewById(R.id.fragment_product_mainImage);
         getActivity().findViewById(R.id.fragment_product_messageButton).setOnClickListener(this);
         gplus_url = (String)((HashMap)im.get("gplus")).get("url");
@@ -193,7 +193,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                     Log.d(TAG,"Error",e);
                 }
             }
-            Log.d("MainActivity",entry.getValue().getClass().toString());
+            Log.d("GSW MainActivity",entry.getValue().getClass().toString());
         }
         //roundedImageView = (RoundedImageView) getActivity().findViewById(R.id.fragment_product_productImage);
 
@@ -240,7 +240,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                 
                 try {
                     offer_data = service.offer().get(primaryKey).execute();
-                    Log.d("MainActivity",offer_data.getOwner().toString());
+                    Log.d("GSW MainActivity",offer_data.getOwner().toString());
                     im =  jsonToMap(new JSONObject(offer_data.getOwner().getIm().toString()));
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
@@ -255,9 +255,9 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch offer. Please check your network connection and then try again.");

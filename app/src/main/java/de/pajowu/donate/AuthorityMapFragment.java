@@ -63,7 +63,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("MainActivity", "onCreateView");
+        Log.d("GSW MainActivity", "onCreateView");
         View inflatedView = inflater.inflate(R.layout.fragment_authority_map, container, false);
         wifiButton = (FloatingActionButton) inflatedView.findViewById(R.id.wifi);
         wifiButton.setColorNormalResId(R.color.accentColor);
@@ -94,7 +94,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
 
     private void setUpMap() {
-        Log.d("MainActivity", "setupMap");
+        Log.d("GSW MainActivity", "setupMap");
         Location loc = getLocation();
         if (loc != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 12));
@@ -261,7 +261,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                 wifiButton.setImageResource(R.drawable.ic_info_outline_white);
 
                 // Sending little Message to screen
-                Toast.makeText(getActivity(), "Loading Wifi Hotspot Locations",
+                Toast.makeText(getActivity(), getString(R.string.loading_wifi_locations),
                         Toast.LENGTH_LONG).show();
 
                 setUpClusterer("wifi");
@@ -271,7 +271,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                 wifiButton.setImageResource(R.drawable.ic_network_wifi_white);
 
                 // Sending little Message to screen
-                Toast.makeText(getActivity(), "Loading Administration Locations",
+                Toast.makeText(getActivity(), getString(R.string.loading_administration_locations),
                         Toast.LENGTH_LONG).show();
 
                 setUpClusterer("authorities");
@@ -357,12 +357,12 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
 
             if (clickedClusterItem != null || clickedClusterItem2 != null) {
                 if (wifiBoolean) {
-                    tvTitle.setText("Wifi");
-                    tvSnippet.setText("Free Wifi HotSpot");
+                    tvTitle.setText(getString(R.string.wifi));
+                    tvSnippet.setText(getString(R.string.free_wifi));
                     linearLayout.setVisibility(View.GONE);
                 } else {
                     tvSnippet.setVisibility(View.GONE);
-                    tvTitle.setText("Authority Information:");
+                    tvTitle.setText(getString(R.string.authority_information));
                     location.setText(clickedClusterItem.getAddress());
                     phone.setText(clickedClusterItem.getPhone());
                     mail.setText(clickedClusterItem.getEmail());
@@ -405,10 +405,10 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             tvSnippet.setVisibility(View.GONE);
 
             if (clickedCluster != null) {
-                tvTitle.setText(String.valueOf(clickedCluster.getItems().size()) + " more items");
+                tvTitle.setText(String.valueOf(clickedCluster.getItems().size()) + getString(R.string.more_items));
             }
             if (clickedCluster2 != null) {
-                tvTitle.setText(String.valueOf(clickedCluster2.getItems().size()) + " more items");
+                tvTitle.setText(String.valueOf(clickedCluster2.getItems().size()) + getString(R.string.more_items));
             }
 
 

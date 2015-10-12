@@ -57,7 +57,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_list_fab, container, false);
-        Log.d("MainActivity","onCreateView Local");
+        Log.d("GSW MainActivity","onCreateView Local");
         //Implementation of custom Toolbar
 
         if (offerList != null) {
@@ -74,12 +74,12 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             editButton.setVisibility(View.VISIBLE);
 
 
-            Log.d("MainActivity","fillLayout Locals");
+            Log.d("GSW MainActivity","fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-            tbs.add(new ListTabFragment(this.offerList, "Offer"));
-            Log.d("MainActivity","create ViewPagerAdapter");
+            tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
+            Log.d("GSW MainActivity","create ViewPagerAdapter");
             ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
-            Log.d("MainActivity","created ViewPagerAdapter");
+            Log.d("GSW MainActivity","created ViewPagerAdapter");
             // Assigning ViewPager View and setting the adapter
             ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
             pager.setAdapter(adapter);
@@ -132,7 +132,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
                     try {
                         result = service.offer().listNear().setBbox(bbox).execute();
-                        Log.d("MainActivity", result.toString());
+                        Log.d("GSW MainActivity", result.toString());
                         offerList = new ArrayList<ListItem>();
                         if (result.getItems() != null) {
                             for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
@@ -161,14 +161,14 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
-                                ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't load offers");
+                                ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_load_offers));
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -180,7 +180,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 } else {
                      getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't get Location");
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_location));
                         }
                     });
                 }
@@ -207,7 +207,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 if (((MainActivity)getActivity()).credential.getSelectedAccountName() != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewOfferFragment(context)).addToBackStack(null).commit();
                     ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);

@@ -18,14 +18,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public ViewPagerAdapter(FragmentManager fm, ArrayList<ListTabFragment> frag) {
         super(fm);
         this.fragments = frag;
-        Log.d("MainActivity","new ViewPagerAdapter");
+        Log.d("GSW MainActivity","new ViewPagerAdapter");
  
     }
  
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-        Log.d("MainActivity", fragments.get(position).toString());
+        Log.d("GSW MainActivity", fragments.get(position).toString());
         return fragments.get(position);
  
  

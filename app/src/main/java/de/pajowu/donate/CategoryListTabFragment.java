@@ -22,7 +22,7 @@ public class CategoryListTabFragment extends Fragment{
     public String title;
     public CategoryListTabFragment(ArrayList<CategoryListItem> arli, String ttl) {
         this.arrayList = arli;
-        Log.d("MainActivity cltf",arrayList.toString());
+        Log.d("GSW MainActivity",arrayList.toString());
         title = ttl;
     }
 
@@ -41,9 +41,9 @@ public class CategoryListTabFragment extends Fragment{
         View empty = viewRoot.findViewById(R.id.empty);
         listView.setEmptyView(empty);
         ScrollView scrollView = (ScrollView) viewRoot.findViewById(R.id.fragment_list_scrollView);
-        Log.d("MainActivity","onCreateView");
-        Log.d("MainActivity cltf",this.arrayList.toString());
-        Log.d("MainActivity cltf",arrayList.toString());
+        Log.d("GSW MainActivity","onCreateView");
+        Log.d("GSW MainActivity",this.arrayList.toString());
+        Log.d("GSW MainActivity",arrayList.toString());
         CategoryListAdapter listAdapter = new CategoryListAdapter(getActivity(), R.layout.list_layout, this.arrayList);
 
         Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);

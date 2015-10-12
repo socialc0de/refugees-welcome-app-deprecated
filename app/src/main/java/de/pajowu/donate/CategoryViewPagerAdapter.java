@@ -22,7 +22,7 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-        Log.d("MainActivity","getItem");
+        Log.d("GSW MainActivity","getItem");
         return fragments.get(position);
     }
  
@@ -30,7 +30,7 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
  
     @Override
     public CharSequence getPageTitle(int position) {
-        Log.d("MainActivity","getPageTitle");
+        Log.d("GSW MainActivity","getPageTitle");
         return fragments.get(position).getTitle();
     }
  
@@ -38,7 +38,7 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
  
     @Override
     public int getCount() {
-        Log.d("MainActivity","getCount");
+        Log.d("GSW MainActivity","getCount");
         return fragments.size();
     }
 }

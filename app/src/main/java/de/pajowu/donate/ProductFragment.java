@@ -260,7 +260,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                     Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch offer. Please check your network connection and then try again.");
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.offer)));
                         }
                     });
                 }

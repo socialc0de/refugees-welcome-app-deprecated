@@ -130,7 +130,7 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showErrorText("Could not fetch FAQ categories. Please check your network connection and then try again.");
+                            ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.faq_categories)));
                         }
                     });
                 }

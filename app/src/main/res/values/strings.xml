@@ -7,7 +7,7 @@
 
     <string name="sharing_local">Sharing - Local</string>
     <string name="sharing_categories">Sharing - Categories</string>
-    <string name="profile">Sharing - Profile</string>
+    <string name="sharing_profile">Sharing - Profile</string>
     <string name="phrasebook">Phrasebook</string>
     <string name="faq">FAQ</string>
     <string name="authority_map">Map</string>
@@ -61,4 +61,8 @@
     <string name="basic_conversation">Basic Conversation</string>
     <string name="clothing">Clothing</string>
     <string name="medical_terms">Medical Terms</string>
+    <string name="couldnt_fetch">Could not fetch %s. Please check your network connection and then try again.</string>
+    <string name="profile">Profile</string>
+    <string name="faq_categories">FAQ Categories</string>
+    <string name="faq_items">FAQ Items</string>
 </resources>

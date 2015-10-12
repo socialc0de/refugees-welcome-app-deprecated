@@ -69,18 +69,6 @@ public class ImageAdapter extends BaseAdapter implements View.OnClickListener{
         float wt_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, gridView.getResources().getDisplayMetrics());
 
         ImageView imgV = (ImageView) gridView.findViewById(R.id.cardViewImage);
-        /*
-        Bitmap originalImg = BitmapFactory.decodeResource(gridView.getResources(), this.imageValues.get(position));
-
-        Bitmap resizedImage = Bitmap.createScaledBitmap(originalImg, Math.round(originalImg.getWidth() / (originalImg.getWidth() / wt_px)), Math.round(originalImg.getHeight() / (originalImg.getHeight() / ht_px)), true);
-
-        /*
-        Log.d("Rescaled_Width", " "+resizedImage.getWidth());
-        Log.d("Rescaled_Height", " "+resizedImage.getHeight());
-
-        Drawable d = new BitmapDrawable(gridView.getResources());
-
-	*/
         if (this.arrayList.get(position).resourceImage != ""){
             Picasso.with(this.context).load(this.arrayList.get(position).resourceImage).fit().into(imgV);
 

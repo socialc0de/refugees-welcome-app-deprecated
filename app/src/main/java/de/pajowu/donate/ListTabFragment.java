@@ -51,9 +51,6 @@ public class ListTabFragment extends Fragment{
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(llm);
 
-        /*View empty = viewRoot.findViewById(R.id.empty);
-        listView.setEmptyView(empty);*/
-
         ListAdapter listAdapter = new ListAdapter(getActivity(), R.layout.list_layout, this.arrayList);
 
         Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
@@ -61,49 +58,10 @@ public class ListTabFragment extends Fragment{
 
         listView.setAdapter(listAdapter);
         listView.setHasFixedSize(true);
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //primaryKeyValue = arrayList.get(position).primaryKey;
-                
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(getActivity().getApplicationContext(), arrayList.get(position).primaryKey)).addToBackStack(null).commit();
-                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
-                Log.d("ListView clicked: ", ""+position);
-                Log.d("ListView Pos: ", ""+primaryKeyValue);
-                
-            }
-        });*/
-
-        //getTotalHeightofListView(listView, listAdapter);
-
 
         return viewRoot;
     }
 
-    /*public static void getTotalHeightofListView(RecyclerView listView, ListAdapter listAdapter) {
-
-        int totalHeight = 0;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View mView = listAdapter.getView(i, null, listView);
-
-            mView.measure(
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-            totalHeight += mView.getMeasuredHeight();
-            Log.w("HEIGHT" + i, String.valueOf(totalHeight));
-
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight
-                + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
-    }*/
     public String getTitle() {
         return title;
     }

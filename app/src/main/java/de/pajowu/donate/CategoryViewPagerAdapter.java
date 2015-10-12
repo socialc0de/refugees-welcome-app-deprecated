@@ -10,9 +10,7 @@ import android.util.Log;
  */
 public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
  
-    ArrayList<CategoryListTabFragment> fragments; // This will Store the Titles of the Tabs which are Going to be passed when CategoryViewPagerAdapter is created
-    //int NumbOfTabs; // Store the number of tabs, this will also be passed when the CategoryViewPagerAdapter is created
- 
+    ArrayList<CategoryListTabFragment> fragments;
  
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public CategoryViewPagerAdapter(FragmentManager fm, ArrayList<CategoryListTabFragment> frag) {

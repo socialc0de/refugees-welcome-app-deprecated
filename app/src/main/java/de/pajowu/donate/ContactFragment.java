@@ -64,30 +64,5 @@ public class ContactFragment extends android.support.v4.app.Fragment {
     public ArrayList<ContactRow> getData()
     {
         return data_list;
-        /*if (data_list != null) {
-            return data_list;
-        } else {
-            ArrayList<ContactRow> it = new ArrayList<ContactRow>();
-            //Context context = YourApplication.getContext();
-            //int resourceId = context.getResources().getIdentifier(name, "drawable", YourApplication.getContext().getPackageName());
-            ContactRow items1 = new ContactRow();
-            items1.setTitle(appOwner.name);
-            items1.setImgIcon(R.drawable.ic_person_grey600);
-            it.add(items1);
-            ContactRow items2 = new ContactRow();
-            items2.setTitle(appOwner.phone);
-            items2.setImgIcon(R.drawable.ic_phone_grey600);
-            it.add(items2);
-            ContactRow items3 = new ContactRow();
-            items3.setTitle(appOwner.email);
-            items3.setImgIcon(R.drawable.ic_mail_grey600);
-            it.add(items3);
-            ContactRow items4 = new ContactRow();
-            items4.setTitle(appOwner.city);
-            items4.setImgIcon(R.drawable.ic_my_location_grey600);
-            it.add(items4);
-            return it;
-        }*/
-        
     }
 }

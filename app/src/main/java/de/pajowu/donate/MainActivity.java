@@ -91,11 +91,6 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new DrawerBuilder().withActivity(this).build();
-
-    /*allowArrowAnimation();
-
-    this.disableLearningPattern();
-    this.getToolbar().setTitle(getString(R.string.app_name));*/
         if (!checkGooglePlayServicesAvailable()) {
             // Google Play Services are required, so don't proceed until they are installed.
             return;
@@ -130,7 +125,6 @@ public class MainActivity extends FragmentActivity {
         mFragments.add(new LocalFragment(this));
         mTitles.add(getString(R.string.sharing_categories));
         mFragments.add(new CategoryFragment(this));
-        //Log.d("MainActivity",credential.getSelectedAccountName());
         if (credential.getSelectedAccount() != null) {
             mTitles.add(getString(R.string.profile));
             mFragments.add(new ProfileFragment());
@@ -199,13 +193,6 @@ public class MainActivity extends FragmentActivity {
                     alert.show();
 
                 }
-                // Signing in is required so display the dialog again
-        /*if (SIGN_IN_REQUIRED && accountName == null) {
-          startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
-        } else if (accountName != null) {
-          } else {
-            showMainActivity();
-          }*/
                 break;
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != Activity.RESULT_OK) {

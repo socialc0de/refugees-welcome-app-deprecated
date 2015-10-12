@@ -50,20 +50,6 @@ public class CategoryProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
-
-        //Implementation of custom Toolbar
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
-        
-        /*mTabHost = (FragmentTabHost) viewRoot.findViewById(R.id.tabhost);
-        Log.d("TabHost ", "" + mTabHost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.fragment_list_mainContent);
-        bundleTab1.putSerializable("lstObject", (Serializable) new ArrayList<ListItem>());
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Offers"),
-                ListFragmentTab.class, bundleTab1);*/
-
         loadFragmentData(getLocation());
         return viewRoot;
     }
@@ -90,22 +76,6 @@ public class CategoryProductsFragment extends Fragment {
  
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-        /*mTabHost.getTabWidget().removeAllViews();
-        bundleTab1 = new Bundle();
-        bundleTab1.putSerializable("lstObject", (Serializable) this.offerList);
-        bundleTab2.putSerializable("lstObject", (Serializable) this.searchList);
-        bundleTab3.putSerializable("lstObject", (Serializable) this.allList);*/
-        
-        /*mTabHost = (FragmentTabHost) viewRoot.findViewById(R.id.tabhost);
-        Log.d("TabHost ", "" + mTabHost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.fragment_list_mainContent);*/
-
-        /*mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Offers"),
-                ListFragmentTab.class, bundleTab1);
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentc").setIndicator("Searches"),
-                ListFragmentTab.class, bundleTab2);
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentd").setIndicator("All"),
-                ListFragmentTab.class, bundleTab3);*/
     }
     public void loadFragmentData(final Location loc) {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
@@ -119,7 +89,6 @@ public class CategoryProductsFragment extends Fragment {
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
-                //Log.d("MainActivity", loc.toString());
                 if (loc != null)  {
 
 
@@ -148,7 +117,6 @@ public class CategoryProductsFragment extends Fragment {
                                 li.category = catstr;
                                 if (off.getImageUrls() != null) {
                                     if (off.getImageUrls().size() >= 1) {
-                                        //IMAGES.add(off.getImageUrls().get(0));
                                         // tmp fix, save image from url, give the path to HomeFragment
                                         li.resourceImage = off.getImageUrls().get(0);
                                     }

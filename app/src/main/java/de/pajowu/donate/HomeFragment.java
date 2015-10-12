@@ -48,12 +48,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                              Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_home, container, false);
-
-        //Implementation of custom Toolbar
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        //s.setSpan(new de.pajowu.donate.TypefaceSpan(mContext, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
         editButton.setOnClickListener(this);
         if (arrayList != null) {
@@ -76,15 +70,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //TODO Call Activity with Parameters -> PrimaryKey
                     MainActivity mac = (MainActivity) getActivity();
-                    //mac.showOffer(id);
-                    //((MaterialNavigationDrawer) getActivity()).setFragment(new ProductFragment(mContext, arrayList.get(position).primaryKey),"Offer");
-                    /*Bundle b = new Bundle();
-                    b.putLong("primaryKey", arrayList.get(position).primaryKey);
-                    Intent productView = new Intent(getActivity(), ProductView.class);
-                    productView.putExtras(b);
-
-                    startActivity(productView);
-                    ((MainActivity) getActivity()).*/
                     Log.d("position was clicked:", position + "");
                     Log.d("Equivalent ID is", arrayList.get(position) + "");
 

@@ -46,18 +46,4 @@ public class App extends Application {
         singleton = this;
         Fabric.with(this, new Crashlytics());
     }
-
-    public boolean areCrashesEnabled() {
-        SharedPreferences preferences;
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        return preferences.getBoolean("are_crashes_enabled", false);
-    }
-
-    public void setCrashesStatus(boolean status) {
-        SharedPreferences preferences;
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("are_crashes_enabled", status);
-        editor.apply();
-    }
 }

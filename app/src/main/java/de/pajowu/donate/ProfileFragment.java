@@ -68,11 +68,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        //Implementation of custom Toolbar
-        SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(viewRoot.getContext(), "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
         if (appOwner != null) {
             fillLayout();
         } else {
@@ -120,14 +115,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                         user_data = service.user().update(user).execute(); //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)*/
                         //user_data = service.user().data().execute(); //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)*/
                         // Do NOT use the same variable name for different things, just as dummy and database content
-    /*
-                        fragmentManager = getSupportFragmentManager();
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)
-                        homeFragment = new HomeFragment(getApplicationContext(), arrayList);
-                        fragmentTransaction.add(R.id.container, homeFragment);
-                        fragmentTransaction.commit();
-    */
 
                     } catch (UserRecoverableAuthIOException e) {
                         final UserRecoverableAuthIOException e2 = e;
@@ -139,23 +126,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                         Log.d("MainActivity", "e", e);
                     } catch (Exception e) {
                         Log.d("MainActivity", "e", e);
-
-
-
-                        /*
-                        fragmentManager = getSupportFragmentManager();
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)
-                        homeFragment = new HomeFragment(getApplicationContext(), arrayList);
-                        fragmentTransaction.add(R.id.container, homeFragment);
-                        fragmentTransaction.commit();
-                        */
-
-                        // Connect to HomeFragment
-                        //MaterialSection matSec = newSection("homeFragment", new HomeFragment(getApplicationContext(), arrayList));
-                        //addSection(matSec);
-
-
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
@@ -185,36 +155,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                         .addToBackStack(null)
                         .commit();
                 ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
-                /*
-                if (!editMode) {
-                    editMode = true;
-                    editButton.setImageResource(R.drawable.ic_done_white);
-
-                    enableTextView(textViewName);
-                    enableTextView(textViewPhone);
-                    enableTextView(textViewCity);
-                    enableTextView(textViewEmail);
-                    //textViewWebsite.setEnabled(true);
-
-                } else if (editMode) {
-                    
-                    appOwner.phone = textViewPhone.getText().toString();
-                    appOwner.city = textViewCity.getText().toString();
-                    appOwner.email = textViewEmail.getText().toString();
-                    //appOwner.url = textViewWebsite.getText().toString();
-
-                    disableTextView(textViewName);
-                    disableTextView(textViewPhone);
-                    disableTextView(textViewCity);
-                    disableTextView(textViewEmail);
-                    //textViewWebsite.setEnabled(false);
-
-
-                    editButton.setImageResource(R.drawable.ic_mode_edit_white);
-                    editMode = false;
-                    updateUser();
-
-                }*/
 
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
@@ -255,7 +195,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             Picasso.with(getActivity().getApplicationContext()).load(appOwner.profileImage).into(imageView);
             imageView.setAlpha(0.7f);
         }
-        //textViewWebsite.setText(appOwner.url);
     }
 
     public void loadFragmentData() {
@@ -294,15 +233,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                     }
                     Log.d(TAG, user_data.toString());
 
-                    // Do NOT use the same variable name for different things, just as dummy and database content
-/*
-                    fragmentManager = getSupportFragmentManager();
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)
-                    homeFragment = new HomeFragment(getApplicationContext(), arrayList);
-                    fragmentTransaction.add(R.id.container, homeFragment);
-                    fragmentTransaction.commit();
-*/
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
@@ -324,23 +254,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Could not fetch profile. Please check your network connection and then try again.");
                         }
                     });
-                    
-
-
-                    /*
-                    fragmentManager = getSupportFragmentManager();
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    //Context context, int resource, String[] labels, String[] resources, int[] images, int[] primaryKeys, int[] objects)
-                    homeFragment = new HomeFragment(getApplicationContext(), arrayList);
-                    fragmentTransaction.add(R.id.container, homeFragment);
-                    fragmentTransaction.commit();
-                    */
-
-                    // Connect to HomeFragment
-                    //MaterialSection matSec = newSection("homeFragment", new HomeFragment(getApplicationContext(), arrayList));
-                    //addSection(matSec);
-
-
                 }
             }
         };
@@ -401,40 +314,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         met.setClickable(true);
         met.setHideUnderline(false);
     }
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) { 
-        //super.onActivityResult(requestCode, resultCode, data); 
-
-        switch(requestCode) { 
-            case CHOOSE_BACKGROUND_PIC:
-                if(resultCode == getActivity().RESULT_OK){  
-                    try {
-                        Uri selectedImage = data.getData();
-                        InputStream imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
-                        backgroundPicture = BitmapFactory.decodeStream(imageStream);
-                        Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, ((ImageView)viewRoot.findViewById(R.id.fragment_profile_mainImage)).getWidth()).into((ImageView)viewRoot.findViewById(R.id.fragment_profile_mainImage));
-                    } catch (Exception e) {
-                        Log.d("MainActivity","e",e);
-                    }
-                    
-                }
-                break;
-            case CHOOSE_PROFILE_PIC:
-                if(resultCode == getActivity().RESULT_OK){  
-                    try {
-                        Uri selectedImage = data.getData();
-                        InputStream imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
-                        profilePicture = BitmapFactory.decodeStream(imageStream);
-                        Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, ((ImageView)viewRoot.findViewById(R.id.fragment_profile_mainImage)).getWidth()).into((ImageView)viewRoot.findViewById(R.id.fragment_profile_profileImage));
-                    } catch (Exception e) {
-                        Log.d("MainActivity","e",e);
-                    }
-                    
-                }
-                break;
-        }
-    }*/
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);

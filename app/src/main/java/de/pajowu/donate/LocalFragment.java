@@ -42,14 +42,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public Bundle bundleTab1 = new Bundle();
     View viewRoot;
 
-    /*public LocalFragment(Context context, ArrayList<ListItem> offerList, ArrayList<ListItem> searchList, ArrayList<ListItem> allList) {
-        this.offerList = offerList;
-        this.searchList = searchList;
-        this.allList = allList;
-        this.context = context;
-
-        Log.d("LocalFragment called", "");
-    }*/
     public LocalFragment(Context context) {
         this.context = context;
 
@@ -68,10 +60,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         Log.d("MainActivity","onCreateView Local");
         //Implementation of custom Toolbar
 
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         if (offerList != null) {
             fillLayout();
         } else {
@@ -117,23 +105,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     }
     public void loadFragmentData() {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
-        /*LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                loadData(location);
-            }
-         
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-         
-            public void onProviderEnabled(String provider) {}
-         
-            public void onProviderDisabled(String provider) {}
-          };
-         
-        // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);*/
         loadData(getLocation());
     }
     public void loadData(final Location loc) {
@@ -147,9 +118,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
-                //LatLng loc = getLocation();
-
-                //Log.d("MainActivity", loc.toString());
                 if (loc != null)  {
 
 
@@ -179,7 +147,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                                 }
                                 li.category = catstr;
                                 if (off.getImageUrls() != null) {
-                                    //IMAGES.add(off.getImageUrls().get(0));
                                     // tmp fix, save image from url, give the path to HomeFragment
                                     li.resourceImage = off.getImageUrls().get(0);
                                 }
@@ -261,7 +228,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                     alert.show();
                 }
         
-                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
                 break;

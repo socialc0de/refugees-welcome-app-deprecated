@@ -164,7 +164,6 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     alert.show();
                 }
         
-                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
                 break;

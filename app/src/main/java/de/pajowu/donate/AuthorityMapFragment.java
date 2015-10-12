@@ -64,10 +64,6 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("MainActivity", "onCreateView");
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         View inflatedView = inflater.inflate(R.layout.fragment_authority_map, container, false);
         wifiButton = (FloatingActionButton) inflatedView.findViewById(R.id.wifi);
         wifiButton.setColorNormalResId(R.color.accentColor);

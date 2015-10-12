@@ -101,18 +101,10 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
         chooseCategoryButton.setOnClickListener(this);
         viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
-        /*Spinner spinner = (Spinner) viewRoot.findViewById(R.id.categories);*/
-        // Create an ArrayAdapter using the string array and a default spinner layout
-
         for (HashMap.Entry<String, Category> cat : ((MainActivity) getActivity()).categories.entrySet()) {
             cats.put(cat.getValue().getName(), cat.getKey());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>(cats.keySet()));
-        // Specify the layout to use when the list of choices appears
-        /*adapter.setDropDownViewResource(R.layout.spinner_item);*/
-        // Apply the adapter to the spinner
-        /*spinner.setAdapter(adapter);*/
-
         MaterialEditText enddate = (MaterialEditText) viewRoot.findViewById(R.id.end_date);
         enddate.setOnClickListener(this);
         enddate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -194,7 +186,6 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                     Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
                     submitButton.setEnabled(true); 
                     submitButton.setAlpha(1f);
-                    //submitButton.setBackgroundColor(0xffff0000);//, PorterDuff.Mode.MULTIPLY);
                 }
                 chooseCategoryButton.setText(catkeys[which]);
             }

@@ -79,30 +79,6 @@ public class FAQCategoryFragment extends Fragment {
                 
                 try {
                     result = service.faqitem().bycat().setCategory(cat_id).execute();
-                    /*offerList = new ArrayList<FAQItemProtoQuestionAnswerLanguage>();
-                    if (result.getItems() != null) {
-                        for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
-                            ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
-                            String catstr = "";
-                            for (String cat : off.getCategories()) {
-                                Category category = ((MainActivity) getActivity()).categories.get(cat);
-                                if (category != null) {
-                                    catstr += category.getName() + " ";
-                                }
-                            
-                            }
-                            li.category = catstr;
-                            if (off.getImageUrls() != null) {
-                                if (off.getImageUrls().size() >= 1) {
-                                    //IMAGES.add(off.getImageUrls().get(0));
-                                    // tmp fix, save image from url, give the path to HomeFragment
-                                    li.resourceImage = off.getImageUrls().get(0);
-                                }
-                            }
-                            
-                            offerList.add(li);
-                        }
-                    }*/
                     Log.d("MainActivity",result.toString());
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
@@ -131,37 +107,4 @@ public class FAQCategoryFragment extends Fragment {
         };
         new Thread(runnable).start();
     }
-    public void setGroupParents() {
-        parentItems.add("Where may I get food for little money?");
-        parentItems.add("Does german food contain pig flesh?");
-        parentItems.add("Is german food expensive?");
-        parentItems.add("Where can I find typically Syrian Restaurants?");
-    }
-/*
-    public void setChildData() {
-
-        // Android
-        ArrayList<String> child = new ArrayList<String>();
-        child.add("Kindertafel");
-        childItems.add(child);
-
-        // Core Java
-        child = new ArrayList<String>();
-        child.add("Yes");
-        childItems.add(child);
-
-        // Desktop Java
-        child = new ArrayList<String>();
-        child.add("Unfortunately, yes.");
-
-        childItems.add(child);
-
-        // Enterprise Java
-        child = new ArrayList<String>();
-        child.add("EJB3");
-
-        childItems.add(child);
-    }
-*/
-
 }

@@ -54,7 +54,6 @@ public class CategoryListTabFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("ListView clicked: ", ""+position);
-                //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id),"Category Products");
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id)).addToBackStack(null).commit();
                 ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
                 

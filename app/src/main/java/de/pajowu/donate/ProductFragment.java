@@ -62,12 +62,6 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
 
         viewRoot = inflater.inflate(R.layout.fragment_product, container, false);
 
-        //Implementation of custom Toolbar
-        SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(mContext, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
-
         loadFragmentData();
 
         return viewRoot;

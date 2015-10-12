@@ -31,27 +31,6 @@ import java.util.Iterator;
  */
 public class PhraseFragment extends Fragment{
     public PhraseFragment() {
-        /*HashMap<String, String> phrase = new HashMap<String, String>();
-        phrase.put("German","Hallo");
-        phrase.put("English","Hello");
-        phrase.put("Arabic","مرحبا اهلا");
-        phrase.put("Arabic Phonetic","Saalam/ Merhaba");
-        phrase.put("French","Salut");
-        phrases.add(phrase);
-        phrase = new HashMap<String, String>();
-        phrase.put("German","guten Morgen");
-        phrase.put("English","Good morning");
-        phrase.put("Arabic"," صباح الخیر");
-        phrase.put("Arabic Phonetic","Sabáh al-khayr");
-        phrase.put("French","Bonjour");
-        phrases.add(phrase);
-        phrase = new HashMap<String, String>();
-        phrase.put("German","guten Abend");
-        phrase.put("English","good evening");
-        phrase.put("Arabic"," مسا الخير /  مساء الخیر");
-        phrase.put("Arabic Phonetic","massa Alchayr     Masa al-khayr      ");
-        phrase.put("French","Bonsoir");
-        phrases.add(phrase);*/
 
     }
     @Override
@@ -67,7 +46,6 @@ public class PhraseFragment extends Fragment{
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
-            //JSONObject obj = new JSONObject(json);
             JSONArray m_jArry = new JSONArray(json);
             ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
 
@@ -94,8 +72,6 @@ public class PhraseFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //categories = mMainActivity.categories;
-        //Log.d("MainActivity",categories.toString());
         View viewRoot = inflater.inflate(R.layout.fragment_phrase_tab, container, false);
         ArrayList<PhraseListTabFragment> tbs = new ArrayList<PhraseListTabFragment>();
         tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("basic.json"), "Basic Conversation"));
@@ -112,7 +88,6 @@ public class PhraseFragment extends Fragment{
         tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("direction.json"), "Direction, places and transport"));
         tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("sexual.json"), "Sexual and gender identity"));
         tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("misc.json"), "Misc"));
-        //tbs.add(new CategoryListTabFragment(itemList, "Item"));
         PhraseViewPagerAdapter adapter =  new PhraseViewPagerAdapter(getChildFragmentManager(),tbs);
  
         // Assigning ViewPager View and setting the adapter

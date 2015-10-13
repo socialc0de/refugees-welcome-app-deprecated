@@ -92,13 +92,13 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
 
     }
     public void loadFragmentData() {
-        Log.d("MainActivity","loadFragmentData");
+        Log.d("GSW MainActivity","loadFragmentData");
         ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showProgress();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.d("MainActivity","try");
+                    Log.d("GSW MainActivity","try");
                     Builder endpointBuilder = new Donate.Builder(
                         AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(),
                         CloudEndpointBuilderHelper.getRequestInitializer());
@@ -107,10 +107,17 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     FAQCategoryCollection result;
                     result = service.faqcat().list().execute();
                     cats = new HashMap<String,FAQCategory>();
-                    Log.d("MainActivity res", result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                     for (FAQCategory cat : result.getItems()) {
                         cats.put(cat.getId(), cat);
                     }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            fillLayout();
+                            ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showContent();
+                        }
+                    });
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -118,17 +125,16 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.faq_categories)));
+                        }
+                    });
                 }
 
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        fillLayout();
-                        ((ProgressLayout) viewRoot.findViewById(R.id.faqfragment_progress_layout)).showContent();
-                    }
-                });
             }
         };
         new Thread(runnable).start();
@@ -137,7 +143,7 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 if (((MainActivity)getActivity()).credential.getSelectedAccountName() != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewQuestionFragment(cats)).addToBackStack(null).commit();
                     ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
@@ -158,7 +164,6 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     alert.show();
                 }
         
-                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
                 break;

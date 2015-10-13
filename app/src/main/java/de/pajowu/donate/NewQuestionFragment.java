@@ -57,7 +57,7 @@ import java.util.List;
 //import de.pajowu.donate.*;
 
 public class NewQuestionFragment extends Fragment implements View.OnClickListener {
-    private final String TAG = "MainActivity";
+    private final String TAG = "GSW MainActivity";
     
     private View viewRoot;
     Context mContext;
@@ -107,7 +107,7 @@ public class NewQuestionFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 submit();
                 break;
         }
@@ -134,7 +134,7 @@ public class NewQuestionFragment extends Fragment implements View.OnClickListene
                 FAQItem result;
                 try {
                     result = service.faqitem().create(new_item).execute();
-                    Log.d("MainActivity", result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -142,15 +142,15 @@ public class NewQuestionFragment extends Fragment implements View.OnClickListene
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            alert.setTitle("Couldn't create item");
-                            alert.setMessage("Sorry, but your item couldn't be created. Please try again later");
-                            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            alert.setTitle(getString(R.string.coulnd_create_item));
+                            alert.setMessage(getString(R.string.couldnt_create_item_errortext));
+                            alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
 
                                 }

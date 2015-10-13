@@ -37,7 +37,7 @@ public class FAQCategoryFragment extends Fragment {
     private ArrayList<Object> childItems = new ArrayList<Object>();
     private View viewRoot;
     private String cat_id;
-    FAQItemCollection result;
+    FAQItemProtoQuestionAnswerLanguageCollection result;
     public FAQCategoryFragment(String cid) {
         // Required empty public constructor
         cat_id = cid;
@@ -58,10 +58,10 @@ public class FAQCategoryFragment extends Fragment {
             expandableList.setDividerHeight(2);
             expandableList.setGroupIndicator(null);
             expandableList.setClickable(true);
-            FAQCategoryAdapter adapter = new FAQCategoryAdapter(new ArrayList<FAQItem>(result.getItems()), getActivity().getApplicationContext());
+            FAQCategoryAdapter adapter = new FAQCategoryAdapter(new ArrayList<FAQItemProtoQuestionAnswerLanguage>(result.getItems()), getActivity().getApplicationContext());
             expandableList.setAdapter(adapter);
         } else {
-            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("No Questions found");
+            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_questions));
         }
         
     }
@@ -79,32 +79,14 @@ public class FAQCategoryFragment extends Fragment {
                 
                 try {
                     result = service.faqitem().bycat().setCategory(cat_id).execute();
-                    /*offerList = new ArrayList<FAQItem>();
-                    if (result.getItems() != null) {
-                        for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
-                            ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
-                            String catstr = "";
-                            for (String cat : off.getCategories()) {
-                                Category category = ((MainActivity) getActivity()).categories.get(cat);
-                                if (category != null) {
-                                    catstr += category.getName() + " ";
-                                }
+                    Log.d("GSW MainActivity",result.toString());
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
+                            fillLayout();
                             
-                            }
-                            li.category = catstr;
-                            if (off.getImageUrls() != null) {
-                                if (off.getImageUrls().size() >= 1) {
-                                    //IMAGES.add(off.getImageUrls().get(0));
-                                    // tmp fix, save image from url, give the path to HomeFragment
-                                    li.resourceImage = off.getImageUrls().get(0);
-                                }
-                            }
-                            
-                            offerList.add(li);
                         }
-                    }*/
-                    Log.d("MainActivity",result.toString());
-
+                    });
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -112,53 +94,17 @@ public class FAQCategoryFragment extends Fragment {
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.faq_items)));
+                        }
+                    });
                 }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
-                        fillLayout();
-                        
-                    }
-                });
             }
         };
         new Thread(runnable).start();
     }
-    public void setGroupParents() {
-        parentItems.add("Where may I get food for little money?");
-        parentItems.add("Does german food contain pig flesh?");
-        parentItems.add("Is german food expensive?");
-        parentItems.add("Where can I find typically Syrian Restaurants?");
-    }
-/*
-    public void setChildData() {
-
-        // Android
-        ArrayList<String> child = new ArrayList<String>();
-        child.add("Kindertafel");
-        childItems.add(child);
-
-        // Core Java
-        child = new ArrayList<String>();
-        child.add("Yes");
-        childItems.add(child);
-
-        // Desktop Java
-        child = new ArrayList<String>();
-        child.add("Unfortunately, yes.");
-
-        childItems.add(child);
-
-        // Enterprise Java
-        child = new ArrayList<String>();
-        child.add("EJB3");
-
-        childItems.add(child);
-    }
-*/
-
 }

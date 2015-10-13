@@ -61,7 +61,7 @@ import android.view.WindowManager;
 //import de.pajowu.donate.*;
 
 public class NewOfferFragment extends Fragment implements View.OnClickListener, OnDateSetListener {
-    private final String TAG = "MainActivity";
+    private final String TAG = "GSW MainActivity";
     public ScrollView scrollView;
     public ExpandableGridView gridView;
     private View viewRoot;
@@ -101,18 +101,10 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
         chooseCategoryButton.setOnClickListener(this);
         viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
-        /*Spinner spinner = (Spinner) viewRoot.findViewById(R.id.categories);*/
-        // Create an ArrayAdapter using the string array and a default spinner layout
-
         for (HashMap.Entry<String, Category> cat : ((MainActivity) getActivity()).categories.entrySet()) {
             cats.put(cat.getValue().getName(), cat.getKey());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>(cats.keySet()));
-        // Specify the layout to use when the list of choices appears
-        /*adapter.setDropDownViewResource(R.layout.spinner_item);*/
-        // Apply the adapter to the spinner
-        /*spinner.setAdapter(adapter);*/
-
         MaterialEditText enddate = (MaterialEditText) viewRoot.findViewById(R.id.end_date);
         enddate.setOnClickListener(this);
         enddate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -140,7 +132,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         pickup.putExtra("lat", "32");
         pickup.putExtra("lon", "32");
         startActivityForResult(pickup, LOCATION_PICKER);
-        Log.d("MainActivity", "startActivityForResult");
+        Log.d("GSW MainActivity", "startActivityForResult");
     }
 
     public void chooseDate() {
@@ -156,7 +148,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = "Your offer ends on " + dayOfMonth + ". " + (monthOfYear + 1) + ". " + year;
+        String date = getString(R.string.offen_end_on) + dayOfMonth + ". " + (monthOfYear + 1) + ". " + year;
         endDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth + " 00:00";
         ((MaterialEditText) viewRoot.findViewById(R.id.end_date)).setText(date);
     }
@@ -165,11 +157,11 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 submit();
                 break;
             case R.id.offerImage:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 choosePic();
                 break;
             case R.id.end_date:
@@ -189,12 +181,11 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
 
                 dialog.dismiss();
                 cat = cats.get(catkeys[which]);
-                Log.d("MainActivity",cat);
+                Log.d("GSW MainActivity",cat);
                 if (cat != null) {
                     Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
                     submitButton.setEnabled(true); 
                     submitButton.setAlpha(1f);
-                    //submitButton.setBackgroundColor(0xffff0000);//, PorterDuff.Mode.MULTIPLY);
                 }
                 chooseCategoryButton.setText(catkeys[which]);
             }
@@ -216,7 +207,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         offerImage = BitmapFactory.decodeStream(imageStream);
                         Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, ((ImageView) viewRoot.findViewById(R.id.offerImage)).getWidth()).into((ImageView) viewRoot.findViewById(R.id.offerImage));
                     } catch (Exception e) {
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
 
                 }
@@ -274,19 +265,19 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         String title = titleTextView.getText().toString();
         Boolean error = false;
         if (TextUtils.isEmpty(title)) {
-            titleTextView.setError("Please Enter Title");
+            titleTextView.setError(getString(R.string.enter_title));
             error = true;
         }
         MaterialEditText subtitleTextView = (MaterialEditText) viewRoot.findViewById(R.id.subtitle);
         String subtitle = subtitleTextView.getText().toString();
         if (TextUtils.isEmpty(subtitle)) {
-            subtitleTextView.setError("Please Enter Subtitle");
+            subtitleTextView.setError(getString(R.string.enter_subtitle));
             error = true;
         }
         MaterialEditText descTextView = (MaterialEditText) viewRoot.findViewById(R.id.desc);
         String desc = descTextView.getText().toString();
         if (TextUtils.isEmpty(desc)) {
-            descTextView.setError("Please Enter Description");
+            descTextView.setError(getString(R.string.enter_description));
             error = true;
         }
         if (error) {
@@ -324,7 +315,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                 }
                 try {
                     result = service.offer().create(final_offer).execute();
-                    Log.d("MainActivity", result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
@@ -332,15 +323,15 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    Log.d("MainActivity", "e", e);
+                    Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            alert.setTitle("Couldn't create offer");
-                            alert.setMessage("Sorry, but your offer couldn't be created. Please try again later");
-                            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            alert.setTitle(getString(R.string.couldnt_create_offer));
+                            alert.setMessage(getString(R.string.couldnt_create_offer_errortext));
+                            alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
 
                                 }

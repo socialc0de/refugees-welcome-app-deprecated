@@ -11,12 +11,10 @@ public class ContactRow {
     public ContactRow(Context context, String tle, String img, String url) {
         this.title = tle;
         this.url = url;
-       // Context context = getContext();
         this.imgIcon = context.getResources().getIdentifier("ic_"+img+"_grey600", "drawable", context.getPackageName());
     }
     public ContactRow(Context context, String tle, String img) {
         this.title = tle;
-       // Context context = getContext();
         this.imgIcon = context.getResources().getIdentifier("ic_"+img+"_grey600", "drawable", context.getPackageName());
     }
     public String getTitle() {

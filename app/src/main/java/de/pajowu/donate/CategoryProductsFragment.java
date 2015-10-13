@@ -50,26 +50,12 @@ public class CategoryProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
-
-        //Implementation of custom Toolbar
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
-        
-        /*mTabHost = (FragmentTabHost) viewRoot.findViewById(R.id.tabhost);
-        Log.d("TabHost ", "" + mTabHost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.fragment_list_mainContent);
-        bundleTab1.putSerializable("lstObject", (Serializable) new ArrayList<ListItem>());
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Offers"),
-                ListFragmentTab.class, bundleTab1);*/
-
         loadFragmentData(getLocation());
         return viewRoot;
     }
     public void fillLayout() {
         ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-        tbs.add(new ListTabFragment(this.offerList, "Offer"));
+        tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
         ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
  
         // Assigning ViewPager View and setting the adapter
@@ -90,22 +76,6 @@ public class CategoryProductsFragment extends Fragment {
  
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-        /*mTabHost.getTabWidget().removeAllViews();
-        bundleTab1 = new Bundle();
-        bundleTab1.putSerializable("lstObject", (Serializable) this.offerList);
-        bundleTab2.putSerializable("lstObject", (Serializable) this.searchList);
-        bundleTab3.putSerializable("lstObject", (Serializable) this.allList);*/
-        
-        /*mTabHost = (FragmentTabHost) viewRoot.findViewById(R.id.tabhost);
-        Log.d("TabHost ", "" + mTabHost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.fragment_list_mainContent);*/
-
-        /*mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("Offers"),
-                ListFragmentTab.class, bundleTab1);
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentc").setIndicator("Searches"),
-                ListFragmentTab.class, bundleTab2);
-        mTabHost.addTab(mTabHost.newTabSpec("fragmentd").setIndicator("All"),
-                ListFragmentTab.class, bundleTab3);*/
     }
     public void loadFragmentData(final Location loc) {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
@@ -118,8 +88,7 @@ public class CategoryProductsFragment extends Fragment {
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                OfferProtoIdTitleSubtitleImageUrlsCategoriesCollection result;
-                //Log.d("MainActivity", loc.toString());
+                OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
                 if (loc != null)  {
 
 
@@ -135,7 +104,7 @@ public class CategoryProductsFragment extends Fragment {
                         result = service.offer().bycat().setCategories(Arrays.asList(cat_id)).setBbox(bbox).execute();
                         offerList = new ArrayList<ListItem>();
                         if (result.getItems() != null) {
-                            for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
+                            for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
                                 ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                                 String catstr = "";
                                 for (String cat : off.getCategories()) {
@@ -148,7 +117,6 @@ public class CategoryProductsFragment extends Fragment {
                                 li.category = catstr;
                                 if (off.getImageUrls() != null) {
                                     if (off.getImageUrls().size() >= 1) {
-                                        //IMAGES.add(off.getImageUrls().get(0));
                                         // tmp fix, save image from url, give the path to HomeFragment
                                         li.resourceImage = off.getImageUrls().get(0);
                                     }
@@ -165,9 +133,9 @@ public class CategoryProductsFragment extends Fragment {
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -179,7 +147,7 @@ public class CategoryProductsFragment extends Fragment {
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't get Location");
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_location));
                         }
                     });
                 }

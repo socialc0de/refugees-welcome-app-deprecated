@@ -12,6 +12,9 @@
         <item name="colorButtonNormal">@color/accentColor</item>
         <item name="colorControlActivated">@color/accentColor</item>
         <item name="colorControlHighlight">@color/accentColor</item>
+        <!--
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>-->
     </style>
 
 </resources>

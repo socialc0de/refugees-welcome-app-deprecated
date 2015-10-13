@@ -42,7 +42,7 @@ import android.content.DialogInterface;
 import com.melnykov.fab.FloatingActionButton;
 import android.util.TypedValue;
 public class PhraseDetailFragment extends android.support.v4.app.Fragment{
-    private final String TAG = "MainActivity";
+    private final String TAG = "GSW MainActivity";
     private View viewRoot;
     //TODO Get Labels, Sub_labels, categories, images, objects
     HashMap<String,String> translations;
@@ -55,12 +55,6 @@ public class PhraseDetailFragment extends android.support.v4.app.Fragment{
                              Bundle savedInstanceState) {
 
         viewRoot = inflater.inflate(R.layout.fragment_phrase_detail, container, false);
-
-        //Implementation of custom Toolbar
-        SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);
         LinearLayout ll = (LinearLayout) viewRoot.findViewById(R.id.linearlayout);
         for (HashMap.Entry<String,String> lang: translations.entrySet()) {
             TextView tv = new TextView(getActivity().getApplicationContext());

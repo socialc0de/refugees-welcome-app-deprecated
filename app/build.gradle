@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.3.0'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 apply plugin: 'android'
@@ -12,6 +13,7 @@ apply plugin: 'android'
 repositories {
    maven {
         url 'http://google-api-client-libraries.appspot.com/mavenrepo'
+        url 'https://maven.fabric.io/public'
     }
     mavenCentral()
     mavenLocal()
@@ -20,6 +22,7 @@ repositories {
 
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 Properties props = new Properties()
 props.load(new FileInputStream(file("../config.properties")))
@@ -44,8 +47,8 @@ android {
         applicationId "de.pajowu.donate"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "BETA"
     }
     buildTypes {
         release {
@@ -54,12 +57,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
             signingConfig signingConfigs.release
+            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("twitterConsumerKey")}\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("twitterConsumerSecret")}\""
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             signingConfig signingConfigs.release
+            buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("twitterConsumerKey")}\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("twitterConsumerSecret")}\""
         }
     }
     useLibrary 'org.apache.http.legacy'
@@ -84,7 +91,6 @@ dependencies {
     compile 'com.github.rey5137:material:1.1.1'
     compile 'com.google.android.gms:play-services:7.0.0'
     compile 'com.wdullaer:materialdatetimepicker:1.4.1'
-    compile 'com.appyvet:materialrangebar:1.0'
     // BEGIN Google APIs
     // Play Services will validate the application prior to allowing OAuth2 access.
     compile 'com.google.android.gms:play-services:6.5+'
@@ -115,5 +121,7 @@ dependencies {
     // This is used by the Google HTTP client library.
     // compile(group: 'com.google.guava', name: 'guava', version: '18.0.+')
     compile 'com.google.maps.android:android-maps-utils:0.4'
-    compile 'tk.zielony:carbon:0.10.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+        transitive = true;
+    }
 }

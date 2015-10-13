@@ -42,14 +42,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public Bundle bundleTab1 = new Bundle();
     View viewRoot;
 
-    /*public LocalFragment(Context context, ArrayList<ListItem> offerList, ArrayList<ListItem> searchList, ArrayList<ListItem> allList) {
-        this.offerList = offerList;
-        this.searchList = searchList;
-        this.allList = allList;
-        this.context = context;
-
-        Log.d("LocalFragment called", "");
-    }*/
     public LocalFragment(Context context) {
         this.context = context;
 
@@ -65,13 +57,9 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_list_fab, container, false);
-        Log.d("MainActivity","onCreateView Local");
+        Log.d("GSW MainActivity","onCreateView Local");
         //Implementation of custom Toolbar
 
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(context, "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         if (offerList != null) {
             fillLayout();
         } else {
@@ -86,12 +74,12 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             editButton.setVisibility(View.VISIBLE);
 
 
-            Log.d("MainActivity","fillLayout Locals");
+            Log.d("GSW MainActivity","fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-            tbs.add(new ListTabFragment(this.offerList, "Offer"));
-            Log.d("MainActivity","create ViewPagerAdapter");
+            tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
+            Log.d("GSW MainActivity","create ViewPagerAdapter");
             ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
-            Log.d("MainActivity","created ViewPagerAdapter");
+            Log.d("GSW MainActivity","created ViewPagerAdapter");
             // Assigning ViewPager View and setting the adapter
             ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
             pager.setAdapter(adapter);
@@ -117,27 +105,9 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     }
     public void loadFragmentData() {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
-        /*LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                loadData(location);
-            }
-         
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-         
-            public void onProviderEnabled(String provider) {}
-         
-            public void onProviderDisabled(String provider) {}
-          };
-         
-        // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);*/
         loadData(getLocation());
     }
     public void loadData(final Location loc) {
-        Log.d("MainActivity",loc.toString());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -147,10 +117,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                OfferProtoIdTitleSubtitleImageUrlsCategoriesCollection result;
-                //LatLng loc = getLocation();
-
-                //Log.d("MainActivity", loc.toString());
+                OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
                 if (loc != null)  {
 
 
@@ -165,10 +132,10 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
                     try {
                         result = service.offer().listNear().setBbox(bbox).execute();
-                        Log.d("MainActivity", result.toString());
+                        Log.d("GSW MainActivity", result.toString());
                         offerList = new ArrayList<ListItem>();
                         if (result.getItems() != null) {
-                            for (OfferProtoIdTitleSubtitleImageUrlsCategories off : result.getItems()) {
+                            for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
                                 ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                                 String catstr = "";
                                 for (String cat : off.getCategories()) {
@@ -180,7 +147,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                                 }
                                 li.category = catstr;
                                 if (off.getImageUrls() != null) {
-                                    //IMAGES.add(off.getImageUrls().get(0));
                                     // tmp fix, save image from url, give the path to HomeFragment
                                     li.resourceImage = off.getImageUrls().get(0);
                                 }
@@ -195,14 +161,14 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                                 startActivityForResult(e2.getIntent(), 2);
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     } catch (Exception e) {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
-                                ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't load offers");
+                                ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_load_offers));
                             }
                         });
-                        Log.d("MainActivity", "e", e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -214,7 +180,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 } else {
                      getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("Couldn't get Location");
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_location));
                         }
                     });
                 }
@@ -222,33 +188,26 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         };
         new Thread(runnable).start();
     }
-    /*public LatLng getLocation() {
+    public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(bestProvider);
         Double lat, lon;
-        try {
-            lat = location.getLatitude();
-            lon = location.getLongitude();
-            return new LatLng(lat, lon);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-    public Location getLocation() {
+        return location;
+    }
+    /*public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         return location;
-    }
+    }*/
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                Log.d("MainActivity", "pressed");
+                Log.d("GSW MainActivity", "pressed");
                 if (((MainActivity)getActivity()).credential.getSelectedAccountName() != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewOfferFragment(context)).addToBackStack(null).commit();
                     ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
@@ -269,7 +228,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                     alert.show();
                 }
         
-                //((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText("New Offer is not implemented yet");
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
                 break;

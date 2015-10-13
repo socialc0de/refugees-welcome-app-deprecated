@@ -1,8 +1,10 @@
 local.properties
 config.properties
+app/fabric.properties
 app/build/
 build/
 .gradle/
 ignore/
 .DS_Store
 .idea/
+*.iml

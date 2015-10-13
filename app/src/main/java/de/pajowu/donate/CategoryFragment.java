@@ -43,27 +43,23 @@ public class CategoryFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         categories = mMainActivity.categories;
-        Log.d("MainActivity",categories.toString());
+        Log.d("GSW MainActivity",categories.toString());
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
-        /*SpannableString s = new SpannableString(getString(R.string.app_name));
-        s.setSpan(new de.pajowu.donate.TypefaceSpan(getActivity().getApplicationContext(), "fabiolo.otf"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(s);*/
         itemList = new ArrayList<CategoryListItem>();
         serviceList = new ArrayList<CategoryListItem>();
         for (HashMap.Entry<String,Category> cat: categories.entrySet()) {
-            Log.d("MainActivity",cat.getValue().getGroup());
+            Log.d("GSW MainActivity",cat.getValue().getGroup());
             if (cat.getValue().getGroup().equals("service")) {
                 serviceList.add(new CategoryListItem("", cat.getValue().getName(), cat.getValue().getDescription(), cat.getValue().getId()));
             } else if (cat.getValue().getGroup().equals("item")) {
                 itemList.add(new CategoryListItem("", cat.getValue().getName(), cat.getValue().getDescription(), cat.getValue().getId()));
             }
         }
-        Log.d("MainActivity",itemList.toString());
+        Log.d("GSW MainActivity",itemList.toString());
         ArrayList<CategoryListTabFragment> tbs = new ArrayList<CategoryListTabFragment>();
-        tbs.add(new CategoryListTabFragment(serviceList, "Service"));
-        tbs.add(new CategoryListTabFragment(itemList, "Item"));
+        tbs.add(new CategoryListTabFragment(serviceList, getString(R.string.service)));
+        tbs.add(new CategoryListTabFragment(itemList, getString(R.string.item)));
         CategoryViewPagerAdapter adapter =  new CategoryViewPagerAdapter(getChildFragmentManager(),tbs);
  
         // Assigning ViewPager View and setting the adapter

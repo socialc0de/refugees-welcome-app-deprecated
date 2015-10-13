@@ -10,9 +10,7 @@ import android.util.Log;
  */
 public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
  
-    ArrayList<CategoryListTabFragment> fragments; // This will Store the Titles of the Tabs which are Going to be passed when CategoryViewPagerAdapter is created
-    //int NumbOfTabs; // Store the number of tabs, this will also be passed when the CategoryViewPagerAdapter is created
- 
+    ArrayList<CategoryListTabFragment> fragments;
  
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public CategoryViewPagerAdapter(FragmentManager fm, ArrayList<CategoryListTabFragment> frag) {
@@ -24,7 +22,7 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-        Log.d("MainActivity","getItem");
+        Log.d("GSW MainActivity","getItem");
         return fragments.get(position);
     }
  
@@ -32,7 +30,7 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
  
     @Override
     public CharSequence getPageTitle(int position) {
-        Log.d("MainActivity","getPageTitle");
+        Log.d("GSW MainActivity","getPageTitle");
         return fragments.get(position).getTitle();
     }
  
@@ -40,7 +38,7 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
  
     @Override
     public int getCount() {
-        Log.d("MainActivity","getCount");
+        Log.d("GSW MainActivity","getCount");
         return fragments.size();
     }
 }

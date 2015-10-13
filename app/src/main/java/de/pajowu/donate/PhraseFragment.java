@@ -31,27 +31,6 @@ import java.util.Iterator;
  */
 public class PhraseFragment extends Fragment{
     public PhraseFragment() {
-        /*HashMap<String, String> phrase = new HashMap<String, String>();
-        phrase.put("German","Hallo");
-        phrase.put("English","Hello");
-        phrase.put("Arabic","مرحبا اهلا");
-        phrase.put("Arabic Phonetic","Saalam/ Merhaba");
-        phrase.put("French","Salut");
-        phrases.add(phrase);
-        phrase = new HashMap<String, String>();
-        phrase.put("German","guten Morgen");
-        phrase.put("English","Good morning");
-        phrase.put("Arabic"," صباح الخیر");
-        phrase.put("Arabic Phonetic","Sabáh al-khayr");
-        phrase.put("French","Bonjour");
-        phrases.add(phrase);
-        phrase = new HashMap<String, String>();
-        phrase.put("German","guten Abend");
-        phrase.put("English","good evening");
-        phrase.put("Arabic"," مسا الخير /  مساء الخیر");
-        phrase.put("Arabic Phonetic","massa Alchayr     Masa al-khayr      ");
-        phrase.put("French","Bonsoir");
-        phrases.add(phrase);*/
 
     }
     @Override
@@ -67,7 +46,6 @@ public class PhraseFragment extends Fragment{
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
-            //JSONObject obj = new JSONObject(json);
             JSONArray m_jArry = new JSONArray(json);
             ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
 
@@ -81,7 +59,7 @@ public class PhraseFragment extends Fragment{
                         phrase.put(key, (String)jo_inside.get(key));
                     }
                 }
-                Log.d("MainActivity",jo_inside.toString());
+                Log.d("GSW MainActivity",jo_inside.toString());
                 formList.add(phrase);
             }
             return formList;
@@ -94,25 +72,22 @@ public class PhraseFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //categories = mMainActivity.categories;
-        //Log.d("MainActivity",categories.toString());
         View viewRoot = inflater.inflate(R.layout.fragment_phrase_tab, container, false);
         ArrayList<PhraseListTabFragment> tbs = new ArrayList<PhraseListTabFragment>();
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("basic.json"), "Basic Conversation"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("medical.json"), "Medical Terms"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("food.json"), "Food"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("clothing.json"), "Clothing"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("children.json"), "Children"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("profession.json"), "Profession"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("animals.json"), "Animals"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("children.json"), "Children"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("nature.json"), "Nature and Weather"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("basic_adjectives.json"), "Basic Adjectives"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("colours.json"), "Colours"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("direction.json"), "Direction, places and transport"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("sexual.json"), "Sexual and gender identity"));
-        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("misc.json"), "Misc"));
-        //tbs.add(new CategoryListTabFragment(itemList, "Item"));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("basic.json"), getString(R.string.basic_conversation)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("medical.json"), getString(R.string.medical_terms)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("food.json"), getString(R.string.food)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("clothing.json"), getString(R.string.clothing)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("children.json"), getString(R.string.children)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("profession.json"), getString(R.string.profession)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("animals.json"), getString(R.string.animals)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("children.json"), getString(R.string.children)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("nature.json"), getString(R.string.nature_weather)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("basic_adjectives.json"), getString(R.string.basic_adjectives)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("colours.json"), getString(R.string.colours)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("direction.json"), getString(R.string.direction_places_transport)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("sexual.json"), getString(R.string.sexual_gender_identity)));
+        tbs.add(new PhraseListTabFragment(loadPhrasesFromAsset("misc.json"), getString(R.string.misc)));
         PhraseViewPagerAdapter adapter =  new PhraseViewPagerAdapter(getChildFragmentManager(),tbs);
  
         // Assigning ViewPager View and setting the adapter

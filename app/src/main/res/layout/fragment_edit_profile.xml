@@ -1,9 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/progress_layout">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -18,7 +19,7 @@
             android:layout_marginBottom="10dp"
             android:gravity="right"
             android:orientation="horizontal">
-
+ 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -28,7 +29,7 @@
                 android:src="@drawable/ic_person_grey600"
                 android:tint="@color/primaryColor" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/editProfileName"
                 android:inputType="textNoSuggestions"
                 android:layout_width="fill_parent"
@@ -95,19 +96,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    app:met_autoValidate="true"
                     android:id="@+id/editProfileEmailPersonal"
                     android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="E-Mail (Personal)" />
 
-                <EditText
+                <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfileEmailWork"
                     android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="E-Mail (Work)" />
+                    android:hint="E-Mail (Work)" />-->
 
             </LinearLayout>
         </LinearLayout>
@@ -134,19 +136,50 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfilePhonePersonal"
                     android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone (Personal)" />
 
-                <EditText
+                <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfilePhoneWork"
                     android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Phone (Work)" />
+                    android:hint="Phone (Work)" />-->
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_my_location_grey600"
+                android:tint="@color/primaryColor" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/editProfileLocation"
+                    android:inputType="textNoSuggestions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Location"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -165,4 +198,4 @@
         android:src="@drawable/ic_done_white"
         fab:fab_colorNormal="@color/accentColor"
         fab:fab_colorPressed="@color/accentColor2" />
-</RelativeLayout>
+</com.github.androidprogresslayout.ProgressLayout>

@@ -2,10 +2,7 @@ package de.pajowu.donate;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ScrollView;
 
-import com.appspot.donate_backend.donate.*;
-import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.*;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.github.androidprogresslayout.ProgressLayout;
-
 import java.util.ArrayList;
 
 import com.melnykov.fab.FloatingActionButton;
+
+import de.pajowu.donate.models.ListItem;
 
 public class HomeFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     public ScrollView scrollView;

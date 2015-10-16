@@ -2,19 +2,15 @@ package de.pajowu.donate;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.appspot.donate_backend.donate.*;
@@ -24,14 +20,14 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.github.androidprogresslayout.ProgressLayout;
-import com.google.android.gms.maps.model.LatLng;
 
 import android.location.LocationManager;
-import android.location.Criteria;
 import android.location.Location;
 
 import android.support.v4.view.ViewPager;
 import java.util.Arrays;
+
+import de.pajowu.donate.models.ListItem;
 
 public class CategoryProductsFragment extends Fragment {
     public ArrayList<ListItem> offerList;
@@ -114,11 +110,11 @@ public class CategoryProductsFragment extends Fragment {
                                     }
                                 
                                 }
-                                li.category = catstr;
+                                li.setCategory(catstr);
                                 if (off.getImageUrls() != null) {
                                     if (off.getImageUrls().size() >= 1) {
                                         // tmp fix, save image from url, give the path to HomeFragment
-                                        li.resourceImage = off.getImageUrls().get(0);
+                                        li.setResourceImage(off.getImageUrls().get(0));
                                     }
                                 }
                                 

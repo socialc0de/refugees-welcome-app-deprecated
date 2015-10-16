@@ -1,10 +1,11 @@
-package de.pajowu.donate;
+package de.pajowu.donate.models;
 
 import android.content.Context;
 public class ProfileRow {
     private String title;
     private int imgIcon;
     private String url;
+
     public ProfileRow() {
 
     }

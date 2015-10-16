@@ -3,8 +3,6 @@ package de.pajowu.donate;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,6 +35,9 @@ import java.util.Map;
 
 import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
+
+import de.pajowu.donate.models.Person;
+
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     UserProtoImAddressNameImageUrl user_data;
     public Person appOwner;
@@ -84,21 +85,21 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             final UserProtoAddressImInterestImage user = new UserProtoAddressImInterestImage();
             JSONObject im_json = new JSONObject();
             JSONObject phone = new JSONObject();
-            phone.put("url", "tel:" + appOwner.phone);
-            phone.put("display", appOwner.phone);
+            phone.put("url", "tel:" + appOwner.getPhone());
+            phone.put("display", appOwner.getPhone());
             JSONObject email = new JSONObject();
-            email.put("url", "mailto:" + appOwner.email);
-            email.put("display", appOwner.email);
+            email.put("url", "mailto:" + appOwner.getEmail());
+            email.put("display", appOwner.getEmail());
             JSONObject website = new JSONObject();
-            website.put("url", appOwner.url);
-            website.put("display", appOwner.url);
+            website.put("url", appOwner.getUrl());
+            website.put("display", appOwner.getUrl());
             im_json.put("mail", email);
             im_json.put("phone", phone);
             im_json.put("web", website);
             Log.d(TAG, im_json.toString());
             user.setIm(im_json.toString());
-            if (appOwner.city != null) {
-                user.setAddress(appOwner.city);
+            if (appOwner.getCity() != null) {
+                user.setAddress(appOwner.getCity());
             }
             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
             Runnable runnable = new Runnable() {
@@ -183,16 +184,16 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
         ImageView imageView = (ImageView) viewRoot.findViewById(R.id.profileImage);
 
-        textViewPhone.setText(appOwner.phone);
-        textViewCity.setText(appOwner.city);
-        textViewEmail.setText(appOwner.email);
+        textViewPhone.setText(appOwner.getPhone());
+        textViewCity.setText(appOwner.getCity());
+        textViewEmail.setText(appOwner.getEmail());
         disableTextView(textViewName);
         disableTextView(textViewPhone);
         disableTextView(textViewCity);
         disableTextView(textViewEmail);
-        textViewName.setText(appOwner.name);
-        if (appOwner.profileImage != null && appOwner.profileImage != "") {
-            Picasso.with(getActivity().getApplicationContext()).load(appOwner.profileImage).into(imageView);
+        textViewName.setText(appOwner.getName());
+        if (appOwner.getProfileImage() != null && appOwner.getProfileImage() != "") {
+            Picasso.with(getActivity().getApplicationContext()).load(appOwner.getProfileImage()).into(imageView);
             imageView.setAlpha(0.7f);
         }
     }
@@ -214,22 +215,22 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                     im = jsonToMap(new JSONObject(user_data.getIm().toString()));
                     appOwner = new Person("", "", "", "", "", "");
                     if (im.get("gplus") != null) {
-                        appOwner.name = ((HashMap<String, String>) im.get("gplus")).get("display");
+                        appOwner.setName(((HashMap<String, String>) im.get("gplus")).get("display"));
                     }
                     if (im.get("phone") != null) {
-                        appOwner.phone = ((HashMap<String, String>) im.get("phone")).get("display");
+                        appOwner.setPhone(((HashMap<String, String>) im.get("phone")).get("display"));
                     }
                     if (im.get("mail") != null) {
-                        appOwner.email = ((HashMap<String, String>) im.get("mail")).get("display");
+                        appOwner.setEmail(((HashMap<String, String>) im.get("mail")).get("display"));
                     }
                     if (im.get("web") != null) {
-                        appOwner.url = ((HashMap<String, String>) im.get("web")).get("display");
+                        appOwner.setUrl(((HashMap<String, String>) im.get("web")).get("display"));
                     }
                     if (user_data.getAddress() != null) {
-                        appOwner.city = user_data.getAddress();
+                        appOwner.setCity(user_data.getAddress());
                     }
                     if (user_data.getImageUrl() != null) {
-                        appOwner.profileImage = user_data.getImageUrl();
+                        appOwner.setProfileImage(user_data.getImageUrl());
                     }
                     Log.d(TAG, user_data.toString());
 

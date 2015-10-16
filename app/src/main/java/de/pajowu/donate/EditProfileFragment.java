@@ -19,21 +19,20 @@ import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.melnykov.fab.FloatingActionButton;
-import org.json.JSONArray;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 import com.squareup.picasso.Picasso;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import java.io.InputStream;
 import android.graphics.Bitmap;
-import android.widget.TextView;
+
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import android.util.Base64;
 import java.io.ByteArrayOutputStream;
+
+import de.pajowu.donate.models.Person;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,12 +89,12 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         editButton = (Button) viewRoot.findViewById(R.id.editProfileEditButton);
         editButton.setOnClickListener(this);
         //editButton.setAlpha(.3f);
-        name.setText(mPerson.name);
-        emailPersonal.setText(mPerson.email);
-        phonePersonal.setText(mPerson.phone);
-        location.setText(mPerson.city);
-        if (mPerson.profileImage != null && mPerson.profileImage != "") {
-            Picasso.with(getActivity().getApplicationContext()).load(mPerson.profileImage).into(imageView);
+        name.setText(mPerson.getName());
+        emailPersonal.setText(mPerson.getEmail());
+        phonePersonal.setText(mPerson.getPhone());
+        location.setText(mPerson.getCity());
+        if (mPerson.getProfileImage() != null && mPerson.getProfileImage() != "") {
+            Picasso.with(getActivity().getApplicationContext()).load(mPerson.getProfileImage()).into(imageView);
         }
         
         return viewRoot;

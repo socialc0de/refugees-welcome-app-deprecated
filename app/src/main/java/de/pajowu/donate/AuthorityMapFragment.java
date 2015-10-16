@@ -3,16 +3,13 @@ package de.pajowu.donate;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import de.pajowu.donate.models.WifiLocation;
 
 public class AuthorityMapFragment extends Fragment implements View.OnClickListener {
 
@@ -298,7 +297,7 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
                     Double lat = Double.parseDouble(RowData[0]);
                     Double lng = Double.parseDouble(RowData[1]);
                     WifiLocation wLoc = new WifiLocation();
-                    wLoc.location = new LatLng(lat, lng);
+                    wLoc.setLocation(new LatLng(lat, lng));
                     wifiLocations.add(wLoc);
                 }
             } catch (IOException ex) {

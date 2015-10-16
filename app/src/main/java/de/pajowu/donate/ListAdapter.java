@@ -4,16 +4,16 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import android.support.v4.app.FragmentActivity;
+
+import de.pajowu.donate.models.ListItem;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private int targetedLayout;
@@ -51,14 +51,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 // - get data from your itemsData at this position
 // - replace the contents of the view with that itemsData
         ListItem currentData = arrayList.get(position);
-        viewHolder.title.setText(currentData.title);
-        viewHolder.subtitle.setText(currentData.subtitle);
-        viewHolder.category.setText(currentData.category);
-        if (currentData.resourceImage != null && currentData.resourceImage != ""){
+        viewHolder.title.setText(currentData.getTitle());
+        viewHolder.subtitle.setText(currentData.getSubtitle());
+        viewHolder.category.setText(currentData.getCategory());
+        if (currentData.getResourceImage() != null && currentData.getResourceImage() != ""){
             Log.d("GSW MainActivity",currentData.toString());
-            Picasso.with(this.context).load(currentData.resourceImage).into(viewHolder.imgV);
-        } else if (currentData.image != 0){
-            Picasso.with(this.context).load(currentData.image).into(viewHolder.imgV);
+            Picasso.with(this.context).load(currentData.getResourceImage()).into(viewHolder.imgV);
+        } else if (currentData.getImage() != 0){
+            Picasso.with(this.context).load(currentData.getImage()).into(viewHolder.imgV);
         }
         Log.d("GSW MainActivity","onBindViewHolder");
 
@@ -93,7 +93,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             Log.d("GSW MainActivity","position = " + getPosition());
-            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(context, arrayList.get(getPosition()).primaryKey)).addToBackStack(null).commit();
+            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(context, arrayList.get(getPosition()).getPrimaryKey())).addToBackStack(null).commit();
             ((MainActivity)context).mDrawer.setSelection(-1, false);
         }
     }

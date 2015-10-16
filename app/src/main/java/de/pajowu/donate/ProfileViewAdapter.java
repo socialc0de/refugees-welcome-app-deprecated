@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
- 
+
+import de.pajowu.donate.models.ProfileRow;
+
 public class ProfileViewAdapter extends RecyclerView.Adapter<ProfileRowHolder> {
     Context context;
     ArrayList<ProfileRow> itemsList;

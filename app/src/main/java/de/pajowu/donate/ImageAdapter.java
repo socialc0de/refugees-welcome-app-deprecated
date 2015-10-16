@@ -2,11 +2,7 @@ package de.pajowu.donate;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -18,9 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
+
+import de.pajowu.donate.models.ListItem;
 
 public class ImageAdapter extends BaseAdapter implements View.OnClickListener{
     private Context context;
@@ -69,21 +66,21 @@ public class ImageAdapter extends BaseAdapter implements View.OnClickListener{
         float wt_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, gridView.getResources().getDisplayMetrics());
 
         ImageView imgV = (ImageView) gridView.findViewById(R.id.cardViewImage);
-        if (this.arrayList.get(position).resourceImage != ""){
-            Picasso.with(this.context).load(this.arrayList.get(position).resourceImage).fit().into(imgV);
+        if (this.arrayList.get(position).getResourceImage() != ""){
+            Picasso.with(this.context).load(this.arrayList.get(position).getResourceImage()).fit().into(imgV);
 
         }
-        Log.d("resourceImageID:", this.arrayList.get(position).image+"");
+        Log.d("resourceImageID:", this.arrayList.get(position).getImage()+"");
 
         TextView textView = (TextView) gridView.findViewById(R.id.cardViewText);
-        textView.setText(this.arrayList.get(position).title);
+        textView.setText(this.arrayList.get(position).getTitle());
         textView.setTypeface(headline);
 
         TextView textView2 = (TextView) gridView.findViewById(R.id.cardViewText2);
-        textView2.setText(this.arrayList.get(position).subtitle);
+        textView2.setText(this.arrayList.get(position).getSubtitle());
 
         TextView textView3 = (TextView) gridView.findViewById(R.id.cardViewCategory);
-        textView3.setText(this.arrayList.get(position).category);
+        textView3.setText(this.arrayList.get(position).getCategory());
 
         return gridView;
     }

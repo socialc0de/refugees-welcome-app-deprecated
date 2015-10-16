@@ -12,8 +12,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.text.TextUtils;
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
@@ -33,13 +30,7 @@ import com.appspot.donate_backend.donate.model.OfferProtoTitleSubtitleDescriptio
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -47,7 +38,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
-import android.graphics.PorterDuff;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -56,7 +46,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import android.view.WindowManager;
+
+import de.pajowu.donate.models.ListItem;
 
 //import de.pajowu.donate.*;
 

@@ -1,59 +1,96 @@
 package de.pajowu.donate;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ScrollView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.appspot.donate_backend.donate.*;
+import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.OfferProtoId;
+import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleDescriptionCategoriesImageUrlsLatLonOwnerEndDateOwnerKey;
+import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.melnykov.fab.FloatingActionButton;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import com.github.androidprogresslayout.ProgressLayout;
-
-import org.json.JSONObject;
-import java.util.Map;
-import java.util.List;
-import org.json.JSONException;
-import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Iterator;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.widget.TextView;
-import android.widget.ImageView;
+import java.util.List;
+import java.util.Map;
 
-import com.squareup.picasso.Picasso;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import com.melnykov.fab.FloatingActionButton;
-public class ProductFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
+public class ProductFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     private final String TAG = "GSW MainActivity";
-    private View viewRoot;
     //TODO Get Labels, Sub_labels, categories, images, objects
     Context mContext;
     Long primaryKey;
     OfferProtoIdTitleSubtitleDescriptionCategoriesImageUrlsLatLonOwnerEndDateOwnerKey offer_data;
-    Map<String,Object> im;
+    Map<String, Object> im;
     String gplus_url = "";
     ArrayList<ContactRow> im_data;
+    private View viewRoot;
+
     public ProductFragment(Context context, Long pk) {
         this.mContext = context;
         this.primaryKey = pk;
-        Log.d("GSW MainActivity",new Long(pk).toString());
+        Log.d("GSW MainActivity", new Long(pk).toString());
+    }
+
+    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+
+        if (json != JSONObject.NULL) {
+            retMap = toMap(json);
+        }
+        return retMap;
+    }
+
+    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Iterator<String> keysItr = object.keys();
+        while (keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    public static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for (int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
     }
 
     @Override
@@ -67,55 +104,12 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
         return viewRoot;
 
     }
-    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
-        Map<String, Object> retMap = new HashMap<String, Object>();
 
-        if(json != JSONObject.NULL) {
-            retMap = toMap(json);
-        }
-        return retMap;
-    }
-
-    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        Iterator<String> keysItr = object.keys();
-        while(keysItr.hasNext()) {
-            String key = keysItr.next();
-            Object value = object.get(key);
-
-            if(value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            map.put(key, value);
-        }
-        return map;
-    }
-
-    public static List<Object> toList(JSONArray array) throws JSONException {
-        List<Object> list = new ArrayList<Object>();
-        for(int i = 0; i < array.length(); i++) {
-            Object value = array.get(i);
-            if(value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            list.add(value);
-        }
-        return list;
-    }
     @Override
     public void onClick(View v) {
-        Log.d("GSW MainActivity",gplus_url);
-        Log.d("GSW MainActivity",((MainActivity)getActivity()).gplus_url);
-        if (gplus_url.equals(((MainActivity)getActivity()).gplus_url)) {
+        Log.d("GSW MainActivity", gplus_url);
+        Log.d("GSW MainActivity", ((MainActivity) getActivity()).gplus_url);
+        if (gplus_url.equals(((MainActivity) getActivity()).gplus_url)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
             alert.setTitle(getString(R.string.sure));
             alert.setMessage(getString(R.string.sure_delete_offer));
@@ -149,13 +143,13 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                                     LocalFragment newFragment = new LocalFragment();
                                     //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment,"Local");
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-                                    ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+                                    ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
                                 }
                             });
 
                         }
                     };
-                new Thread(runnable).start();
+                    new Thread(runnable).start();
                 }
             });
             alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -168,32 +162,33 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
             ContactFragment contactFragment = new ContactFragment(mContext, im_data);
             //((MaterialNavigationDrawer) getActivity()).setFragment(contactFragment,"Owner");
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, contactFragment).addToBackStack(null).commit();
-            ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+            ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
         }
-        
+
     }
+
     private void fillLayout() {
-        Log.d("GSW MainActivity",((MainActivity)getActivity()).gplus_url);
+        Log.d("GSW MainActivity", ((MainActivity) getActivity()).gplus_url);
         ImageView imageView = (ImageView) getActivity().findViewById(R.id.fragment_product_mainImage);
         getActivity().findViewById(R.id.fragment_product_messageButton).setOnClickListener(this);
-        gplus_url = (String)((HashMap)im.get("gplus")).get("url");
-        if (gplus_url.equals(((MainActivity)getActivity()).gplus_url)) {
+        gplus_url = (String) ((HashMap) im.get("gplus")).get("url");
+        if (gplus_url.equals(((MainActivity) getActivity()).gplus_url)) {
             ((FloatingActionButton) getActivity().findViewById(R.id.fragment_product_messageButton)).setImageResource(R.drawable.ic_delete);
         }
         im_data = new ArrayList<ContactRow>();
         for (Map.Entry<String, Object> entry : im.entrySet()) {
             if (entry.getValue().getClass().equals(String.class)) {
-                im_data.add(new ContactRow(mContext, (String)entry.getValue(), entry.getKey()));
+                im_data.add(new ContactRow(mContext, (String) entry.getValue(), entry.getKey()));
             }
             if (entry.getValue().getClass().equals(HashMap.class)) {
                 try {
-                    im_data.add(new ContactRow(mContext, (String)((HashMap)entry.getValue()).get("display"), entry.getKey(),  (String)((HashMap)entry.getValue()).get("url")));
+                    im_data.add(new ContactRow(mContext, (String) ((HashMap) entry.getValue()).get("display"), entry.getKey(), (String) ((HashMap) entry.getValue()).get("url")));
 
                 } catch (Exception e) {
-                    Log.d(TAG,"Error",e);
+                    Log.d(TAG, "Error", e);
                 }
             }
-            Log.d("GSW MainActivity",entry.getValue().getClass().toString());
+            Log.d("GSW MainActivity", entry.getValue().getClass().toString());
         }
         //roundedImageView = (RoundedImageView) getActivity().findViewById(R.id.fragment_product_productImage);
 
@@ -237,11 +232,11 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                
+
                 try {
                     offer_data = service.offer().get(primaryKey).execute();
-                    Log.d("GSW MainActivity",offer_data.getOwner().toString());
-                    im =  jsonToMap(new JSONObject(offer_data.getOwner().getIm().toString()));
+                    Log.d("GSW MainActivity", offer_data.getOwner().toString());
+                    im = jsonToMap(new JSONObject(offer_data.getOwner().getIm().toString()));
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
@@ -260,11 +255,11 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                     Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.offer)));
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch, getString(R.string.offer)));
                         }
                     });
                 }
-                
+
 
             }
         };

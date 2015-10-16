@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class PhraseListItem {
     private HashMap<String, String> phrases;
 
-    public PhraseListItem(HashMap<String, String> phs){
+    public PhraseListItem(HashMap<String, String> phs) {
         phrases = phs;
 
     }

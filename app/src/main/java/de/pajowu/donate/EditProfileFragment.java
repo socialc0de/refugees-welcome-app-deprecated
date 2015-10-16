@@ -1,36 +1,37 @@
 package de.pajowu.donate;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-import com.melnykov.fab.FloatingActionButton;
+
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.UserProtoAddressImInterestImage;
+import com.appspot.donate_backend.donate.model.UserProtoImAddressNameImageUrl;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-
-import org.json.JSONObject;
-import com.squareup.picasso.Picasso;
-
-import android.net.Uri;
-import java.io.InputStream;
-import android.graphics.Bitmap;
-
+import com.melnykov.fab.FloatingActionButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
-import android.util.Base64;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 import de.pajowu.donate.models.Person;
 
@@ -38,24 +39,25 @@ import de.pajowu.donate.models.Person;
  * A simple {@link Fragment} subclass.
  */
 public class EditProfileFragment extends Fragment implements View.OnClickListener {
+    public static final int CHOOSE_PROFILE_PIC = 1;
+    public final String TAG = "GSW MainActivity";
+    UserProtoImAddressNameImageUrl user_data;
+    Bitmap profilePicture;
+    Person mPerson;
     private MaterialEditText name, emailPersonal, emailWork, phonePersonal, phoneWork, location;
     private ImageView imageView;
     private Button editButton;
     private FloatingActionButton finishedButton;
-    public static final int CHOOSE_PROFILE_PIC = 1;
-    public final String TAG = "GSW MainActivity";
     private View viewRoot;
-    UserProtoImAddressNameImageUrl user_data;
-    Bitmap profilePicture;
-    Person mPerson;
 
     public EditProfileFragment() {
         // Required empty public constructor
     }
+
     public EditProfileFragment(Person p) {
         // Required empty public constructor
         mPerson = p;
-        Log.d(TAG,p.toString());
+        Log.d(TAG, p.toString());
     }
 
     @Override
@@ -71,10 +73,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         name = (MaterialEditText) viewRoot.findViewById(R.id.editProfileName);
         disableTextView(name);
         emailPersonal = (MaterialEditText) viewRoot.findViewById(R.id.editProfileEmailPersonal);
-        emailPersonal.addValidator(new RegexpValidator(getString(R.string.email_invalid),"^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"));
+        emailPersonal.addValidator(new RegexpValidator(getString(R.string.email_invalid), "^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$"));
         //emailWork = (MaterialEditText) view.findViewById(R.id.editProfileEmailWork);
         phonePersonal = (MaterialEditText) viewRoot.findViewById(R.id.editProfilePhonePersonal);
-        phonePersonal.addValidator(new RegexpValidator(getString(R.string.phone_invalid),"^(\\+|00)[0-9]*$"));
+        phonePersonal.addValidator(new RegexpValidator(getString(R.string.phone_invalid), "^(\\+|00)[0-9]*$"));
         //phoneWork = (MaterialEditText) view.findViewById(R.id.editProfilePhoneWork);
         location = (MaterialEditText) viewRoot.findViewById(R.id.editProfileLocation);
         // ImageView
@@ -96,14 +98,14 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         if (mPerson.getProfileImage() != null && mPerson.getProfileImage() != "") {
             Picasso.with(getActivity().getApplicationContext()).load(mPerson.getProfileImage()).into(imageView);
         }
-        
+
         return viewRoot;
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.editProfileFinished:
                 //TODO Sync MaterialEditTextData with Server
                 updateUser();
@@ -114,13 +116,15 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                 break;
         }
     }
+
     private void choosePic() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, CHOOSE_PROFILE_PIC);
     }
+
     private void updateUser() {
-        if (! (phonePersonal.validate() && emailPersonal.validate() && location.validate())) {
+        if (!(phonePersonal.validate() && emailPersonal.validate() && location.validate())) {
             return;
         }
         String pho = phonePersonal.getText().toString();
@@ -215,6 +219,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         }
 
     }
+
     public Bitmap resizeImageForImageView(Bitmap bitmap) {
         Bitmap resizedBitmap = null;
         int originalWidth = bitmap.getWidth();
@@ -237,6 +242,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
         return resizedBitmap;
     }
+
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -244,34 +250,37 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
+
     public void showProfileFragment() {
         ProfileFragment nextFrag = new ProfileFragment();
         this.getFragmentManager().beginTransaction()
                 .replace(R.id.container, nextFrag, null)
                 .addToBackStack(null)
                 .commit();
-        ((MainActivity)getActivity()).mDrawer.setSelection(2, false);
+        ((MainActivity) getActivity()).mDrawer.setSelection(2, false);
     }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) { 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data); 
 
-        switch(requestCode) { 
+        switch (requestCode) {
             case CHOOSE_PROFILE_PIC:
-                if(resultCode == getActivity().RESULT_OK){  
+                if (resultCode == getActivity().RESULT_OK) {
                     try {
                         Uri selectedImage = data.getData();
                         InputStream imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
                         profilePicture = BitmapFactory.decodeStream(imageStream);
-                        Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, ((ImageView)viewRoot.findViewById(R.id.editProfileImage)).getWidth()).into((ImageView)viewRoot.findViewById(R.id.editProfileImage));
+                        Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, viewRoot.findViewById(R.id.editProfileImage).getWidth()).into((ImageView) viewRoot.findViewById(R.id.editProfileImage));
                     } catch (Exception e) {
-                        Log.d("GSW MainActivity","e",e);
+                        Log.d("GSW MainActivity", "e", e);
                     }
-                    
+
                 }
                 break;
         }
     }
+
     private void disableTextView(MaterialEditText met) {
         met.setFocusable(false);
         met.setFocusableInTouchMode(false);

@@ -4,7 +4,8 @@ package de.pajowu.donate;
  * Created by patricebecker on 12/09/15.
  */
 
-import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,18 +13,19 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.appspot.donate_backend.donate.model.*;
+
+import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguage;
+
 import java.util.ArrayList;
-import android.content.Context;
-import android.util.Log;
+
 public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 
-    private ArrayList<FAQItemProtoQuestionAnswerLanguage> items;
     LayoutInflater inflater;
+    private ArrayList<FAQItemProtoQuestionAnswerLanguage> items;
+
     public FAQCategoryAdapter(ArrayList<FAQItemProtoQuestionAnswerLanguage> items, Context context) {
         this.items = items;
-        Log.d("GSW MainActivity",items.toString());
+        Log.d("GSW MainActivity", items.toString());
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -43,7 +45,7 @@ public class FAQCategoryAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("MainActivity",items.get(groupPosition).getAnswer());
+                Log.d("MainActivity", items.get(groupPosition).getAnswer());
             }
         });
 

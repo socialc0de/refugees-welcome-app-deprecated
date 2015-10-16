@@ -3,23 +3,25 @@ package de.pajowu.donate;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v7.widget.RecyclerView;
+
 import java.util.ArrayList;
-import android.support.v7.widget.LinearLayoutManager;
 
 import de.pajowu.donate.models.ListItem;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListTabFragment extends Fragment{
+public class ListTabFragment extends Fragment {
     public ArrayList<ListItem> arrayList;
     public long primaryKeyValue;
     public String title;
+
     public ListTabFragment(ArrayList<ListItem> arli, String ttl) {
         arrayList = arli;
         title = ttl;
@@ -29,20 +31,23 @@ public class ListTabFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("GSW MainActivity","onPause");
+        Log.d("GSW MainActivity", "onPause");
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("GSW MainActivity","onResume");
+        Log.d("GSW MainActivity", "onResume");
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("GSW MainActivity","onCreateView ListTabFragment");
+        Log.d("GSW MainActivity", "onCreateView ListTabFragment");
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_faqfragment, container, false);
 

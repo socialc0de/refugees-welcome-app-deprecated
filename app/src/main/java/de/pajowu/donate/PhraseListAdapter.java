@@ -3,21 +3,18 @@ package de.pajowu.donate;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import android.widget.LinearLayout;
 public class PhraseListAdapter extends ArrayAdapter<HashMap<String, String>> {
     private int targetedLayout;
     private Context context;
@@ -51,10 +48,10 @@ public class PhraseListAdapter extends ArrayAdapter<HashMap<String, String>> {
             Log.d("getView called, ", "View = convertView");
 
         }
-        LinearLayout ll = (LinearLayout)v.findViewById(R.id.text);
+        LinearLayout ll = (LinearLayout) v.findViewById(R.id.text);
         HashMap<String, String> currentData = arrayList.get(position);
-        List<String> langs = Arrays.asList("German", "English","Arabic / Syrian");
-        for (String lang: langs) {
+        List<String> langs = Arrays.asList("German", "English", "Arabic / Syrian");
+        for (String lang : langs) {
             TextView tv = new TextView(context);
             tv.setText(currentData.get(lang));
             tv.setTypeface(typeface1);

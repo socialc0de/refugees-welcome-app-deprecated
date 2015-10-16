@@ -1,13 +1,11 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/textView1"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
+    android:background="@color/textWhite"
     android:gravity="center_vertical"
     android:padding="10dp"
     android:textColor="@color/textGrey"
     android:textSize="15sp"
-    android:textStyle="bold"
-    android:background="@color/textWhite"
-    />
+    android:textStyle="bold" />

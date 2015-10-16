@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.text.TextUtils;
+
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.Category;
@@ -45,35 +46,34 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 import de.pajowu.donate.models.ListItem;
 
 //import de.pajowu.donate.*;
 
 public class NewOfferFragment extends Fragment implements View.OnClickListener, OnDateSetListener {
-    private final String TAG = "GSW MainActivity";
-    public ScrollView scrollView;
-    public ExpandableGridView gridView;
-    private View viewRoot;
-    //TODO Get Labels, Sub_labels, categories, images, objects
-    Context mContext;
-    public ArrayList<ListItem> arrayList;
     public static final int SELECT_PHOTO = 1;
     public static final int PLACE_PICKER_REQUEST = 2;
     public static final int LOCATION_PICKER = 3;
+    private final String TAG = "GSW MainActivity";
+    public ScrollView scrollView;
+    public ExpandableGridView gridView;
+    public ArrayList<ListItem> arrayList;
+    //TODO Get Labels, Sub_labels, categories, images, objects
+    Context mContext;
     Bitmap offerImage;
     LatLng offerLoc;
     String endDate;
     String cat;
     Button chooseCategoryButton;
+    HashMap<String, String> cats = new HashMap<String, String>();
+    private View viewRoot;
+
     public NewOfferFragment(Context context, ArrayList<ListItem> arrayList) {
         this.mContext = context;
         this.arrayList = arrayList;
 
     }
-
-    HashMap<String, String> cats = new HashMap<String, String>();
 
     public NewOfferFragment(Context context) {
         this.mContext = context;
@@ -110,7 +110,6 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    
 
     private void choosePic() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -161,6 +160,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                 chooseCategory();
         }
     }
+
     public void chooseCategory() {
         AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
         b.setTitle("Example");
@@ -172,10 +172,10 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
 
                 dialog.dismiss();
                 cat = cats.get(catkeys[which]);
-                Log.d("GSW MainActivity",cat);
+                Log.d("GSW MainActivity", cat);
                 if (cat != null) {
                     Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
-                    submitButton.setEnabled(true); 
+                    submitButton.setEnabled(true);
                     submitButton.setAlpha(1f);
                 }
                 chooseCategoryButton.setText(catkeys[which]);
@@ -185,6 +185,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
 
         b.show();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data); 
@@ -196,7 +197,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         Uri selectedImage = data.getData();
                         InputStream imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
                         offerImage = BitmapFactory.decodeStream(imageStream);
-                        Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, ((ImageView) viewRoot.findViewById(R.id.offerImage)).getWidth()).into((ImageView) viewRoot.findViewById(R.id.offerImage));
+                        Picasso.with(getActivity().getApplicationContext()).load(selectedImage).resize(0, viewRoot.findViewById(R.id.offerImage).getWidth()).into((ImageView) viewRoot.findViewById(R.id.offerImage));
                     } catch (Exception e) {
                         Log.d("GSW MainActivity", "e", e);
                     }
@@ -284,9 +285,9 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         new_offer.setSubtitle(subtitle);
         new_offer.setDescription(desc);
         //new_offer.setOffer(offer);
-        new_offer.setCategories((List<String>) Arrays.asList(cat));
-        new_offer.setLat((Double) offerLoc.latitude);
-        new_offer.setLon((Double) offerLoc.longitude);
+        new_offer.setCategories(Arrays.asList(cat));
+        new_offer.setLat(offerLoc.latitude);
+        new_offer.setLon(offerLoc.longitude);
         new_offer.setEndDate(endDate);
         final OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate final_offer = new_offer;
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
@@ -300,9 +301,9 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
                 Offer result;
                 if (offerImage != null) {
-                    final_offer.setImages((List<String>) Arrays.asList(BitMapToString(resizeImageForImageView(offerImage))));
+                    final_offer.setImages(Arrays.asList(BitMapToString(resizeImageForImageView(offerImage))));
                 } else {
-                    final_offer.setImages((List<String>) new ArrayList<String>());
+                    final_offer.setImages(new ArrayList<String>());
                 }
                 try {
                     result = service.offer().create(final_offer).execute();
@@ -342,8 +343,8 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         LocalFragment newFragment = new LocalFragment();
                         //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-                        ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
-    
+                        ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+
                     }
                 });
 

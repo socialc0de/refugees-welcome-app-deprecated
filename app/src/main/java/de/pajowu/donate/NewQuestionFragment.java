@@ -4,72 +4,45 @@ package de.pajowu.donate;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.FAQCategory;
+import com.appspot.donate_backend.donate.model.FAQItem;
+import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguageAnsweredCategory;
 import com.github.androidprogresslayout.ProgressLayout;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.squareup.picasso.Picasso;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 //import de.pajowu.donate.*;
 
 public class NewQuestionFragment extends Fragment implements View.OnClickListener {
     private final String TAG = "GSW MainActivity";
-    
-    private View viewRoot;
     Context mContext;
-    HashMap<String,FAQCategory> catMap;
+    HashMap<String, FAQCategory> catMap;
     String cat;
     ArrayList<String> langs = new ArrayList<String>();
-    public NewQuestionFragment(HashMap<String,FAQCategory> catMap) {
+    HashMap<String, String> cats = new HashMap<String, String>();
+    private View viewRoot;
+
+    public NewQuestionFragment(HashMap<String, FAQCategory> catMap) {
         this.catMap = catMap;
 
     }
-
-    HashMap<String, String> cats = new HashMap<String, String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,6 +85,7 @@ public class NewQuestionFragment extends Fragment implements View.OnClickListene
                 break;
         }
     }
+
     private void submit() {
         String question = ((MaterialEditText) viewRoot.findViewById(R.id.question)).getText().toString();
         String answer = ((MaterialEditText) viewRoot.findViewById(R.id.answer)).getText().toString();
@@ -170,8 +144,8 @@ public class NewQuestionFragment extends Fragment implements View.OnClickListene
                         FAQFragment newFragment = new FAQFragment();
                         //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-                        ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
-    
+                        ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+
                     }
                 });
 

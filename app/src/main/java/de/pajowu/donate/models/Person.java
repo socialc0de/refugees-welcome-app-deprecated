@@ -10,7 +10,7 @@ public class Person {
     private String phone;
     private String url;
 
-    public Person(String name, String city, String email, String phone, String url, String profileImage, String[] offers){
+    public Person(String name, String city, String email, String phone, String url, String profileImage, String[] offers) {
         this.name = name;
         this.city = city;
         this.email = email;
@@ -19,7 +19,8 @@ public class Person {
         this.profileImage = profileImage;
         this.offers = offers;
     }
-    public Person(String name, String city, String email, String phone, String url, String profileImage){
+
+    public Person(String name, String city, String email, String phone, String url, String profileImage) {
         this.name = name;
         this.city = city;
         this.email = email;
@@ -27,7 +28,8 @@ public class Person {
         this.url = url;
         this.profileImage = profileImage;
     }
-    public Person(){
+
+    public Person() {
     }
 
     public String getName() {

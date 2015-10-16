@@ -14,12 +14,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import de.pajowu.donate.models.ListItem;
 
-public class ImageAdapter extends BaseAdapter implements View.OnClickListener{
+public class ImageAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private ArrayList<ListItem> arrayList;
     private Typeface headline;
@@ -58,7 +59,7 @@ public class ImageAdapter extends BaseAdapter implements View.OnClickListener{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             float radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, gridView.getResources().getDisplayMetrics());
             cardView.setRadius(radius);
-            Log.d("Radius set :", radius+"dp");
+            Log.d("Radius set :", radius + "dp");
         }
 
         //Handle Image accoording to Screen Size
@@ -66,11 +67,11 @@ public class ImageAdapter extends BaseAdapter implements View.OnClickListener{
         float wt_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, gridView.getResources().getDisplayMetrics());
 
         ImageView imgV = (ImageView) gridView.findViewById(R.id.cardViewImage);
-        if (this.arrayList.get(position).getResourceImage() != ""){
+        if (this.arrayList.get(position).getResourceImage() != "") {
             Picasso.with(this.context).load(this.arrayList.get(position).getResourceImage()).fit().into(imgV);
 
         }
-        Log.d("resourceImageID:", this.arrayList.get(position).getImage()+"");
+        Log.d("resourceImageID:", this.arrayList.get(position).getImage() + "");
 
         TextView textView = (TextView) gridView.findViewById(R.id.cardViewText);
         textView.setText(this.arrayList.get(position).getTitle());

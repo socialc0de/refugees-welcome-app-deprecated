@@ -24,50 +24,51 @@ import com.google.api.client.http.HttpRequestInitializer;
  * CLoud Endpoints exposed from an App Engine backend that run locally during development.
  */
 class CloudEndpointBuilderHelper {
-  private static final boolean LOCAL_ANDROID_RUN = false;
-  private static final String LOCAL_APP_ENGINE_SERVER_URL = "http://10.0.0.8:8080";
-  //Don't commit if the URL can not be reachsoed by others
+    private static final boolean LOCAL_ANDROID_RUN = false;
+    private static final String LOCAL_APP_ENGINE_SERVER_URL = "http://10.0.0.8:8080";
+    //Don't commit if the URL can not be reachsoed by others
 
-  /**
-   * Updates the Google client builder to connect the appropriate server based on whether
-   * LOCAL_ANDROID_RUN is true or false.
-   *
-   * @param builder Google client builder
-   * @return same Google client builder
-   */
-  public static <B extends AbstractGoogleClient.Builder> B updateBuilder(B builder) {
-    if (LOCAL_ANDROID_RUN) {
-      builder.setRootUrl(LOCAL_APP_ENGINE_SERVER_URL + "/_ah/api/");
-    }
-
-    // only enable GZip when connecting to remote server
-    final boolean enableGZip = builder.getRootUrl().startsWith("https:");
-
-    builder.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-      @Override
-      public void initialize(AbstractGoogleClientRequest<?> request) {
-        if (!enableGZip) {
-          request.setDisableGZipContent(true);
+    /**
+     * Updates the Google client builder to connect the appropriate server based on whether
+     * LOCAL_ANDROID_RUN is true or false.
+     *
+     * @param builder Google client builder
+     * @return same Google client builder
+     */
+    public static <B extends AbstractGoogleClient.Builder> B updateBuilder(B builder) {
+        if (LOCAL_ANDROID_RUN) {
+            builder.setRootUrl(LOCAL_APP_ENGINE_SERVER_URL + "/_ah/api/");
         }
-      }
-    });
 
-    return builder;
-  }
+        // only enable GZip when connecting to remote server
+        final boolean enableGZip = builder.getRootUrl().startsWith("https:");
 
-  /**
-   * Returns appropriate HttpRequestInitializer depending whether the application is configured to
-   * require users to be signed in or not.
-   */
-  static HttpRequestInitializer getRequestInitializer() {
-    if (MainActivity.credential.getSelectedAccountName() != null) {
-      return MainActivity.credential;
-    } else {
-      HttpRequestInitializer httpRequestInitializer = new HttpRequestInitializer() {
-        @Override
-        public void initialize(HttpRequest arg0) {}
-      };
-      return httpRequestInitializer;
+        builder.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+            @Override
+            public void initialize(AbstractGoogleClientRequest<?> request) {
+                if (!enableGZip) {
+                    request.setDisableGZipContent(true);
+                }
+            }
+        });
+
+        return builder;
     }
-  }
+
+    /**
+     * Returns appropriate HttpRequestInitializer depending whether the application is configured to
+     * require users to be signed in or not.
+     */
+    static HttpRequestInitializer getRequestInitializer() {
+        if (MainActivity.credential.getSelectedAccountName() != null) {
+            return MainActivity.credential;
+        } else {
+            HttpRequestInitializer httpRequestInitializer = new HttpRequestInitializer() {
+                @Override
+                public void initialize(HttpRequest arg0) {
+                }
+            };
+            return httpRequestInitializer;
+        }
+    }
 }

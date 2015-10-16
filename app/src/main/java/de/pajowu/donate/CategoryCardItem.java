@@ -8,7 +8,7 @@ public class CategoryCardItem {
     protected String image;
     protected String id;
 
-    public CategoryCardItem(String category, String image, String id){
+    public CategoryCardItem(String category, String image, String id) {
         this.category = category;
         this.image = image;
         this.id = id;

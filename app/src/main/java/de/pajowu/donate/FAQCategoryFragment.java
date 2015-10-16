@@ -1,43 +1,35 @@
 package de.pajowu.donate;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
-import com.appspot.donate_backend.donate.*;
-import com.appspot.donate_backend.donate.Donate.*;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.Donate;
+import com.appspot.donate_backend.donate.Donate.Builder;
+import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguage;
+import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguageCollection;
+import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.json.JsonFactory;
-import com.github.androidprogresslayout.ProgressLayout;
+
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FAQCategoryFragment extends Fragment {
+    FAQItemProtoQuestionAnswerLanguageCollection result;
     private ArrayList<String> parentItems = new ArrayList<String>();
     private ArrayList<Object> childItems = new ArrayList<Object>();
     private View viewRoot;
     private String cat_id;
-    FAQItemProtoQuestionAnswerLanguageCollection result;
+
     public FAQCategoryFragment(String cid) {
         // Required empty public constructor
         cat_id = cid;
@@ -51,6 +43,7 @@ public class FAQCategoryFragment extends Fragment {
         loadFragmentData();
         return viewRoot;
     }
+
     public void fillLayout() {
 
         if (result.getItems() != null) {
@@ -63,8 +56,9 @@ public class FAQCategoryFragment extends Fragment {
         } else {
             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_questions));
         }
-        
+
     }
+
     public void loadFragmentData() {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
         Runnable runnable = new Runnable() {
@@ -76,15 +70,15 @@ public class FAQCategoryFragment extends Fragment {
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
-                
+
                 try {
                     result = service.faqitem().bycat().setCategory(cat_id).execute();
-                    Log.d("GSW MainActivity",result.toString());
+                    Log.d("GSW MainActivity", result.toString());
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
                             fillLayout();
-                            
+
                         }
                     });
                 } catch (UserRecoverableAuthIOException e) {
@@ -99,7 +93,7 @@ public class FAQCategoryFragment extends Fragment {
                     Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.faq_items)));
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch, getString(R.string.faq_items)));
                         }
                     });
                 }

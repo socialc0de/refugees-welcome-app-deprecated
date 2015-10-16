@@ -16,57 +16,15 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CategoryListTabFragment extends Fragment{
+public class CategoryListTabFragment extends Fragment {
     public ArrayList<CategoryListItem> arrayList;
     public long primaryKeyValue;
     public String title;
+
     public CategoryListTabFragment(ArrayList<CategoryListItem> arli, String ttl) {
         this.arrayList = arli;
-        Log.d("GSW MainActivity",arrayList.toString());
+        Log.d("GSW MainActivity", arrayList.toString());
         title = ttl;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View viewRoot = inflater.inflate(R.layout.fragment_list_tab, container, false);
-
-        ListView listView = (ListView) viewRoot.findViewById(R.id.listView);
-        View empty = viewRoot.findViewById(R.id.empty);
-        listView.setEmptyView(empty);
-        ScrollView scrollView = (ScrollView) viewRoot.findViewById(R.id.fragment_list_scrollView);
-        Log.d("GSW MainActivity","onCreateView");
-        Log.d("GSW MainActivity",this.arrayList.toString());
-        Log.d("GSW MainActivity",arrayList.toString());
-        CategoryListAdapter listAdapter = new CategoryListAdapter(getActivity(), R.layout.list_layout, this.arrayList);
-
-        Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
-        Log.d("R.layout.list_layout = ", ""+R.layout.list_layout);
-
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("ListView clicked: ", ""+position);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id)).addToBackStack(null).commit();
-                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
-                
-            }
-        });
-
-        getTotalHeightofListView(listView, listAdapter);
-
-        // Make List scroll by default to top
-        scrollView.smoothScrollTo(0, 0);
-
-
-        return viewRoot;
     }
 
     public static void getTotalHeightofListView(ListView listView, CategoryListAdapter listAdapter) {
@@ -93,6 +51,50 @@ public class CategoryListTabFragment extends Fragment{
         listView.requestLayout();
 
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View viewRoot = inflater.inflate(R.layout.fragment_list_tab, container, false);
+
+        ListView listView = (ListView) viewRoot.findViewById(R.id.listView);
+        View empty = viewRoot.findViewById(R.id.empty);
+        listView.setEmptyView(empty);
+        ScrollView scrollView = (ScrollView) viewRoot.findViewById(R.id.fragment_list_scrollView);
+        Log.d("GSW MainActivity", "onCreateView");
+        Log.d("GSW MainActivity", this.arrayList.toString());
+        Log.d("GSW MainActivity", arrayList.toString());
+        CategoryListAdapter listAdapter = new CategoryListAdapter(getActivity(), R.layout.list_layout, this.arrayList);
+
+        Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
+        Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
+
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("ListView clicked: ", "" + position);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id)).addToBackStack(null).commit();
+                ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+
+            }
+        });
+
+        getTotalHeightofListView(listView, listAdapter);
+
+        // Make List scroll by default to top
+        scrollView.smoothScrollTo(0, 0);
+
+
+        return viewRoot;
+    }
+
     public String getTitle() {
         return title;
     }

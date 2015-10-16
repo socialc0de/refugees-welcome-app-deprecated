@@ -2,29 +2,29 @@ package de.pajowu.donate;
 
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
-import com.appspot.donate_backend.donate.*;
+import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.Category;
+import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon;
+import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection;
+import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.github.androidprogresslayout.ProgressLayout;
 
-import android.location.LocationManager;
-import android.location.Location;
-
-import android.support.v4.view.ViewPager;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.pajowu.donate.models.ListItem;
@@ -37,6 +37,7 @@ public class CategoryProductsFragment extends Fragment {
     public Bundle bundleTab1 = new Bundle();
     View viewRoot;
     String cat_id;
+
     public CategoryProductsFragment(Context cont, String catId) {
         this.context = cont;
         this.cat_id = catId;
@@ -49,19 +50,20 @@ public class CategoryProductsFragment extends Fragment {
         loadFragmentData(getLocation());
         return viewRoot;
     }
+
     public void fillLayout() {
         ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
         tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
-        ViewPagerAdapter adapter =  new ViewPagerAdapter(getChildFragmentManager(),tbs);
- 
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
+
         // Assigning ViewPager View and setting the adapter
         ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
         pager.setAdapter(adapter);
- 
+
         // Assiging the Sliding Tab Layout View
         SlidingTabLayout tabs = (SlidingTabLayout) viewRoot.findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
- 
+
         // Setting Custom Color for the Scroll bar indicator of the Tab View
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
@@ -69,10 +71,11 @@ public class CategoryProductsFragment extends Fragment {
                 return getResources().getColor(R.color.accentColor);
             }
         });
- 
+
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
+
     public void loadFragmentData(final Location loc) {
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
         Runnable runnable = new Runnable() {
@@ -85,7 +88,7 @@ public class CategoryProductsFragment extends Fragment {
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
-                if (loc != null)  {
+                if (loc != null) {
 
 
                     double r = 6371;  // earth radius in km
@@ -108,7 +111,7 @@ public class CategoryProductsFragment extends Fragment {
                                     if (category != null) {
                                         catstr += category.getName() + " ";
                                     }
-                                
+
                                 }
                                 li.setCategory(catstr);
                                 if (off.getImageUrls() != null) {
@@ -117,7 +120,7 @@ public class CategoryProductsFragment extends Fragment {
                                         li.setResourceImage(off.getImageUrls().get(0));
                                     }
                                 }
-                                
+
                                 offerList.add(li);
                             }
                         }
@@ -151,6 +154,7 @@ public class CategoryProductsFragment extends Fragment {
         };
         new Thread(runnable).start();
     }
+
     public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);

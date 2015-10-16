@@ -11,16 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.UserProtoAddressImInterestImage;
+import com.appspot.donate_backend.donate.model.UserProtoImAddressNameImageUrl;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.melnykov.fab.FloatingActionButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,13 +36,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import android.widget.ImageView;
-import com.squareup.picasso.Picasso;
-
 import de.pajowu.donate.models.Person;
 
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
-    UserProtoImAddressNameImageUrl user_data;
+    private final String TAG = "GSW MainActivity";
     public Person appOwner;
     public MaterialEditText textViewName;
     public MaterialEditText textViewPhone;
@@ -47,10 +47,10 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
     public MaterialEditText textViewEmail;
     public EditText textViewWebsite;
     public FloatingActionButton editButton;
-    private boolean editMode = false;
-    private final String TAG = "GSW MainActivity";
+    UserProtoImAddressNameImageUrl user_data;
     View viewRoot;
     Map<String, Object> im;
+    private boolean editMode = false;
     private boolean editModePossible = false;
 
     public ProfileFragment(Person appOwner) {
@@ -63,6 +63,46 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
     }
 
+    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+
+        if (json != JSONObject.NULL) {
+            retMap = toMap(json);
+        }
+        return retMap;
+    }
+
+    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Iterator<String> keysItr = object.keys();
+        while (keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    public static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for (int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -155,7 +195,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                         .replace(R.id.container, nextFrag, null)
                         .addToBackStack(null)
                         .commit();
-                ((MainActivity)getActivity()).mDrawer.setSelection(-1, false);
+                ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
 
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
@@ -252,54 +292,13 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                     Log.d("GSW MainActivity", "e", e);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch,getString(R.string.profile)));
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_fetch, getString(R.string.profile)));
                         }
                     });
                 }
             }
         };
         new Thread(runnable).start();
-    }
-
-    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
-        Map<String, Object> retMap = new HashMap<String, Object>();
-
-        if (json != JSONObject.NULL) {
-            retMap = toMap(json);
-        }
-        return retMap;
-    }
-
-    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        Iterator<String> keysItr = object.keys();
-        while (keysItr.hasNext()) {
-            String key = keysItr.next();
-            Object value = object.get(key);
-
-            if (value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            } else if (value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            map.put(key, value);
-        }
-        return map;
-    }
-
-    public static List<Object> toList(JSONArray array) throws JSONException {
-        List<Object> list = new ArrayList<Object>();
-        for (int i = 0; i < array.length(); i++) {
-            Object value = array.get(i);
-            if (value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            } else if (value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            list.add(value);
-        }
-        return list;
     }
 
     private void disableTextView(MaterialEditText met) {
@@ -315,6 +314,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         met.setClickable(true);
         met.setHideUnderline(false);
     }
+
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);

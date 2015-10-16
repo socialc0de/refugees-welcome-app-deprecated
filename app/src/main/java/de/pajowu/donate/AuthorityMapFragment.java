@@ -214,14 +214,14 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             mMap.setInfoWindowAdapter(mClusterManager.getMarkerManager());
             mMap.setOnMarkerClickListener(mClusterManager);
 
-            
+
         } else {
             if (mClusterManager2 == null) {
                 mClusterManager2 = new ClusterManager<Authority>(getActivity(), mMap);
                 mClusterManager2.setRenderer(new MyClusterRenderer(getActivity(), mMap, mClusterManager2));
                 mClusterManager2.getClusterMarkerCollection().setOnInfoWindowAdapter(new ClusterInfoWindow());
                 mClusterManager2.getMarkerCollection().setOnInfoWindowAdapter(new MarkerInfoWindowAdapter(false));
-                
+
                 mClusterManager2
                         .setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Authority>() {
                             @Override

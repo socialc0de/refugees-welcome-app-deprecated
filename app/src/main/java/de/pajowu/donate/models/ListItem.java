@@ -9,7 +9,7 @@ public class ListItem {
     private String category;
     private long primaryKey;
 
-    public ListItem(String imageUrl, String title, String subtitle, String category, long primaryKey){
+    public ListItem(String imageUrl, String title, String subtitle, String category, long primaryKey) {
         this.resourceImage = imageUrl;
         this.title = title;
         this.subtitle = subtitle;
@@ -17,7 +17,7 @@ public class ListItem {
         this.primaryKey = primaryKey;
     }
 
-    public ListItem(int imageUrl, String title, String subtitle, String category, long primaryKey){
+    public ListItem(int imageUrl, String title, String subtitle, String category, long primaryKey) {
         this.image = imageUrl;
         this.title = title;
         this.subtitle = subtitle;

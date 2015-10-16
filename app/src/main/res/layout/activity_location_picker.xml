@@ -1,9 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    >
+    android:background="#fff">
 
 
     <RelativeLayout
@@ -11,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/autocomplete"
-        android:visibility="visible" >
+        android:visibility="visible">
 
         <fragment
             android:id="@+id/mapCommon"
@@ -27,9 +25,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:background="#4D000000"
-            android:textColor="#fff"
             android:gravity="center"
-            android:text="Done" />
+            android:text="Done"
+            android:textColor="#fff" />
 
         <ImageView
             android:id="@+id/imageView1"

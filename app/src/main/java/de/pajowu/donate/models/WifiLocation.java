@@ -3,7 +3,7 @@ package de.pajowu.donate.models;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
-public class WifiLocation implements ClusterItem{
+public class WifiLocation implements ClusterItem {
     private String detail = "wifi";
     private LatLng location;
 

@@ -1,26 +1,25 @@
-<com.github.androidprogresslayout.ProgressLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/faqfragment_progress_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textWhite"
-    android:id="@+id/faqfragment_progress_layout">
+    android:background="@color/textWhite">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"  
         android:layout_gravity="right|bottom"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_mode_edit_white"
         fab:fab_colorNormal="@color/accentColor"
-        fab:fab_colorPressed="@color/accentColor2"
-        android:src="@drawable/ic_mode_edit_white"/>
+        fab:fab_colorPressed="@color/accentColor2" />
 </com.github.androidprogresslayout.ProgressLayout>

@@ -10,19 +10,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ScrollView;
 
-import java.util.ArrayList;
-
 import com.melnykov.fab.FloatingActionButton;
+
+import java.util.ArrayList;
 
 import de.pajowu.donate.models.ListItem;
 
 public class HomeFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     public ScrollView scrollView;
     public ExpandableGridView gridView;
-    private View viewRoot;
+    public ArrayList<ListItem> arrayList;
     //TODO Get Labels, Sub_labels, categories, images, objects
     Context mContext;
-    public ArrayList<ListItem> arrayList;
+    private View viewRoot;
 
     public HomeFragment(Context context, ArrayList<ListItem> arrayList) {
         this.mContext = context;
@@ -72,7 +72,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
 
             scrollView.smoothScrollTo(0, 0);
         }
-        
+
     }
 
     public void loadFragmentData() {
@@ -135,6 +135,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         };
         new Thread(runnable).start();*/
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

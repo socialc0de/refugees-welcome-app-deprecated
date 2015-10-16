@@ -53,8 +53,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/textGrey2"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:background="@color/textGrey2" />
 
             <ListView
                 android:id="@+id/listView"
@@ -72,8 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        fab:fab_colorNormal="@color/accentColor"
-        fab:fab_colorPressed="@color/accentColor2"
         android:src="@drawable/ic_add_white"
-        />
+        fab:fab_colorNormal="@color/accentColor"
+        fab:fab_colorPressed="@color/accentColor2" />
 </FrameLayout>

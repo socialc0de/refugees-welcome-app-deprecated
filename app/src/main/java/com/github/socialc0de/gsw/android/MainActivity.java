@@ -47,9 +47,12 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.json.JsonFactory;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.json.JSONArray;
@@ -73,6 +76,7 @@ import com.github.socialc0de.gsw.android.fragments.PhraseFragment;
 import com.github.socialc0de.gsw.android.fragments.ProfileFragment;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.github.socialc0de.gsw.android.tools.TinyDB;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
@@ -97,7 +101,6 @@ public class MainActivity extends FragmentActivity {
     static GoogleAccountCredential credential;
     private static MainActivity mainActivity;
     final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
-    final ArrayList<String> mTitles = new ArrayList<String>();
     public HashMap<String, Category> categories = new HashMap<String, Category>();
     public String gplus_url;
     public TinyDB mTinyDB;
@@ -242,52 +245,60 @@ public class MainActivity extends FragmentActivity {
         }
 
         //create the drawer and remember the `Drawer` result object
+
+
+            AccountHeader headerResult = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withHeaderBackground(R.drawable.productback)
+                    .addProfiles(
+                            new ProfileDrawerItem().withName("Max Muster").withEmail("test@test.de").withIcon(getResources().getDrawable(R.drawable.ic_launcher))
+                    )
+                    .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                        @Override
+                        public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                            return false;
+                        }
+                    })
+                    .build();
+
         mFragments.clear();
-        mTitles.clear();
 
-        mTitles.add(getString(R.string.sharing_local));
         mFragments.add(new LocalFragment(this));
-        mTitles.add(getString(R.string.sharing_categories));
         mFragments.add(new CategoryFragment(this));
-        if (credential.getSelectedAccount() != null) {
-            mTitles.add(getString(R.string.profile));
-            mFragments.add(new ProfileFragment());
-        }
-        mTitles.add(getString(R.string.phrasebook));
+        mFragments.add(new ProfileFragment());
         mFragments.add(new PhraseFragment());
-        mTitles.add(getString(R.string.faq));
         mFragments.add(new FAQFragment());
-        mTitles.add(getString(R.string.authority_map));
         mFragments.add(new AuthorityMapFragment());
-
-
-        mTitles.add(getString(R.string.donate));
         mFragments.add(new DonateFragment());
-
-        mTitles.add(getString(R.string.about));
         mFragments.add(new AboutFragment());
+
         if (mDrawer == null) {
             mDrawer = new DrawerBuilder()
                     .withActivity(this)
                     .withToolbar((Toolbar) findViewById(R.id.app_bar))
                     .withActionBarDrawerToggle(true)
+                    .withAccountHeader(headerResult)
+                    .addDrawerItems(
+                            new PrimaryDrawerItem().withName(R.string.sharing_local).withIcon(R.drawable.ic_place_black_36dp),
+                            new PrimaryDrawerItem().withName(R.string.sharing_categories).withIcon(R.drawable.ic_view_day_black_36dp),
+                            new PrimaryDrawerItem().withName(R.string.profile).withIcon(R.drawable.common_signin_btn_icon_dark),
+                            new PrimaryDrawerItem().withName(R.string.phrasebook).withIcon(R.drawable.ic_translate_black_36dp),
+                            new PrimaryDrawerItem().withName(R.string.faq).withIcon(R.drawable.ic_question_answer_black_36dp),
+                            new PrimaryDrawerItem().withName(R.string.authority_map).withIcon(R.drawable.ic_map_black_36dp),
+                            new PrimaryDrawerItem().withName(R.string.donate).withIcon(R.drawable.ic_attach_money_black_36dp),
+                            new PrimaryDrawerItem().withName(R.string.about).withIcon(R.drawable.ic_info_black_36dp))
                     .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             // do something with the clicked item :D
                             getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position)).addToBackStack(null).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position -1)).addToBackStack(null).commit();
                             // closes Drawer
                             return false;
                         }
                     }).build();
         }
-        mDrawer.removeAllItems();
-        for (int i = 0; i < mFragments.size(); i++) {
-            mDrawer.addItem(
-                    new PrimaryDrawerItem().withName(mTitles.get(i))
-            );
-        }
+
         getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(0)).commit();
     }
 

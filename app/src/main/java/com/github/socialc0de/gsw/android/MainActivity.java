@@ -38,6 +38,7 @@ import com.appspot.donate_backend.donate.model.CategoryCollection;
 import com.appspot.donate_backend.donate.model.User;
 import com.appspot.donate_backend.donate.model.UserProto;
 import com.appspot.donate_backend.donate.model.UserProtoImAddressNameImageUrl;
+import com.github.socialc0de.gsw.android.fragments.DonateFragment;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -221,6 +222,11 @@ public class MainActivity extends FragmentActivity {
         mFragments.add(new FAQFragment());
         mTitles.add(getString(R.string.authority_map));
         mFragments.add(new AuthorityMapFragment());
+
+
+        mTitles.add(getString(R.string.donate));
+        mFragments.add(new DonateFragment());
+
         mTitles.add(getString(R.string.about));
         mFragments.add(new AboutFragment());
         if (mDrawer == null) {

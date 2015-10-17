@@ -36,7 +36,7 @@ import de.pajowu.donate.SlidingTabLayout;
 import de.pajowu.donate.adapter.pager.ViewPagerAdapter;
 import de.pajowu.donate.list.items.ListItem;
 import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
-
+import de.pajowu.donate.*;
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
     public ListView listView;

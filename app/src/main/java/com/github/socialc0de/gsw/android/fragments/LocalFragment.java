@@ -1,5 +1,4 @@
-package de.germany-says-welcome.fragments;
-
+package com.github.socialc0de.gsw.android.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;

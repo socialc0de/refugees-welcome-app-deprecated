@@ -6,13 +6,57 @@
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
-    <!--<TextView
-        android:id="@+id/text"
-        android:gravity="center_vertical|left"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/de_image"
+            android:src="@drawable/de"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"/>
+        <TextView
+            android:layout_toRightOf="@id/de_image"
+            android:id="@+id/german_phrase"
+            android:gravity="center_vertical|left"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textColor="@color/textGrey2"
+            android:textSize="16sp"
+            android:orientation="vertical"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/arabic_phrase"
+        android:gravity="center_vertical|right"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:textColor="@color/textGrey2"
         android:textSize="16sp"
-        android:orientation="vertical"/>-->
+        android:orientation="vertical"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/en_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:src="@drawable/en"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="2dp"/>
+        <TextView
+            android:layout_toRightOf="@id/en_image"
+            android:id="@+id/english_phrase"
+            android:gravity="center_vertical|left"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textColor="@color/textGrey2"
+            android:textSize="16sp"
+            android:orientation="vertical"/>
+    </RelativeLayout>
 </LinearLayout>

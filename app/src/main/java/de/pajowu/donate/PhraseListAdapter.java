@@ -50,12 +50,14 @@ public class PhraseListAdapter extends ArrayAdapter<HashMap<String, String>> {
         }
         LinearLayout ll = (LinearLayout) v.findViewById(R.id.text);
         HashMap<String, String> currentData = arrayList.get(position);
-        List<String> langs = Arrays.asList("German", "English", "Arabic / Syrian");
-        for (String lang : langs) {
-            TextView tv = new TextView(context);
-            tv.setText(currentData.get(lang));
+        HashMap<Integer, String> fields = new HashMap<Integer, String>();
+        fields.put(R.id.german_phrase, "German");
+        fields.put(R.id.english_phrase, "English");
+        fields.put(R.id.arabic_phrase, "Arabic / Syrian");
+        for (HashMap.Entry<Integer, String> entry: fields.entrySet()) {
+            TextView tv = (TextView) v.findViewById(entry.getKey().intValue());
+            tv.setText(currentData.get(entry.getValue()));
             tv.setTypeface(typeface1);
-            ll.addView(tv);
         }
         return v;
     }

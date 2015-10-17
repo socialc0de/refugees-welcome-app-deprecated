@@ -61,20 +61,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.pajowu.donate.fragments.AboutFragment;
+import de.pajowu.donate.fragments.AuthorityMapFragment;
+import de.pajowu.donate.fragments.CategoryFragment;
+import de.pajowu.donate.fragments.FAQFragment;
+import de.pajowu.donate.fragments.LocalFragment;
+import de.pajowu.donate.fragments.PhraseFragment;
+import de.pajowu.donate.fragments.ProfileFragment;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
+import de.pajowu.donate.tools.TinyDB;
+
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also
  * implements integration with Google Play Services and Google Accounts.
  */
 public class MainActivity extends FragmentActivity {
-    static final boolean SIGN_IN_REQUIRED = false;
     // constants for startActivityForResult flow
-    static final int REQUEST_ACCOUNT_PICKER = 1;
+    public static final int REQUEST_ACCOUNT_PICKER = 1;
+    static final boolean SIGN_IN_REQUIRED = false;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 2;
     static final int REQUEST_AUTHORIZATION = 3;
     final static String TAG = "Donate";
     private static final String AUDIENCE = "server:client_id:760560844994-04u6qkvpf481an26cnhkaauaf2dvjfk0.apps.googleusercontent.com";
     private static final String ACCOUNT_NAME_SETTING_NAME = "accountName";
     static GoogleAccountCredential credential;
+    private static MainActivity mainActivity;
     final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
     final ArrayList<String> mTitles = new ArrayList<String>();
     public HashMap<String, Category> categories = new HashMap<String, Category>();
@@ -141,6 +152,18 @@ public class MainActivity extends FragmentActivity {
         return list;
     }
 
+    public static MainActivity getMainActivity() {
+        return MainActivity.mainActivity;
+    }
+
+    public static GoogleAccountCredential getCredential() {
+        return credential;
+    }
+
+    public static void setCredential(GoogleAccountCredential credential) {
+        MainActivity.credential = credential;
+    }
+
     /**
      * Initializes the activity content and then navigates to the MainActivity if the user is already
      * signed in or if the app is configured to not require the sign in. Otherwise it initiates
@@ -161,6 +184,8 @@ public class MainActivity extends FragmentActivity {
         } else {
             startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
         }
+
+        MainActivity.mainActivity = this;
 
     }
 
@@ -459,5 +484,13 @@ public class MainActivity extends FragmentActivity {
             gplus_url = "";
             mTinyDB.putString("gplus_url", gplus_url);
         }
+    }
+
+    public Drawer getmDrawer() {
+        return mDrawer;
+    }
+
+    public void setmDrawer(Drawer mDrawer) {
+        this.mDrawer = mDrawer;
     }
 }

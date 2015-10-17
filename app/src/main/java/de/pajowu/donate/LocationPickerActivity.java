@@ -34,6 +34,10 @@ import java.lang.String;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.pajowu.donate.tools.FetchAddressIntentService;
+import de.pajowu.donate.tools.GPSTracker;
+import de.pajowu.donate.tools.ServerConnector;
+
 /**
  * @author livin
  */

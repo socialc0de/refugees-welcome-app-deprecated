@@ -14,17 +14,18 @@
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="250dp"
             android:scaleType="centerCrop"
             android:src="@drawable/profile" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <TextView
             android:id="@+id/fragment_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/profileImage"
             android:layout_gravity="top|left"
             android:layout_marginLeft="25dp"
+            android:layout_marginBottom="15dp"
             android:text="Sandra Houston"
             android:textColor="@color/textWhite"
             android:textSize="30sp" />
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="30dp"
+                android:layout_marginTop="20dp"
                 android:weightSum="4">
 
                 <LinearLayout
@@ -53,7 +55,6 @@
                     android:paddingTop="10dp">
 
                     <ImageView
-                        android:id="@+id/profileImage"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_phone_grey600"

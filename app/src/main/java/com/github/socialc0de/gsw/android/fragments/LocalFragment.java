@@ -31,14 +31,12 @@ import android.content.Intent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import com.github.socialc0de.gsw.android.MainActivity;
-import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.SlidingTabLayout;
 import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.github.socialc0de.gsw.android.*;
-
+import com.github.socialc0de.gsw.android.locationpicker.*;
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
     public ListView listView;
@@ -200,8 +198,8 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             loadDataWithBbox(bbox);
         } else {
             Intent pickup = new Intent(getActivity().getApplicationContext(), LocationPickerActivity.class);
-            pickup.putExtra("lat", "32");
-            pickup.putExtra("lon", "32");
+            pickup.putExtra("lat", 32);
+            pickup.putExtra("lon", 32);
             startActivityForResult(pickup, LOCATION_PICKER);
         }
     }

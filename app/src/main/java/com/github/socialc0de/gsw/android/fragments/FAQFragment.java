@@ -65,7 +65,7 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
         final ArrayList<CategoryCardItem> list = new ArrayList<CategoryCardItem>();
         final RecyclerView recList = (RecyclerView) viewRoot.findViewById(R.id.cardList);
         for (HashMap.Entry<String, FAQCategory> entry : cats.entrySet()) {
-            list.add(new CategoryCardItem(entry.getValue().getName(), entry.getValue().getImage(), entry.getValue().getId()));
+            list.add(new CategoryCardItem(entry.getValue().getName(), entry.getValue().getImageUrl(), entry.getValue().getId()));
         }
         recList.addOnItemTouchListener(
                 new RecyclerItemClickListener(viewRoot.getContext(), new RecyclerItemClickListener.OnItemClickListener() {

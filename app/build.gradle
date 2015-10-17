@@ -28,6 +28,12 @@ Properties props = new Properties()
 props.load(new FileInputStream(file("../config.properties")))
 
 android {
+    dexOptions {
+        incremental false
+        preDexLibraries = false
+        jumboMode = false
+        javaMaxHeapSize "3072M"
+    }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -44,11 +50,12 @@ android {
         }
     }
     defaultConfig {
-        applicationId "de.pajowu.donate"
+        applicationId "com.github.socialc0de.gsw.android"
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 2
         versionName "BETA"
+        ext.betaDistributionGroupAliases="all"
         multiDexEnabled true
     }
     buildTypes {
@@ -125,4 +132,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
+    compile 'com.android.support:multidex:1.0.0'
 }

@@ -61,7 +61,7 @@
             android:name="NavDrawer"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name=".LocationPickerActivity"
+            android:name=".locationpicker.LocationPickerActivity"
             android:theme="@style/AppTheme.Base" />
 
         <meta-data

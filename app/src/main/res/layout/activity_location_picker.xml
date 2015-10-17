@@ -1,15 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
-
+    android:background="#fff" >
 
     <RelativeLayout
         android:id="@+id/rl_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/autocomplete"
-        android:visibility="visible">
+        android:visibility="visible" >
 
         <fragment
             android:id="@+id/mapCommon"
@@ -17,8 +17,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:background="#4D000000"
+            android:gravity="center"
+            android:text="Tap on the map to pick a location"
+            android:textColor="#fff"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_marker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:padding="10dp"
+            android:src="@drawable/ic_map_marker" />
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_marker"
+            android:layout_margin="5dp"
+            android:background="#40FFFFFF"
+            android:gravity="center_horizontal"
+            android:maxLines="3"
+            android:visibility="gone" />
+            <Button
+            android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
@@ -27,16 +61,41 @@
             android:background="#4D000000"
             android:gravity="center"
             android:text="Done"
-            android:textColor="#fff" />
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_map_marker" />
-
+            android:textColor="#fff"
+            android:onClick="onClick"/>
     </RelativeLayout>
 
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="2dp"
+        android:background="#99a8ba"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="5dp"
+        android:ellipsize="end"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="Search Location Here"
+        android:paddingLeft="10dp"
+        android:paddingRight="30dp"
+        android:singleLine="true"
+        android:textColor="#fff"
+        android:textSize="13sp" >
+
+        <requestFocus />
+    </AutoCompleteTextView>
+
+    <ImageView
+        android:id="@+id/iv_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/autocomplete"
+        android:layout_alignRight="@+id/autocomplete"
+        android:layout_alignTop="@+id/autocomplete"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_cancel" />
 </RelativeLayout>

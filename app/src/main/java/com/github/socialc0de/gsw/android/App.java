@@ -22,12 +22,14 @@ import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
 
+import android.support.multidex.MultiDexApplication;
+
 /**
  * This class represents the Application and extends Application it is used to initiate the
  * application.
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
     private static App singleton;
 
     public static App getInstance() {

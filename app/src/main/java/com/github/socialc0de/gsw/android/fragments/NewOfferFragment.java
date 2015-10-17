@@ -49,7 +49,7 @@ import java.util.HashMap;
 
 import com.github.socialc0de.gsw.android.AppConfig;
 import com.github.socialc0de.gsw.android.ExpandableGridView;
-import com.github.socialc0de.gsw.android.LocationPickerActivity;
+import com.github.socialc0de.gsw.android.locationpicker.LocationPickerActivity;
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.list.items.ListItem;

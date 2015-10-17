@@ -7,7 +7,7 @@
     progressLayout:progress="false"
     progressLayout:progressBackground="#DDDDDD">
 
-    <de.pajowu.donate.SlidingTabLayout
+    <com.github.socialc0de.gsw.android.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

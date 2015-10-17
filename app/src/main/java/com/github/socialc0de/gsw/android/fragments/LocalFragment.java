@@ -82,13 +82,9 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             Log.d("GSW MainActivity", "fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
             tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
+            tbs.add(new ListTabFragment(mentoringList, getString(R.string.mentoring)));
+            tbs.add(new ListTabFragment(internshipList, getString(R.string.internships)));
 
-            //TODO Karl, enter your code!
-            ArrayList<ListItem> mentoring = new ArrayList<>();
-            ArrayList<ListItem> internships = new ArrayList<>();
-
-            tbs.add(new ListTabFragment(mentoring, getString(R.string.mentoring)));
-            tbs.add(new ListTabFragment(internships, getString(R.string.internships)));
             Log.d("GSW MainActivity", "create ViewPagerAdapter");
             ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
             Log.d("GSW MainActivity", "created ViewPagerAdapter");
@@ -168,7 +164,20 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                                 // tmp fix, save image from url, give the path to HomeFragment
                                 li.setResourceImage(mentoringrequest.getImageUrl());
                             }
-                            offerList.add(li);
+                            mentoringList.add(li);
+                        }
+                    }
+                    InternshipOfferProtoIdTitleSubtitleImageUrlCollection internshipResult = service.internshipoffer().listNear().setBbox(bbox).execute();
+                    Log.d("GSW MainActivity", internshipResult.toString());
+                    internshipList = new ArrayList<ListItem>();
+                    if (internshipResult.getItems() != null) {
+                        for (InternshipOfferProtoIdTitleSubtitleImageUrl internshipoffer : internshipResult.getItems()) {
+                            ListItem li = new ListItem("", internshipoffer.getTitle(), internshipoffer.getSubtitle(), "", internshipoffer.getId());
+                            if (internshipoffer.getImageUrl() != null) {
+                                // tmp fix, save image from url, give the path to HomeFragment
+                                li.setResourceImage(internshipoffer.getImageUrl());
+                            }
+                            internshipList.add(li);
                         }
                     }
 
@@ -212,8 +221,8 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             loadDataWithBbox(bbox);
         } else {
             Intent pickup = new Intent(getActivity().getApplicationContext(), LocationPickerActivity.class);
-            pickup.putExtra("lat", 32);
-            pickup.putExtra("lon", 32);
+            pickup.putExtra("lat", 52.5305541);
+            pickup.putExtra("lon", 13.4136518);
             startActivityForResult(pickup, LOCATION_PICKER);
         }
     }

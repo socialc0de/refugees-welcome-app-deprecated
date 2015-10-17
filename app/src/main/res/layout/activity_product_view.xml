@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.pajowu.donate.ProductView">
+    tools:context="com.github.socialc0de.gsw.android.ProductView">
 
     <include
         android:id="@+id/app_bar"

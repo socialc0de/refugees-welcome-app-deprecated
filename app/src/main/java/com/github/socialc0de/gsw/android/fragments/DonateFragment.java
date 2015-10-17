@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.socialc0de.gsw.android.MainActivity;
@@ -21,8 +23,9 @@ public class DonateFragment extends Fragment {
 
 
     private static final int REQUEST_CODE_PAYMENT = 1;
-    private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
-    private static final int REQUEST_CODE_PROFILE_SHARING = 3;
+    private Double donation = 0.5d;
+
+
 
     public DonateFragment() {
 
@@ -32,6 +35,8 @@ public class DonateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_donate, container, false);
 
+        final TextView moneyText = (TextView) root.findViewById(R.id.moneyText);
+
         final Button button = (Button) root.findViewById(R.id.donateBtn);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -39,8 +44,29 @@ public class DonateFragment extends Fragment {
             }
         });
 
+        SeekBar moneySeekBar = (SeekBar) root.findViewById(R.id.moneySeekBar);
+
+        moneySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressChanged = 0;
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressChanged = progress;
+                moneyText.setText((progress >=50 ? (1d * progress) : (0.5d * progress)) + " €");
+                donation = (progress >=50 ? (1d * progress) : (0.5d * progress));
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         return root;
     }
+
 
     public void onDonate() {
         /*
@@ -69,7 +95,7 @@ public class DonateFragment extends Fragment {
     }
 
     private PayPalPayment getThingToBuy(String paymentIntent) {
-        return new PayPalPayment(new BigDecimal("0.5"), "EUR", "sample item",
+        return new PayPalPayment(new BigDecimal(donation), "EUR", "Germany Says Welcome - Donation",
                 paymentIntent);
     }
 

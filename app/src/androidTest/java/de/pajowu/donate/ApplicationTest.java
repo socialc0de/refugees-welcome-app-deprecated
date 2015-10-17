@@ -1,4 +1,4 @@
-package de.pajowu.donate;
+package com.github.socialc0de.gsw.android;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

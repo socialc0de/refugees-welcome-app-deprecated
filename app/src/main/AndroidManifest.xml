@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.pajowu.donate">
+    package="com.github.socialc0de.gsw.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,9 +23,9 @@
         android:required="true" />
 
     <permission
-        android:name="de.pajowu.donate.permission.MAPS_RECEIVE"
+        android:name="com.github.socialc0de.gsw.android.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="de.pajowu.donate.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.github.socialc0de.gsw.android.permission.MAPS_RECEIVE" />
     <application
         android:name=".App"
         android:allowBackup="true"

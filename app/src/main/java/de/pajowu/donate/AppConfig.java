@@ -19,6 +19,7 @@ public class AppConfig {
     public static final String USER_LAT = "user_lat";
     public static final String USER_LNG = "user_lng";
     public static final String USER_LOCATION = "user_location";
+    public static final String BBOX = "bbox";
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
     public static final int PICKUP_LOCATION = 999;

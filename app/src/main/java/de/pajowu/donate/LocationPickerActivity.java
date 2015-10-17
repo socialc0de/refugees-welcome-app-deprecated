@@ -22,7 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Toolbar;
-
+import android.util.Log;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
@@ -30,7 +30,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.VisibleRegion;
-
+import java.lang.String;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -102,6 +102,15 @@ public class LocationPickerActivity extends ActionBarActivity implements
 
                 userSelectedLatLng = centerFromPoint;
                 Intent resultIntent = new Intent();
+                LatLng topRight = visibleRegion.farRight;
+                LatLng bottomLeft = visibleRegion.nearLeft;
+                String bbox = Double.toString(bottomLeft.longitude) + ",";
+                bbox += Double.toString(bottomLeft.latitude) + ",";
+                bbox += Double.toString(topRight.longitude) + ",";
+                bbox += Double.toString(topRight.latitude);
+                Log.d("MainActivity",bbox);
+                resultIntent.putExtra(AppConfig.BBOX,
+                        bbox);
                 resultIntent.putExtra(AppConfig.USER_LAT,
                         userSelectedLatLng.latitude);
                 resultIntent.putExtra(AppConfig.USER_LNG,
@@ -185,11 +194,24 @@ public class LocationPickerActivity extends ActionBarActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent resultIntent = new Intent();
         if (item.getItemId() == android.R.id.home) {
+            VisibleRegion visibleRegion = mMap.getProjection()
+                    .getVisibleRegion();
+            LatLng topRight = visibleRegion.farRight;
+            LatLng bottomLeft = visibleRegion.nearLeft;
+            String bbox = Double.toString(bottomLeft.longitude) + ",";
+            bbox += Double.toString(bottomLeft.latitude) + ",";
+            bbox += Double.toString(topRight.longitude) + ",";
+            bbox += Double.toString(topRight.latitude);
+            Log.d("MainActivity",bbox);
+            resultIntent.putExtra(AppConfig.BBOX,
+                    bbox);
             resultIntent.putExtra(AppConfig.USER_LAT,
                     userSelectedLatLng.latitude);
             resultIntent.putExtra(AppConfig.USER_LNG,
                     userSelectedLatLng.longitude);
+
             resultIntent.putExtra(AppConfig.USER_LOCATION, userLocation);
+
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
             return true;
@@ -211,10 +233,18 @@ public class LocationPickerActivity extends ActionBarActivity implements
 
             userSelectedLatLng = centerFromPoint;
 
+            LatLng topRight = visibleRegion.farRight;
+            LatLng bottomLeft = visibleRegion.nearLeft;
+            String bbox = Double.toString(bottomLeft.longitude) + ",";
+            bbox += Double.toString(bottomLeft.latitude) + ",";
+            bbox += Double.toString(topRight.longitude) + ",";
+            bbox += Double.toString(topRight.latitude);
             resultIntent.putExtra(AppConfig.USER_LAT,
                     userSelectedLatLng.latitude);
             resultIntent.putExtra(AppConfig.USER_LNG,
                     userSelectedLatLng.longitude);
+            resultIntent.putExtra(AppConfig.BBOX,
+                    bbox);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
             return true;
@@ -319,7 +349,6 @@ public class LocationPickerActivity extends ActionBarActivity implements
                     if (Status.equalsIgnoreCase("OK")) {
                         JSONArray Results = jsonObj.getJSONArray("results");
                         JSONObject zero = Results.getJSONObject(0);
-
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra(AppConfig.USER_LAT,
                                 userSelectedLatLng.latitude);
@@ -333,6 +362,17 @@ public class LocationPickerActivity extends ActionBarActivity implements
                         // finish();
 
                         if (whichTask == 1) {
+                            VisibleRegion visibleRegion = mMap.getProjection()
+                                    .getVisibleRegion();
+                            LatLng topRight = visibleRegion.farRight;
+                            LatLng bottomLeft = visibleRegion.nearLeft;
+                            String bbox = Double.toString(bottomLeft.longitude) + ",";
+                            bbox += Double.toString(bottomLeft.latitude) + ",";
+                            bbox += Double.toString(topRight.longitude) + ",";
+                            bbox += Double.toString(topRight.latitude);
+                            Log.d("MainActivity",bbox);
+                            resultIntent.putExtra(AppConfig.BBOX,
+                                    bbox);
                             resultIntent.putExtra(AppConfig.USER_LAT,
                                     userSelectedLatLng.latitude);
                             resultIntent.putExtra(AppConfig.USER_LNG,

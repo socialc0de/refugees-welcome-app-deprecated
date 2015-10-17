@@ -27,7 +27,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.melnykov.fab.FloatingActionButton;
-
+import android.content.Intent;
 import java.util.ArrayList;
 
 import de.pajowu.donate.models.ListItem;
@@ -39,6 +39,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public FragmentTabHost mTabHost;
     public Bundle bundleTab1 = new Bundle();
     View viewRoot;
+    static final Integer LOCATION_PICKER = 1;
 
     public LocalFragment(Context context) {
         this.context = context;
@@ -108,7 +109,8 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         loadData(getLocation());
     }
 
-    public void loadData(final Location loc) {
+    public void loadDataWithBbox(final String bbox) {
+        Log.d("MainActivity",bbox);
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -119,77 +121,76 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
-                if (loc != null) {
 
-
-                    double r = 6371;  // earth radius in km
-
-                    double radius = 10; // km
-
-                    String bbox = new Double(loc.getLongitude() - Math.toDegrees(radius / r / Math.cos(Math.toRadians(loc.getLatitude())))).toString() + ",";
-                    bbox += new Double(loc.getLatitude() - Math.toDegrees(radius / r)).toString() + ",";
-                    bbox += new Double(loc.getLongitude() + Math.toDegrees(radius / r / Math.cos(Math.toRadians(loc.getLatitude())))).toString() + ",";
-                    bbox += new Double(loc.getLatitude() + Math.toDegrees(radius / r)).toString();
-
-                    try {
-                        result = service.offer().listNear().setBbox(bbox).execute();
-                        Log.d("GSW MainActivity", result.toString());
-                        offerList = new ArrayList<ListItem>();
-                        if (result.getItems() != null) {
-                            for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
-                                ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
-                                String catstr = "";
-                                for (String cat : off.getCategories()) {
-                                    Category category = ((MainActivity) getActivity()).categories.get(cat);
-                                    if (category != null) {
-                                        catstr += category.getName() + " ";
-                                    }
-
+                try {
+                    result = service.offer().listNear().setBbox(bbox).execute();
+                    Log.d("GSW MainActivity", result.toString());
+                    offerList = new ArrayList<ListItem>();
+                    if (result.getItems() != null) {
+                        for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
+                            ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
+                            String catstr = "";
+                            for (String cat : off.getCategories()) {
+                                Category category = ((MainActivity) getActivity()).categories.get(cat);
+                                if (category != null) {
+                                    catstr += category.getName() + " ";
                                 }
-                                li.setCategory(catstr);
-                                if (off.getImageUrls() != null) {
-                                    // tmp fix, save image from url, give the path to HomeFragment
-                                    li.setResourceImage(off.getImageUrls().get(0));
-                                }
-                                offerList.add(li);
+
                             }
+                            li.setCategory(catstr);
+                            if (off.getImageUrls() != null) {
+                                // tmp fix, save image from url, give the path to HomeFragment
+                                li.setResourceImage(off.getImageUrls().get(0));
+                            }
+                            offerList.add(li);
                         }
-
-                    } catch (UserRecoverableAuthIOException e) {
-                        final UserRecoverableAuthIOException e2 = e;
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
-                                startActivityForResult(e2.getIntent(), 2);
-                            }
-                        });
-                        Log.d("GSW MainActivity", "e", e);
-                    } catch (Exception e) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
-                                ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_load_offers));
-                            }
-                        });
-                        Log.d("GSW MainActivity", "e", e);
                     }
 
+                } catch (UserRecoverableAuthIOException e) {
+                    final UserRecoverableAuthIOException e2 = e;
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            fillLayout();
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
+                            startActivityForResult(e2.getIntent(), 2);
                         }
                     });
-                } else {
+                    Log.d("GSW MainActivity", "e", e);
+                } catch (Exception e) {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.no_location));
+                            ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_load_offers));
                         }
                     });
+                    Log.d("GSW MainActivity", "e", e);
                 }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        fillLayout();
+                        ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
+                    }
+                });
             }
         };
         new Thread(runnable).start();
     }
+    public void loadData(final Location loc) {
+        if (loc != null) {
+            double r = 6371;  // earth radius in km
 
+            double radius = 10; // km
+
+            String bbox = new Double(loc.getLongitude() - Math.toDegrees(radius / r / Math.cos(Math.toRadians(loc.getLatitude())))).toString() + ",";
+            bbox += new Double(loc.getLatitude() - Math.toDegrees(radius / r)).toString() + ",";
+            bbox += new Double(loc.getLongitude() + Math.toDegrees(radius / r / Math.cos(Math.toRadians(loc.getLatitude())))).toString() + ",";
+            bbox += new Double(loc.getLatitude() + Math.toDegrees(radius / r)).toString();
+            loadDataWithBbox(bbox);
+        } else {
+            Intent pickup = new Intent(getActivity().getApplicationContext(), LocationPickerActivity.class);
+            pickup.putExtra("lat", "32");
+            pickup.putExtra("lon", "32");
+            startActivityForResult(pickup, LOCATION_PICKER);
+        }
+    }
     public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
@@ -234,6 +235,13 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited
                 break;
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LOCATION_PICKER) {
+            String bbox = data.getStringExtra(AppConfig.BBOX);
+            loadDataWithBbox(bbox);
         }
     }
 }

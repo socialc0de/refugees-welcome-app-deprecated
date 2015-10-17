@@ -9,4 +9,5 @@
     <color name="textWhite">#FFFFFF</color>
     <color name="textBlack">#020202</color>
     <color name="blueGrey">#89C4F4</color>
+    <color name="material_drawer_selected_text">#FF4081</color>
 </resources>

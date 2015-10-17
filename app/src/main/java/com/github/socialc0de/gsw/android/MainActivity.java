@@ -281,7 +281,7 @@ public class MainActivity extends FragmentActivity {
                     .addDrawerItems(
                             new PrimaryDrawerItem().withName(R.string.sharing_local).withIcon(R.drawable.ic_place_black_36dp),
                             new PrimaryDrawerItem().withName(R.string.sharing_categories).withIcon(R.drawable.ic_view_day_black_36dp),
-                            new PrimaryDrawerItem().withName(R.string.profile).withIcon(R.drawable.common_signin_btn_icon_dark),
+                            new PrimaryDrawerItem().withName(R.string.profile).withIcon(R.drawable.ic_assignment_ind_black_36dp),
                             new PrimaryDrawerItem().withName(R.string.phrasebook).withIcon(R.drawable.ic_translate_black_36dp),
                             new PrimaryDrawerItem().withName(R.string.faq).withIcon(R.drawable.ic_question_answer_black_36dp),
                             new PrimaryDrawerItem().withName(R.string.authority_map).withIcon(R.drawable.ic_map_black_36dp),

@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -71,6 +72,9 @@ import com.github.socialc0de.gsw.android.fragments.PhraseFragment;
 import com.github.socialc0de.gsw.android.fragments.ProfileFragment;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.github.socialc0de.gsw.android.tools.TinyDB;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
 
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also
@@ -93,6 +97,21 @@ public class MainActivity extends FragmentActivity {
     public String gplus_url;
     public TinyDB mTinyDB;
     Drawer mDrawer;
+
+
+    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
+    // note that these credentials will differ between live & sandbox environments.
+    private static final String CONFIG_CLIENT_ID = "AU-NITuyj3r7aurS3OVX-ldVgO3f7m76C1G2VR9lQxvJ_3dS4qfj7X5hyvxAtLfbJOlzu4waEf2XEHSt";
+
+
+    private static PayPalConfiguration paypalConfig = new PayPalConfiguration()
+            .environment(CONFIG_ENVIRONMENT)
+            .clientId(CONFIG_CLIENT_ID)
+                    // The following are only used in PayPalFuturePaymentActivity.
+            .merchantName("Example Merchant")
+            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
+            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
+
 
     /**
      * Called to sign out the user, so user can later on select a different account.
@@ -188,6 +207,16 @@ public class MainActivity extends FragmentActivity {
 
         MainActivity.mainActivity = this;
 
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
+        startService(intent);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
     }
 
     private void fillLayout() {
@@ -498,5 +527,13 @@ public class MainActivity extends FragmentActivity {
 
     public void setmDrawer(Drawer mDrawer) {
         this.mDrawer = mDrawer;
+    }
+
+    public static PayPalConfiguration getPaypalConfig() {
+        return paypalConfig;
+    }
+
+    public static void setPaypalConfig(PayPalConfiguration paypalConfig) {
+        MainActivity.paypalConfig = paypalConfig;
     }
 }

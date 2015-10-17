@@ -4,7 +4,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="mentoring">Mentoring</string>
+    <string name="internships">Interns</string>
     <string name="sharing_local">Sharing - Local</string>
     <string name="sharing_categories">Sharing - Categories</string>
     <string name="sharing_profile">Sharing - Profile</string>

@@ -27,6 +27,8 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.melnykov.fab.FloatingActionButton;
 import android.content.Intent;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.github.socialc0de.gsw.android.MainActivity;
@@ -36,6 +38,7 @@ import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.github.socialc0de.gsw.android.*;
+
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
     public ListView listView;
@@ -81,7 +84,13 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             Log.d("GSW MainActivity", "fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
             tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
-            tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
+
+            //TODO Karl, enter your code!
+            ArrayList<ListItem> mentoring = new ArrayList<>();
+            ArrayList<ListItem> internships = new ArrayList<>();
+
+            tbs.add(new ListTabFragment(mentoring, getString(R.string.mentoring)));
+            tbs.add(new ListTabFragment(internships, getString(R.string.internships)));
             Log.d("GSW MainActivity", "create ViewPagerAdapter");
             ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
             Log.d("GSW MainActivity", "created ViewPagerAdapter");

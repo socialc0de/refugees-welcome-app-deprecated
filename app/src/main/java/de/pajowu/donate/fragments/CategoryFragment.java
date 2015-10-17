@@ -15,12 +15,12 @@ import com.appspot.donate_backend.donate.model.Category;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.pajowu.donate.CategoryListAdapter;
-import de.pajowu.donate.CategoryListItem;
-import de.pajowu.donate.CategoryViewPagerAdapter;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.SlidingTabLayout;
+import de.pajowu.donate.adapter.pager.CategoryViewPagerAdapter;
+import de.pajowu.donate.list.adapter.CategoryListAdapter;
+import de.pajowu.donate.list.items.CategoryListItem;
 
 /**
  * A simple {@link Fragment} subclass.

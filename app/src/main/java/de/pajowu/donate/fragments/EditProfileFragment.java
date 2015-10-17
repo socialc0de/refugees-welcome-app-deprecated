@@ -33,10 +33,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.models.Person;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -260,7 +260,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                 .replace(R.id.container, nextFrag, null)
                 .addToBackStack(null)
                 .commit();
-        ((MainActivity) getActivity()).mDrawer.setSelection(2, false);
+        MainActivity.getMainActivity().getmDrawer().setSelection(2, false);
     }
 
     @Override

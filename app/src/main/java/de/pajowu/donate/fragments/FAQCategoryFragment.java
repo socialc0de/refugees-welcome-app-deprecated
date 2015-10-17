@@ -20,9 +20,9 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
-import de.pajowu.donate.FAQCategoryAdapter;
 import de.pajowu.donate.R;
+import de.pajowu.donate.adapter.FAQCategoryAdapter;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,4 +105,6 @@ public class FAQCategoryFragment extends Fragment {
         };
         new Thread(runnable).start();
     }
+
+
 }

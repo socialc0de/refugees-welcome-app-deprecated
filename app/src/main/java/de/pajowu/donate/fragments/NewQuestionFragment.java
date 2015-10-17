@@ -28,10 +28,9 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
-import de.pajowu.donate.FAQFragment;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 //import de.pajowu.donate.*;
 
@@ -149,7 +148,7 @@ public class NewQuestionFragment extends Fragment implements View.OnClickListene
                         FAQFragment newFragment = new FAQFragment();
                         //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-                        ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                        MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
 
                     }
                 });

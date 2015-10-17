@@ -18,11 +18,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import de.pajowu.donate.CategoryListAdapter;
-import de.pajowu.donate.PhraseViewPagerAdapter;
 import de.pajowu.donate.R;
 import de.pajowu.donate.SlidingTabLayout;
-import de.pajowu.donate.fragments.PhraseListTabFragment;
+import de.pajowu.donate.adapter.pager.PhraseViewPagerAdapter;
+import de.pajowu.donate.list.adapter.CategoryListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

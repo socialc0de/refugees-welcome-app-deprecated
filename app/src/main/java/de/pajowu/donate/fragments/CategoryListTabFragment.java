@@ -13,10 +13,10 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.CategoryListAdapter;
-import de.pajowu.donate.CategoryListItem;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
+import de.pajowu.donate.list.adapter.CategoryListAdapter;
+import de.pajowu.donate.list.items.CategoryListItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,8 +85,8 @@ public class CategoryListTabFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("ListView clicked: ", "" + position);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).id)).addToBackStack(null).commit();
-                ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new CategoryProductsFragment(getActivity().getApplicationContext(), arrayList.get(position).getId())).addToBackStack(null).commit();
+                MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
 
             }
         });

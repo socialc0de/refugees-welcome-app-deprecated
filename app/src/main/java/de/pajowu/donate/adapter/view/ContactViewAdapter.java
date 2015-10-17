@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.ContactRowHolder;
 import de.pajowu.donate.R;
 import de.pajowu.donate.models.ContactRow;
+import de.pajowu.donate.models.holder.ContactRowHolder;
 
 public class ContactViewAdapter extends RecyclerView.Adapter<ContactRowHolder> {
     Context context;
@@ -42,7 +42,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactRowHolder> {
     @Override
     public void onBindViewHolder(ContactRowHolder ContactRowHolder, int position) {
         ContactRow items = itemsList.get(position);
-        ContactRowHolder.textView.setText(String.valueOf(items.getTitle()));
-        ContactRowHolder.imageView.setBackgroundResource(items.getImgIcon());
+        ContactRowHolder.getTextView().setText(String.valueOf(items.getTitle()));
+        ContactRowHolder.getImageView().setBackgroundResource(items.getImgIcon());
     }
 }

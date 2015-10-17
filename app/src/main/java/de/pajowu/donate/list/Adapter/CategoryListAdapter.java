@@ -1,4 +1,4 @@
-package de.pajowu.donate.list.Adapter;
+package de.pajowu.donate.list.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.pajowu.donate.R;
-import de.pajowu.donate.models.CategoryListItem;
+import de.pajowu.donate.list.items.CategoryListItem;
 
 public class CategoryListAdapter extends ArrayAdapter<CategoryListItem> {
     private int targetedLayout;

@@ -30,12 +30,12 @@ import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.SlidingTabLayout;
-import de.pajowu.donate.ViewPagerAdapter;
-import de.pajowu.donate.models.ListItem;
+import de.pajowu.donate.adapter.pager.ViewPagerAdapter;
+import de.pajowu.donate.list.items.ListItem;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
@@ -145,7 +145,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                                 ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                                 String catstr = "";
                                 for (String cat : off.getCategories()) {
-                                    Category category = ((MainActivity) getActivity()).categories.get(cat);
+                                    Category category = MainActivity.getMainActivity().categories.get(cat);
                                     if (category != null) {
                                         catstr += category.getName() + " ";
                                     }
@@ -216,16 +216,16 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.fab:
                 Log.d("GSW MainActivity", "pressed");
-                if (((MainActivity) getActivity()).credential.getSelectedAccountName() != null) {
+                if (MainActivity.getCredential().getSelectedAccountName() != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewOfferFragment(context)).addToBackStack(null).commit();
-                    ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                    MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                     alert.setTitle(getString(R.string.please_sign_in));
                     alert.setMessage(R.string.cant_create_offer_if_not_signed_in);
                     alert.setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            getActivity().startActivityForResult(((MainActivity) getActivity()).credential.newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
+                            getActivity().startActivityForResult(MainActivity.getCredential().newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
                         }
                     });
                     alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

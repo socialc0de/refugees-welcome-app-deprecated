@@ -35,10 +35,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.models.ContactRow;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 public class ProductFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     private final String TAG = "GSW MainActivity";
@@ -113,8 +113,8 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
     @Override
     public void onClick(View v) {
         Log.d("GSW MainActivity", gplus_url);
-        Log.d("GSW MainActivity", ((MainActivity) getActivity()).gplus_url);
-        if (gplus_url.equals(((MainActivity) getActivity()).gplus_url)) {
+        Log.d("GSW MainActivity", MainActivity.getMainActivity().gplus_url);
+        if (gplus_url.equals(MainActivity.getMainActivity().gplus_url)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
             alert.setTitle(getString(R.string.sure));
             alert.setMessage(getString(R.string.sure_delete_offer));
@@ -148,7 +148,7 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
                                     LocalFragment newFragment = new LocalFragment();
                                     //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment,"Local");
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-                                    ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                                    MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
                                 }
                             });
 
@@ -167,17 +167,17 @@ public class ProductFragment extends android.support.v4.app.Fragment implements 
             ContactFragment contactFragment = new ContactFragment(mContext, im_data);
             //((MaterialNavigationDrawer) getActivity()).setFragment(contactFragment,"Owner");
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, contactFragment).addToBackStack(null).commit();
-            ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+            MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
         }
 
     }
 
     private void fillLayout() {
-        Log.d("GSW MainActivity", ((MainActivity) getActivity()).gplus_url);
+        Log.d("GSW MainActivity", MainActivity.getMainActivity().gplus_url);
         ImageView imageView = (ImageView) getActivity().findViewById(R.id.fragment_product_mainImage);
         getActivity().findViewById(R.id.fragment_product_messageButton).setOnClickListener(this);
         gplus_url = (String) ((HashMap) im.get("gplus")).get("url");
-        if (gplus_url.equals(((MainActivity) getActivity()).gplus_url)) {
+        if (gplus_url.equals(MainActivity.getMainActivity().gplus_url)) {
             ((FloatingActionButton) getActivity().findViewById(R.id.fragment_product_messageButton)).setImageResource(R.drawable.ic_delete);
         }
         im_data = new ArrayList<ContactRow>();

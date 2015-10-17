@@ -9,12 +9,28 @@ import de.pajowu.donate.R;
 
 public class ProfileRowHolder extends RecyclerView.ViewHolder {
 
-    ImageView imageView;
-    TextView textView;
+    private ImageView imageView;
+    private TextView textView;
 
     public ProfileRowHolder(View view) {
         super(view);
         this.textView = (TextView) view.findViewById(R.id.title);
         this.imageView = (ImageView) view.findViewById(R.id.image);
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.textView = textView;
     }
 }

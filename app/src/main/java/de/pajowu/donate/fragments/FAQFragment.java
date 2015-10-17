@@ -26,14 +26,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.pajowu.donate.CategoryCardItem;
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
-import de.pajowu.donate.RecyclerItemClickListener;
-import de.pajowu.donate.RecyclerViewAdapter;
-import de.pajowu.donate.fragments.FAQCategoryFragment;
-import de.pajowu.donate.fragments.NewQuestionFragment;
+import de.pajowu.donate.adapter.view.RecyclerViewAdapter;
+import de.pajowu.donate.listener.RecyclerItemClickListener;
+import de.pajowu.donate.models.CategoryCardItem;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,10 +72,10 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemClick(View view, int position) {
                         Log.d("pos = ", position + "");
-                        FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment(list.get(position).id);
+                        FAQCategoryFragment faqCategoryFragment = new FAQCategoryFragment(list.get(position).getId());
                         //((MaterialNavigationDrawer) getActivity()).setFragmentChild(faqCategoryFragment,"Answers");
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, faqCategoryFragment).addToBackStack(null).commit();
-                        MainActivity.getMainActivity().mDrawer.setSelection(-1, false);
+                        MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
                     }
                 })
         );
@@ -149,16 +147,16 @@ public class FAQFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.fab:
                 Log.d("GSW MainActivity", "pressed");
-                if (MainActivity.getMainActivity().credential.getSelectedAccountName() != null) {
+                if (MainActivity.getCredential().getSelectedAccountName() != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewQuestionFragment(cats)).addToBackStack(null).commit();
-                    MainActivity.getMainActivity().mDrawer.setSelection(-1, false);
+                    MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                     alert.setTitle(getString(R.string.please_sign_in));
                     alert.setMessage(R.string.cant_create_offer_if_not_signed_in);
                     alert.setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            getActivity().startActivityForResult(MainActivity.getMainActivity().credential.newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
+                            getActivity().startActivityForResult(MainActivity.getCredential().newChooseAccountIntent(), MainActivity.REQUEST_ACCOUNT_PICKER);
                         }
                     });
                     alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

@@ -48,12 +48,12 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import de.pajowu.donate.AppConfig;
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.ExpandableGridView;
 import de.pajowu.donate.LocationPickerActivity;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
-import de.pajowu.donate.models.ListItem;
+import de.pajowu.donate.list.items.ListItem;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 //import de.pajowu.donate.*;
 
@@ -98,7 +98,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
         chooseCategoryButton.setOnClickListener(this);
         viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
-        for (HashMap.Entry<String, Category> cat : ((MainActivity) getActivity()).categories.entrySet()) {
+        for (HashMap.Entry<String, Category> cat : MainActivity.getMainActivity().categories.entrySet()) {
             cats.put(cat.getValue().getName(), cat.getKey());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>(cats.keySet()));
@@ -349,7 +349,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         LocalFragment newFragment = new LocalFragment();
                         //((MaterialNavigationDrawer) getActivity()).setFragment(newFragment, "Local");
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-                        ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                        MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
 
                     }
                 });

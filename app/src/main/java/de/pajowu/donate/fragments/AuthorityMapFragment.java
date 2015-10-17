@@ -155,14 +155,14 @@ public class AuthorityMapFragment extends Fragment implements View.OnClickListen
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject jo_inside = m_jArry.getJSONObject(i);
                 Authority auth = new Authority();
-                auth.open_times = (String) jo_inside.get("offnungszeiten");
-                auth.website = (String) jo_inside.get("website");
+                auth.setOpen_times((String) jo_inside.get("offnungszeiten"));
+                auth.setWebsite((String) jo_inside.get("website"));
                 Double lat = (Double) ((JSONObject) jo_inside.get("location")).get("lat");
                 Double lng = (Double) ((JSONObject) jo_inside.get("location")).get("lng");
-                auth.location = new LatLng(lat, lng);
-                auth.email = (String) jo_inside.get("email");
-                auth.phone = (String) jo_inside.get("telefon");
-                auth.address = (String) jo_inside.get("adresse");
+                auth.setLocation(new LatLng(lat, lng));
+                auth.setEmail((String) jo_inside.get("email"));
+                auth.setPhone((String) jo_inside.get("telefon"));
+                auth.setAddress((String) jo_inside.get("adresse"));
                 //auth.source = "www.amt-de.com";
                 // Source will be mentioned in "About"
                 mClusterManager2.addItem(auth);

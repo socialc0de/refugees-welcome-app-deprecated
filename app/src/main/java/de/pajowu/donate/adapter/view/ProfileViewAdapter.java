@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.ProfileRowHolder;
 import de.pajowu.donate.R;
 import de.pajowu.donate.models.ProfileRow;
+import de.pajowu.donate.models.holder.ProfileRowHolder;
 
 public class ProfileViewAdapter extends RecyclerView.Adapter<ProfileRowHolder> {
     Context context;
@@ -42,7 +42,7 @@ public class ProfileViewAdapter extends RecyclerView.Adapter<ProfileRowHolder> {
     @Override
     public void onBindViewHolder(ProfileRowHolder ProfileRowHolder, int position) {
         ProfileRow items = itemsList.get(position);
-        ProfileRowHolder.textView.setText(String.valueOf(items.getTitle()));
-        ProfileRowHolder.imageView.setBackgroundResource(items.getImgIcon());
+        ProfileRowHolder.getTextView().setText(String.valueOf(items.getTitle()));
+        ProfileRowHolder.getImageView().setBackgroundResource(items.getImgIcon());
     }
 }

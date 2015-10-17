@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.ListAdapter;
 import de.pajowu.donate.R;
-import de.pajowu.donate.models.ListItem;
+import de.pajowu.donate.list.adapter.ListAdapter;
+import de.pajowu.donate.list.items.ListItem;
 
 /**
  * A simple {@link Fragment} subclass.

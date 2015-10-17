@@ -62,8 +62,8 @@ public class CloudEndpointBuilderHelper {
      * require users to be signed in or not.
      */
     public static HttpRequestInitializer getRequestInitializer() {
-        if (MainActivity.credential.getSelectedAccountName() != null) {
-            return MainActivity.credential;
+        if (MainActivity.getCredential().getSelectedAccountName() != null) {
+            return MainActivity.getCredential();
         } else {
             HttpRequestInitializer httpRequestInitializer = new HttpRequestInitializer() {
                 @Override

@@ -36,10 +36,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.models.Person;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 public class ProfileFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     private final String TAG = "GSW MainActivity";
@@ -198,7 +198,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                         .replace(R.id.container, nextFrag, null)
                         .addToBackStack(null)
                         .commit();
-                ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
 
                 //TODO Set Editable = true (search fitting code for it
                 //TODO Maybe add lines again to make obvious, that they can be edited

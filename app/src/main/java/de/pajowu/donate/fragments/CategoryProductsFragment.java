@@ -27,12 +27,12 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import de.pajowu.donate.CloudEndpointBuilderHelper;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.SlidingTabLayout;
-import de.pajowu.donate.ViewPagerAdapter;
-import de.pajowu.donate.models.ListItem;
+import de.pajowu.donate.adapter.pager.ViewPagerAdapter;
+import de.pajowu.donate.list.items.ListItem;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
 
 public class CategoryProductsFragment extends Fragment {
     public ArrayList<ListItem> offerList;
@@ -112,7 +112,7 @@ public class CategoryProductsFragment extends Fragment {
                                 ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                                 String catstr = "";
                                 for (String cat : off.getCategories()) {
-                                    Category category = ((MainActivity) getActivity()).categories.get(cat);
+                                    Category category = MainActivity.getMainActivity().categories.get(cat);
                                     if (category != null) {
                                         catstr += category.getName() + " ";
                                     }

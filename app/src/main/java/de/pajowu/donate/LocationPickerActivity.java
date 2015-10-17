@@ -34,6 +34,10 @@ import com.google.android.gms.maps.model.VisibleRegion;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.pajowu.donate.tools.FetchAddressIntentService;
+import de.pajowu.donate.tools.GPSTracker;
+import de.pajowu.donate.tools.ServerConnector;
+
 /**
  * @author livin
  */

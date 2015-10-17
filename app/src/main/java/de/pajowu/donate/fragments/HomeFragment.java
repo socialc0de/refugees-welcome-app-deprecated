@@ -15,10 +15,10 @@ import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
 
 import de.pajowu.donate.ExpandableGridView;
-import de.pajowu.donate.ImageAdapter;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
-import de.pajowu.donate.models.ListItem;
+import de.pajowu.donate.adapter.ImageAdapter;
+import de.pajowu.donate.list.items.ListItem;
 
 public class HomeFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     public ScrollView scrollView;
@@ -102,7 +102,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                         ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "", off.getId());
                         String catstr = "";
                         for (String cat : off.getCategories()) {
-                            Category category = ((MainActivity) getActivity()).categories.get(cat);
+                            Category category = MainActivity.getMainActivity().categories.get(cat);
                             if (category != null) {
                                 catstr += category.getName() + " ";
                             }

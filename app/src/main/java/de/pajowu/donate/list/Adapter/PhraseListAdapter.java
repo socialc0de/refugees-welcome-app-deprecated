@@ -1,4 +1,4 @@
-package de.pajowu.donate.list.Adapter;
+package de.pajowu.donate.list.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -28,9 +28,9 @@ public class PhraseListAdapter extends ArrayAdapter<HashMap<String, String>> {
         this.context = context;
         this.targetedLayout = resource;
         this.arrayList = arrayList;
+
         // Define Font for PhraseListItem titles
         typeface1 = Typeface.createFromAsset(context.getAssets(), "ralewaybold.ttf");
-
     }
 
     @Override

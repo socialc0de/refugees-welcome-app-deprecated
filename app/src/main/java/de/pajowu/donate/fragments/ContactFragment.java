@@ -15,9 +15,9 @@ import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import de.pajowu.donate.ContactViewAdapter;
 import de.pajowu.donate.R;
-import de.pajowu.donate.RecyclerItemClickListener;
+import de.pajowu.donate.adapter.view.ContactViewAdapter;
+import de.pajowu.donate.listener.RecyclerItemClickListener;
 import de.pajowu.donate.models.ContactRow;
 
 public class ContactFragment extends android.support.v4.app.Fragment {

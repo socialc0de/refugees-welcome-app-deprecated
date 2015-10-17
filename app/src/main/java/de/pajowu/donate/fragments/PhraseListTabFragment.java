@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.pajowu.donate.MainActivity;
-import de.pajowu.donate.PhraseListAdapter;
 import de.pajowu.donate.R;
+import de.pajowu.donate.list.adapter.PhraseListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,7 +88,7 @@ public class PhraseListTabFragment extends Fragment {
                 Log.d("GSW MainActivity", arrayList.get(position).toString());
                 //((MaterialNavigationDrawer) getActivity()).setFragmentChild(new PhraseDetailFragment(arrayList.get(position)),"Phrase");
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PhraseDetailFragment(arrayList.get(position))).addToBackStack(null).commit();
-                ((MainActivity) getActivity()).mDrawer.setSelection(-1, false);
+                MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
 
             }
         });

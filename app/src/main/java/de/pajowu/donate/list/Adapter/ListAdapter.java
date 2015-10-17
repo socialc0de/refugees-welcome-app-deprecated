@@ -1,4 +1,4 @@
-package de.pajowu.donate.list.Adapter;
+package de.pajowu.donate.list.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import de.pajowu.donate.MainActivity;
 import de.pajowu.donate.R;
 import de.pajowu.donate.fragments.ProductFragment;
-import de.pajowu.donate.models.ListItem;
+import de.pajowu.donate.list.items.ListItem;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private static Context context;
@@ -31,6 +31,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         ListAdapter.context = context;
         this.targetedLayout = resource;
         ListAdapter.arrayList = arrayList;
+
         // Define Font for ListItem titles
         typeface1 = Typeface.createFromAsset(context.getAssets(), "ralewaybold.ttf");
     }

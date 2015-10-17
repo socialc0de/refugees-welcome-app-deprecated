@@ -18,9 +18,7 @@ import android.widget.ListView;
 
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
-import com.appspot.donate_backend.donate.model.Category;
-import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon;
-import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection;
+import com.appspot.donate_backend.donate.model.*;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -39,6 +37,8 @@ import com.github.socialc0de.gsw.android.*;
 import com.github.socialc0de.gsw.android.locationpicker.*;
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
+    ArrayList<ListItem> mentoringList;
+    ArrayList<ListItem> internshipList;
     public ListView listView;
     public Context context;
     public FragmentTabHost mTabHost;
@@ -153,6 +153,20 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                             if (off.getImageUrls() != null) {
                                 // tmp fix, save image from url, give the path to HomeFragment
                                 li.setResourceImage(off.getImageUrls().get(0));
+                            }
+                            offerList.add(li);
+                        }
+                    }
+
+                    MentoringRequestProtoIdTitleSubtitleImageUrlCollection mentoringResult = service.mentoringrequest().listNear().setBbox(bbox).execute();
+                    Log.d("GSW MainActivity", mentoringResult.toString());
+                    mentoringList = new ArrayList<ListItem>();
+                    if (mentoringResult.getItems() != null) {
+                        for (MentoringRequestProtoIdTitleSubtitleImageUrl mentoringrequest : mentoringResult.getItems()) {
+                            ListItem li = new ListItem("", mentoringrequest.getTitle(), mentoringrequest.getSubtitle(), "", mentoringrequest.getId());
+                            if (mentoringrequest.getImageUrl() != null) {
+                                // tmp fix, save image from url, give the path to HomeFragment
+                                li.setResourceImage(mentoringrequest.getImageUrl());
                             }
                             offerList.add(li);
                         }

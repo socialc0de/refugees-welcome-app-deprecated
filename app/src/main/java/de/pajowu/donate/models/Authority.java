@@ -1,0 +1,44 @@
+package de.pajowu.donate.models;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
+public class Authority implements ClusterItem {
+    //public String fax;
+    public String open_times;
+    public String website;
+    public LatLng location;
+    public String email;
+    public String phone;
+    public String address;
+
+    //public String source;
+    public Authority() {
+
+    }
+
+    public String getOpen_times() {
+        return open_times;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return location;
+    }
+}

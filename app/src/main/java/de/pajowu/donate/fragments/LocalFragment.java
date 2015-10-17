@@ -81,6 +81,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             Log.d("GSW MainActivity", "fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
             tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
+            tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
             Log.d("GSW MainActivity", "create ViewPagerAdapter");
             ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
             Log.d("GSW MainActivity", "created ViewPagerAdapter");

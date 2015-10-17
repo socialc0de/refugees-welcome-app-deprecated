@@ -3,60 +3,76 @@
     android:id="@+id/text"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <ImageView
+    android:orientation="horizontal"
+    android:padding="15dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/de_image"
-            android:src="@drawable/de"
-            android:layout_alignParentLeft="true"
-            android:paddingRight="5dp"
-            android:paddingTop="2dp"/>
-        <TextView
-            android:layout_toRightOf="@id/de_image"
-            android:id="@+id/german_phrase"
-            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/de_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:src="@drawable/de" />
+
+            <TextView
+                android:id="@+id/german_phrase"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/de_image"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:orientation="vertical"
+                android:text="Test"
+                android:textColor="@color/textGrey2"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/textGrey2"
-            android:textSize="16sp"
-            android:orientation="vertical"/>
-    </RelativeLayout>
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/en_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:src="@drawable/en"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="2dp"/>
+            <TextView
+                android:layout_toRightOf="@id/en_image"
+                android:id="@+id/english_phrase"
+                android:gravity="center_vertical|left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textColor="@color/textGrey2"
+                android:textSize="16sp"
+                android:orientation="vertical"
+                android:text="Test"/>
+        </LinearLayout>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/arabic_phrase"
-        android:gravity="center_vertical|right"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
+        android:gravity="center_vertical|right"
+        android:orientation="vertical"
         android:textColor="@color/textGrey2"
         android:textSize="16sp"
-        android:orientation="vertical"/>
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/en_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5dp"
-            android:src="@drawable/en"
-            android:layout_alignParentLeft="true"
-            android:paddingTop="2dp"/>
-        <TextView
-            android:layout_toRightOf="@id/en_image"
-            android:id="@+id/english_phrase"
-            android:gravity="center_vertical|left"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/textGrey2"
-            android:textSize="16sp"
-            android:orientation="vertical"/>
-    </RelativeLayout>
+        android:text="Test"/>
+
 </LinearLayout>

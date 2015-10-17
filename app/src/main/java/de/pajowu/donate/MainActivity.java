@@ -33,7 +33,11 @@ import android.view.View;
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.DonateScopes;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.Category;
+import com.appspot.donate_backend.donate.model.CategoryCollection;
+import com.appspot.donate_backend.donate.model.User;
+import com.appspot.donate_backend.donate.model.UserProto;
+import com.appspot.donate_backend.donate.model.UserProtoImAddressNameImageUrl;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -57,28 +61,108 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.pajowu.donate.fragments.AboutFragment;
+import de.pajowu.donate.fragments.AuthorityMapFragment;
+import de.pajowu.donate.fragments.CategoryFragment;
+import de.pajowu.donate.fragments.FAQFragment;
+import de.pajowu.donate.fragments.LocalFragment;
+import de.pajowu.donate.fragments.PhraseFragment;
+import de.pajowu.donate.fragments.ProfileFragment;
+import de.pajowu.donate.tools.CloudEndpointBuilderHelper;
+import de.pajowu.donate.tools.TinyDB;
+
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also
  * implements integration with Google Play Services and Google Accounts.
  */
 public class MainActivity extends FragmentActivity {
-    static final boolean SIGN_IN_REQUIRED = false;
-    private static final String AUDIENCE = "server:client_id:760560844994-04u6qkvpf481an26cnhkaauaf2dvjfk0.apps.googleusercontent.com";
-    private static final String ACCOUNT_NAME_SETTING_NAME = "accountName";
-
     // constants for startActivityForResult flow
-    static final int REQUEST_ACCOUNT_PICKER = 1;
+    public static final int REQUEST_ACCOUNT_PICKER = 1;
+    static final boolean SIGN_IN_REQUIRED = false;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 2;
     static final int REQUEST_AUTHORIZATION = 3;
-
-    static GoogleAccountCredential credential;
     final static String TAG = "Donate";
+    private static final String AUDIENCE = "server:client_id:760560844994-04u6qkvpf481an26cnhkaauaf2dvjfk0.apps.googleusercontent.com";
+    private static final String ACCOUNT_NAME_SETTING_NAME = "accountName";
+    static GoogleAccountCredential credential;
+    private static MainActivity mainActivity;
+    final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+    final ArrayList<String> mTitles = new ArrayList<String>();
     public HashMap<String, Category> categories = new HashMap<String, Category>();
     public String gplus_url;
     public TinyDB mTinyDB;
     Drawer mDrawer;
-    final ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
-    final ArrayList<String> mTitles = new ArrayList<String>();
+
+    /**
+     * Called to sign out the user, so user can later on select a different account.
+     *
+     * @param activity activity that initiated the sign out.
+     */
+    static void onSignOut(Activity activity) {
+        SharedPreferences settings = activity.getSharedPreferences("reguees", 0);
+
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(ACCOUNT_NAME_SETTING_NAME, "");
+
+        editor.commit();
+        credential.setSelectedAccountName("");
+
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+
+        if (json != JSONObject.NULL) {
+            retMap = toMap(json);
+        }
+        return retMap;
+    }
+
+    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Iterator<String> keysItr = object.keys();
+        while (keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    public static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for (int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
+
+    public static MainActivity getMainActivity() {
+        return MainActivity.mainActivity;
+    }
+
+    public static GoogleAccountCredential getCredential() {
+        return credential;
+    }
+
+    public static void setCredential(GoogleAccountCredential credential) {
+        MainActivity.credential = credential;
+    }
 
     /**
      * Initializes the activity content and then navigates to the MainActivity if the user is already
@@ -100,6 +184,8 @@ public class MainActivity extends FragmentActivity {
         } else {
             startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
         }
+
+        MainActivity.mainActivity = this;
 
     }
 
@@ -263,25 +349,6 @@ public class MainActivity extends FragmentActivity {
         new Thread(runnable).start();
     }
 
-
-    /**
-     * Called to sign out the user, so user can later on select a different account.
-     *
-     * @param activity activity that initiated the sign out.
-     */
-    static void onSignOut(Activity activity) {
-        SharedPreferences settings = activity.getSharedPreferences("reguees", 0);
-
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(ACCOUNT_NAME_SETTING_NAME, "");
-
-        editor.commit();
-        credential.setSelectedAccountName("");
-
-        Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivity(intent);
-    }
-
     /**
      * Navigates to the MainActivity
      */
@@ -328,7 +395,7 @@ public class MainActivity extends FragmentActivity {
                 Category cat = new Category();
                 if (value instanceof JSONObject) {
                     JsonFactory factory = new AndroidJsonFactory();
-                    cat = (Category) factory.fromString(value.toString(), Category.class);
+                    cat = factory.fromString(value.toString(), Category.class);
                 }
                 map.put(key, cat);
             }
@@ -419,44 +486,11 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
-        Map<String, Object> retMap = new HashMap<String, Object>();
-
-        if (json != JSONObject.NULL) {
-            retMap = toMap(json);
-        }
-        return retMap;
+    public Drawer getmDrawer() {
+        return mDrawer;
     }
 
-    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        Iterator<String> keysItr = object.keys();
-        while (keysItr.hasNext()) {
-            String key = keysItr.next();
-            Object value = object.get(key);
-
-            if (value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            } else if (value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            map.put(key, value);
-        }
-        return map;
-    }
-
-    public static List<Object> toList(JSONArray array) throws JSONException {
-        List<Object> list = new ArrayList<Object>();
-        for (int i = 0; i < array.length(); i++) {
-            Object value = array.get(i);
-            if (value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            } else if (value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            list.add(value);
-        }
-        return list;
+    public void setmDrawer(Drawer mDrawer) {
+        this.mDrawer = mDrawer;
     }
 }

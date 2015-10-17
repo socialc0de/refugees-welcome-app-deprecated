@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <LinearLayout
@@ -53,9 +52,9 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:id="@+id/image" />
+            android:layout_height="18dp" />
 
     </LinearLayout>
 
@@ -66,14 +65,14 @@
 
         <EditText
             android:id="@+id/title"
-            android:gravity="center_vertical|right"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@null"
+            android:gravity="center_vertical|right"
+            android:orientation="vertical"
             android:text="John Michael Smith"
             android:textColor="@color/textGrey2"
-            android:textSize="16sp"
-            android:orientation="vertical"/>
+            android:textSize="16sp" />
 
 
     </RelativeLayout>

@@ -6,56 +6,59 @@
     android:layout_height="match_parent"
     progressLayout:progress="false"
     progressLayout:progressBackground="#DDDDDD">
-    <RelativeLayout 
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="192dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile" 
-                android:id="@+id/profileImage"/>
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fragment_profile_name"
-                android:textSize="30sp"
-                android:layout_marginLeft="25dp"
-                android:textColor="@color/textWhite"
-                android:layout_alignBottom="@id/profileImage"
-                android:layout_gravity="top|left"
-                android:text="Sandra Houston"/>
-        
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/fragment_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/profileImage"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="15dp"
+            android:text="Sandra Houston"
+            android:textColor="@color/textWhite"
+            android:textSize="30sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/profileImage"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:layout_below="@id/profileImage">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="30dp"
+                android:layout_marginTop="20dp"
                 android:weightSum="4">
 
                 <LinearLayout
-                    android:paddingTop="10dp"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_phone_grey600"
-                        android:tint="@color/primaryColor" 
-                        android:id="@+id/profileImage"/>
+                        android:tint="@color/primaryColor" />
 
                 </LinearLayout>
 
@@ -98,9 +101,9 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:paddingTop="10dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -149,9 +152,9 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:paddingTop="10dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -192,12 +195,13 @@
 
 
         </LinearLayout>
+
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fragment_profile_editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_mode_edit_white"

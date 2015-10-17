@@ -2,16 +2,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/progress_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/progress_layout">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="30dp"
-        tools:context="de.pajowu.donate.EditProfileFragment">
+        tools:context="de.pajowu.donate.fragments.EditProfileFragment">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -19,7 +19,7 @@
             android:layout_marginBottom="10dp"
             android:gravity="right"
             android:orientation="horizontal">
- 
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -31,10 +31,10 @@
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/editProfileName"
-                android:inputType="textNoSuggestions"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name" />
+                android:hint="Name"
+                android:inputType="textNoSuggestions" />
 
         </LinearLayout>
 
@@ -69,8 +69,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="-5dp"
                 android:text="EDIT"
-                android:textColor="@color/textWhite"
-                />
+                android:textColor="@color/textWhite" />
 
         </LinearLayout>
 
@@ -97,12 +96,12 @@
                 android:orientation="vertical">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    app:met_autoValidate="true"
                     android:id="@+id/editProfileEmailPersonal"
-                    android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="E-Mail (Personal)" />
+                    android:hint="E-Mail (Personal)"
+                    android:inputType="textNoSuggestions"
+                    app:met_autoValidate="true" />
 
                 <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfileEmailWork"
@@ -138,10 +137,10 @@
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfilePhonePersonal"
-                    android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Phone (Personal)" />
+                    android:hint="Phone (Personal)"
+                    android:inputType="textNoSuggestions" />
 
                 <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfilePhoneWork"
@@ -152,6 +151,7 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -176,10 +176,10 @@
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/editProfileLocation"
-                    android:inputType="textNoSuggestions"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Location"/>
+                    android:hint="Location"
+                    android:inputType="textNoSuggestions" />
 
             </LinearLayout>
         </LinearLayout>
@@ -188,10 +188,10 @@
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/editProfileFinished"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"

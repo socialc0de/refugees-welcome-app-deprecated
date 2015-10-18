@@ -602,12 +602,19 @@ public class MainActivity extends FragmentActivity {
                         final UserProtoImAddressNameImageUrl result = service.user().data().execute();
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                headerResult.addProfiles(
-                                    new ProfileDrawerItem().withName(result.getName()).withEmail(credential.getSelectedAccountName()).withIcon(result.getImageUrl())
-                                );
+                                if (result.getImageUrl() != null) {
+                                    headerResult.addProfiles(
+                                        new ProfileDrawerItem().withName(result.getName()).withEmail(credential.getSelectedAccountName()).withIcon(result.getImageUrl())
+                                    );
+                                } else {
+                                    headerResult.addProfiles(
+                                        new ProfileDrawerItem().withName(result.getName()).withEmail(credential.getSelectedAccountName())
+                                    );
+                                }
+
                             }
                         });
-                        
+
                         Log.d("GSW MainActivity", result.toString());
                         Map<String, Object> im = jsonToMap(new JSONObject(result.getIm().toString()));
                         gplus_url = (String) ((HashMap) im.get("gplus")).get("url");

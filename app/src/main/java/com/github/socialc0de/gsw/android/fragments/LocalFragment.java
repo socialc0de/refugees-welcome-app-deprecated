@@ -60,11 +60,11 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_list_fab, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_list_nofab, container, false);
         Log.d("GSW MainActivity", "onCreateView Local");
         //Implementation of custom Toolbar
 
-        if (offerList != null) {
+        if (offerList != null && mentoringList != null && internshipList != null) {
             fillLayout();
         } else {
             loadFragmentData();
@@ -74,24 +74,21 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
     public void fillLayout() {
         try {
-            FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
-            editButton.setOnClickListener(this);
-            editButton.setVisibility(View.VISIBLE);
+            /*FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
+            editButton.setOnClickListener(this);*/
 
 
             Log.d("GSW MainActivity", "fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-            tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
-            tbs.add(new ListTabFragment(mentoringList, getString(R.string.mentoring)));
-            tbs.add(new ListTabFragment(internshipList, getString(R.string.internships)));
+            tbs.add(new ListTabFragment(offerList, getString(R.string.offer), true, false, false));
+            tbs.add(new ListTabFragment(mentoringList, getString(R.string.mentoring), false, true, false));
+            tbs.add(new ListTabFragment(internshipList, getString(R.string.internships), false, false, true));
 
-            Log.d("GSW MainActivity", "create ViewPagerAdapter");
             ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
-            Log.d("GSW MainActivity", "created ViewPagerAdapter");
             // Assigning ViewPager View and setting the adapter
             ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
             pager.setAdapter(adapter);
-
+            pager.setCurrentItem(2);
             // Assiging the Sliding Tab Layout View
             SlidingTabLayout tabs = (SlidingTabLayout) viewRoot.findViewById(R.id.tabs);
             tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
@@ -106,6 +103,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
             // Setting the ViewPager For the SlidingTabsLayout
             tabs.setViewPager(pager);
+            Log.d("MainActivity", Integer.toString(pager.getCurrentItem()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,12 +136,14 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                         for (OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon off : result.getItems()) {
                             ListItem li = new ListItem("", off.getTitle(), off.getSubtitle(), "CAT", off.getId());
                             String catstr = "";
-                            for (String cat : off.getCategories()) {
-                                Category category = ((MainActivity) getActivity()).categories.get(cat);
-                                if (category != null) {
-                                    catstr += category.getName() + " ";
-                                }
+                            if (off.getCategories() != null) {
+                                for (String cat : off.getCategories()) {
+                                    Category category = ((MainActivity) getActivity()).categories.get(cat);
+                                    if (category != null) {
+                                        catstr += category.getName() + " ";
+                                    }
 
+                                }
                             }
                             li.setCategory(catstr);
                             if (off.getImageUrls() != null) {

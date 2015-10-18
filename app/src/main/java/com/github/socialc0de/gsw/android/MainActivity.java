@@ -259,6 +259,7 @@ public class MainActivity extends FragmentActivity {
                             return false;
                         }
                     })
+                    .withSelectionListEnabledForSingleProfile(false)
                     .build();
 
         mFragments.clear();

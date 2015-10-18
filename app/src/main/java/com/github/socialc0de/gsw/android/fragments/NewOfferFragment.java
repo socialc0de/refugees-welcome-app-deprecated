@@ -27,7 +27,7 @@ import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.Category;
 import com.appspot.donate_backend.donate.model.Offer;
-import com.appspot.donate_backend.donate.model.OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate;
+import com.appspot.donate_backend.donate.model.*;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -74,7 +74,9 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     Button chooseCategoryButton;
     HashMap<String, String> cats = new HashMap<String, String>();
     private View viewRoot;
-
+    Boolean offer = true;
+    Boolean mentoring = false;
+    Boolean internship = false;
     public NewOfferFragment(Context context, ArrayList<ListItem> arrayList) {
         this.mContext = context;
         this.arrayList = arrayList;
@@ -84,7 +86,12 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     public NewOfferFragment(Context context) {
         this.mContext = context;
     }
-
+    public NewOfferFragment(Context context, Boolean off, Boolean ment, Boolean intern) {
+        this.mContext = context;
+        offer = off;
+        mentoring = ment;
+        internship = intern;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,15 +100,19 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
         //Implementation of custom Toolbar
         Button submitButton = (Button) viewRoot.findViewById(R.id.submit);
         submitButton.setOnClickListener(this);
-        submitButton.setEnabled(false);
-        submitButton.setAlpha(.3f);
         chooseCategoryButton = (Button) viewRoot.findViewById(R.id.choose_category);
-        chooseCategoryButton.setOnClickListener(this);
-        viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
-        for (HashMap.Entry<String, Category> cat : MainActivity.getMainActivity().categories.entrySet()) {
-            cats.put(cat.getValue().getName(), cat.getKey());
+        if (offer) {
+            submitButton.setEnabled(false);
+            submitButton.setAlpha(.3f);
+            chooseCategoryButton.setOnClickListener(this);
+            viewRoot.findViewById(R.id.offerImage).setOnClickListener(this);
+            for (HashMap.Entry<String, Category> cat : MainActivity.getMainActivity().categories.entrySet()) {
+                cats.put(cat.getValue().getName(), cat.getKey());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>(cats.keySet()));
+        } else {
+            ((ViewGroup) chooseCategoryButton.getParent()).removeView(chooseCategoryButton);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>(cats.keySet()));
         MaterialEditText enddate = (MaterialEditText) viewRoot.findViewById(R.id.end_date);
         enddate.setOnClickListener(this);
         enddate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -285,17 +296,32 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
             choosePlace();
             return;
         }
+        // HACKY SOLUTION
         /*cat = cats.get(((Spinner) viewRoot.findViewById(R.id.categories)).getSelectedItem().toString());*/
-        OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate new_offer = new OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate();
+        final OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate new_offer = new OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate();
+        if (offer) {
+            new_offer.setCategories(Arrays.asList(cat));
+        }
         new_offer.setTitle(title);
         new_offer.setSubtitle(subtitle);
         new_offer.setDescription(desc);
-        //new_offer.setOffer(offer);
-        new_offer.setCategories(Arrays.asList(cat));
         new_offer.setLat(offerLoc.latitude);
         new_offer.setLon(offerLoc.longitude);
         new_offer.setEndDate(endDate);
-        final OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate final_offer = new_offer;
+        final MentoringRequestProtoTitleSubtitleDescriptionImageLatLonEndDate new_mentoring = new MentoringRequestProtoTitleSubtitleDescriptionImageLatLonEndDate();
+        new_mentoring.setTitle(title);
+        new_mentoring.setSubtitle(subtitle);
+        new_mentoring.setDescription(desc);
+        new_mentoring.setLat(offerLoc.latitude);
+        new_mentoring.setLon(offerLoc.longitude);
+        new_mentoring.setEndDate(endDate);
+        final InternshipOfferProtoTitleSubtitleDescriptionImageLatLonEndDate new_intern = new InternshipOfferProtoTitleSubtitleDescriptionImageLatLonEndDate();
+        new_intern.setTitle(title);
+        new_intern.setSubtitle(subtitle);
+        new_intern.setDescription(desc);
+        new_intern.setLat(offerLoc.latitude);
+        new_intern.setLon(offerLoc.longitude);
+        new_intern.setEndDate(endDate);
         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showProgress();
         Runnable runnable = new Runnable() {
             @Override
@@ -305,14 +331,31 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         CloudEndpointBuilderHelper.getRequestInitializer());
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
-                Offer result;
-                if (offerImage != null) {
-                    final_offer.setImages(Arrays.asList(BitMapToString(resizeImageForImageView(offerImage))));
-                } else {
-                    final_offer.setImages(new ArrayList<String>());
+                com.google.api.client.json.GenericJson result;
+                if (offer) {
+                    if (offerImage != null) {
+                        new_offer.setImages(Arrays.asList(BitMapToString(resizeImageForImageView(offerImage))));
+                    } else {
+                        new_offer.setImages(new ArrayList<String>());
+                    }
+                } else if (mentoring) {
+                    if (offerImage != null) {
+                        new_mentoring.setImage(BitMapToString(resizeImageForImageView(offerImage)));
+                    }
+                } else if (internship) {
+                    if (offerImage != null) {
+                        new_intern.setImage(BitMapToString(resizeImageForImageView(offerImage)));
+                    }
                 }
+                
                 try {
-                    result = service.offer().create(final_offer).execute();
+                    if (offer) {
+                        result = service.offer().create(new_offer).execute();
+                    } else if (mentoring) {
+                        result = service.mentoringrequest().create(new_mentoring).execute();
+                    } else {
+                        result = service.internshipoffer().create(new_intern).execute();
+                    }
                     Log.d("GSW MainActivity", result.toString());
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;

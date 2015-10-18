@@ -29,9 +29,6 @@ props.load(new FileInputStream(file("../config.properties")))
 
 android {
     dexOptions {
-        incremental false
-        preDexLibraries = false
-        jumboMode = false
         javaMaxHeapSize "3072M"
     }
     lintOptions {

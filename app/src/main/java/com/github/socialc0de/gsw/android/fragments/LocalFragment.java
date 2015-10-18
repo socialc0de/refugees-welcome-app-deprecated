@@ -77,18 +77,21 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             /*FloatingActionButton editButton = (FloatingActionButton) viewRoot.findViewById(R.id.fab);
             editButton.setOnClickListener(this);*/
 
-
             Log.d("GSW MainActivity", "fillLayout Locals");
             ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-            tbs.add(new ListTabFragment(offerList, getString(R.string.offer), true, false, false));
-            tbs.add(new ListTabFragment(mentoringList, getString(R.string.mentoring), false, true, false));
-            tbs.add(new ListTabFragment(internshipList, getString(R.string.internships), false, false, true));
+            ListTabFragment offerTab = new ListTabFragment(offerList, getString(R.string.offer), true, false, false);
+            ListTabFragment mentoringTab = new ListTabFragment(mentoringList, getString(R.string.mentoring), false, true, false);
+            ListTabFragment internshipTab = new ListTabFragment(internshipList, getString(R.string.internships), false, false, true);
+            tbs.add(offerTab);
+            tbs.add(mentoringTab);
+            tbs.add(internshipTab);
 
             ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
             // Assigning ViewPager View and setting the adapter
             ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
             pager.setAdapter(adapter);
-            pager.setCurrentItem(2);
+            pager.setOffscreenPageLimit(0);
+            adapter.notifyDataSetChanged();
             // Assiging the Sliding Tab Layout View
             SlidingTabLayout tabs = (SlidingTabLayout) viewRoot.findViewById(R.id.tabs);
             tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width

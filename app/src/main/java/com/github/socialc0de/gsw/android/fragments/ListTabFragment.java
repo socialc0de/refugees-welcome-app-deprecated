@@ -73,7 +73,7 @@ public class ListTabFragment extends Fragment implements View.OnClickListener {
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             listView.setLayoutManager(llm);
-            Log.d("MainActivity",arrayList.toString());
+            Log.d("MainA" + title,arrayList.toString());
             ListAdapter listAdapter = new ListAdapter(getActivity(), R.layout.list_layout, arrayList);
 
             Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);

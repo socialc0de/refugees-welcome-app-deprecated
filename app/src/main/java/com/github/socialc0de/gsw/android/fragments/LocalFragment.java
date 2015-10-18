@@ -127,7 +127,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
 
                 OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection result;
-                
+
                 try {
                     result = service.offer().listNear().setBbox(bbox).execute();
                     Log.d("GSW MainActivity", result.toString());
@@ -276,7 +276,15 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LOCATION_PICKER) {
             String bbox = data.getStringExtra(AppConfig.BBOX);
-            loadDataWithBbox(bbox);
+            if (bbox != null) {
+                loadDataWithBbox(bbox);
+            } else {
+                Intent pickup = new Intent(getActivity().getApplicationContext(), LocationPickerActivity.class);
+                pickup.putExtra("lat", 52.5305541);
+                pickup.putExtra("lon", 13.4136518);
+                startActivityForResult(pickup, LOCATION_PICKER);
+            }
+
         }
     }
 }

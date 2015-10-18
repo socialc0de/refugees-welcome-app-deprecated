@@ -1,15 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff" >
+    android:background="@color/primary_dark">
 
     <RelativeLayout
         android:id="@+id/rl_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/autocomplete"
-        android:visibility="visible" >
+        android:visibility="visible">
 
         <fragment
             android:id="@+id/mapCommon"
@@ -32,14 +31,15 @@
 
         <ImageView
             android:id="@+id/iv_marker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:clickable="true"
             android:onClick="onClick"
             android:padding="10dp"
-            android:src="@drawable/ic_map_marker" />
+            android:tint="@color/accentColor"
+            android:src="@drawable/ic_pin_drop_white" />
 
         <TextView
             android:id="@+id/tv_label"
@@ -51,7 +51,8 @@
             android:gravity="center_horizontal"
             android:maxLines="3"
             android:visibility="gone" />
-            <Button
+
+        <Button
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -60,9 +61,9 @@
             android:layout_alignParentRight="true"
             android:background="#4D000000"
             android:gravity="center"
+            android:onClick="onClick"
             android:text="Done"
-            android:textColor="#fff"
-            android:onClick="onClick"/>
+            android:textColor="#fff" />
     </RelativeLayout>
 
     <AutoCompleteTextView
@@ -73,8 +74,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/toolbar"
         android:layout_margin="2dp"
-        android:background="#99a8ba"
-        android:drawableLeft="@drawable/ic_search"
+        android:background="@color/primary_dark"
+        android:drawableLeft="@drawable/ic_search_white"
         android:drawablePadding="5dp"
         android:ellipsize="end"
         android:ems="10"
@@ -84,7 +85,7 @@
         android:paddingRight="30dp"
         android:singleLine="true"
         android:textColor="#fff"
-        android:textSize="13sp" >
+        android:textSize="13sp">
 
         <requestFocus />
     </AutoCompleteTextView>
@@ -97,5 +98,5 @@
         android:layout_alignRight="@+id/autocomplete"
         android:layout_alignTop="@+id/autocomplete"
         android:layout_marginRight="5dp"
-        android:src="@drawable/ic_cancel" />
+        android:src="@drawable/ic_delete" />
 </RelativeLayout>

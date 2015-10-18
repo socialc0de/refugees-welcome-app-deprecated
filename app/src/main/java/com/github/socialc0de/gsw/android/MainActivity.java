@@ -105,7 +105,7 @@ public class MainActivity extends FragmentActivity {
     public String gplus_url;
     public TinyDB mTinyDB;
     Drawer mDrawer;
-
+    AccountHeader headerResult;
 
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
     // note that these credentials will differ between live & sandbox environments.
@@ -247,20 +247,17 @@ public class MainActivity extends FragmentActivity {
         //create the drawer and remember the `Drawer` result object
 
 
-            AccountHeader headerResult = new AccountHeaderBuilder()
-                    .withActivity(this)
-                    .withHeaderBackground(R.drawable.productback)
-                    .addProfiles(
-                            new ProfileDrawerItem().withName("Max Muster").withEmail("test@test.de").withIcon(getResources().getDrawable(R.drawable.ic_launcher))
-                    )
-                    .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                        @Override
-                        public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                            return false;
-                        }
-                    })
-                    .withSelectionListEnabledForSingleProfile(false)
-                    .build();
+        headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.productback)
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .withSelectionListEnabledForSingleProfile(false)
+                .build();
 
         mFragments.clear();
 
@@ -467,10 +464,8 @@ public class MainActivity extends FragmentActivity {
                         CloudEndpointBuilderHelper.getRequestInitializer());
 
                 Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
-
-                User result;
                 try {
-                    result = service.user().create(new UserProto()).execute();
+                    final User result = service.user().create(new UserProto()).execute();
                     Log.d("GSW MainActivity", result.toString());
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -603,9 +598,16 @@ public class MainActivity extends FragmentActivity {
                             CloudEndpointBuilderHelper.getRequestInitializer());
 
                     Donate service = CloudEndpointBuilderHelper.updateBuilder(endpointBuilder).build();
-                    UserProtoImAddressNameImageUrl result;
                     try {
-                        result = service.user().data().execute();
+                        final UserProtoImAddressNameImageUrl result = service.user().data().execute();
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                headerResult.addProfiles(
+                                    new ProfileDrawerItem().withName(result.getName()).withEmail(credential.getSelectedAccountName()).withIcon(result.getImageUrl())
+                                );
+                            }
+                        });
+                        
                         Log.d("GSW MainActivity", result.toString());
                         Map<String, Object> im = jsonToMap(new JSONObject(result.getIm().toString()));
                         gplus_url = (String) ((HashMap) im.get("gplus")).get("url");

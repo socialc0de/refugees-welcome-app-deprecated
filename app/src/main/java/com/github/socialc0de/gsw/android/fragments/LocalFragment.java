@@ -34,6 +34,7 @@ import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.github.socialc0de.gsw.android.*;
+import com.github.socialc0de.gsw.android.models.*;
 import com.github.socialc0de.gsw.android.locationpicker.*;
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
@@ -78,10 +79,10 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             editButton.setOnClickListener(this);*/
 
             Log.d("GSW MainActivity", "fillLayout Locals");
-            ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-            ListTabFragment offerTab = new ListTabFragment(offerList, getString(R.string.offer), true, false, false);
-            ListTabFragment mentoringTab = new ListTabFragment(mentoringList, getString(R.string.mentoring), false, true, false);
-            ListTabFragment internshipTab = new ListTabFragment(internshipList, getString(R.string.internships), false, false, true);
+            ArrayList<ListTabContainer> tbs = new ArrayList<ListTabContainer>();
+            ListTabContainer offerTab = new ListTabContainer(offerList, getString(R.string.offer), true, false, false);
+            ListTabContainer mentoringTab = new ListTabContainer(mentoringList, getString(R.string.mentoring), false, true, false);
+            ListTabContainer internshipTab = new ListTabContainer(internshipList, getString(R.string.internships), false, false, true);
             tbs.add(offerTab);
             tbs.add(mentoringTab);
             tbs.add(internshipTab);
@@ -90,7 +91,6 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             // Assigning ViewPager View and setting the adapter
             ViewPager pager = (ViewPager) viewRoot.findViewById(R.id.pager);
             pager.setAdapter(adapter);
-            pager.setOffscreenPageLimit(0);
             adapter.notifyDataSetChanged();
             // Assiging the Sliding Tab Layout View
             SlidingTabLayout tabs = (SlidingTabLayout) viewRoot.findViewById(R.id.tabs);

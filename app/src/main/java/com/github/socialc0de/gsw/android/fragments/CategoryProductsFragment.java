@@ -33,6 +33,7 @@ import com.github.socialc0de.gsw.android.SlidingTabLayout;
 import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
+import com.github.socialc0de.gsw.android.models.*;
 
 public class CategoryProductsFragment extends Fragment {
     public ArrayList<ListItem> offerList;
@@ -57,8 +58,8 @@ public class CategoryProductsFragment extends Fragment {
     }
 
     public void fillLayout() {
-        ArrayList<ListTabFragment> tbs = new ArrayList<ListTabFragment>();
-        tbs.add(new ListTabFragment(this.offerList, getString(R.string.offer)));
+        ArrayList<ListTabContainer> tbs = new ArrayList<ListTabContainer>();
+        tbs.add(new ListTabContainer(this.offerList, getString(R.string.offer)));
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager(), tbs);
 
         // Assigning ViewPager View and setting the adapter

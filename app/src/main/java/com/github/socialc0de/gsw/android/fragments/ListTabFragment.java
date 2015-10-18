@@ -61,7 +61,7 @@ public class ListTabFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        
+
         Log.d("GSW MainActivity", "onCreateView ListTabFragment");
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_faqfragment, container, false);
@@ -81,9 +81,8 @@ public class ListTabFragment extends Fragment implements View.OnClickListener {
 
             listView.setAdapter(listAdapter);
             listView.setHasFixedSize(true);
-        } else {
-            getActivity().finish();
         }
+
         return viewRoot;
     }
 

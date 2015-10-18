@@ -34,7 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         CategoryCardItem ci = contactList.get(i);
         contactViewHolder.vCategory.setText(ci.getCategory());
         if (ci.getImage() != "") {
-            Picasso.with(mContext).load(ci.getImage()).fit().into(contactViewHolder.vImage);
+            Picasso.with(mContext).load(ci.getImage()).into(contactViewHolder.vImage);
         }
     }
 

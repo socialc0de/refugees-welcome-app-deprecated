@@ -300,10 +300,22 @@ public class MainActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(0)).commit();
     }
 
+    public static void refreshData(){
+        int data = 3;
+        for (int i = 0; i<data; i++){
+            while (true){
+                Log.d("Print URL","URL: PRINTING");
+            }
+        }
+
+    }
+
     /**
      * Handles the results from activities launched to select an account and to install Google Play
      * Services.
      */
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

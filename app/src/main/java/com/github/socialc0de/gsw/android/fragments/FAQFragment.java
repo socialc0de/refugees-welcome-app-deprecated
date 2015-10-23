@@ -11,12 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.FAQCategory;
 import com.appspot.donate_backend.donate.model.FAQCategoryCollection;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.adapter.view.RecyclerViewAdapter;
+import com.github.socialc0de.gsw.android.listener.RecyclerItemClickListener;
+import com.github.socialc0de.gsw.android.models.CategoryCardItem;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -25,13 +30,6 @@ import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.github.socialc0de.gsw.android.MainActivity;
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.adapter.view.RecyclerViewAdapter;
-import com.github.socialc0de.gsw.android.listener.RecyclerItemClickListener;
-import com.github.socialc0de.gsw.android.models.CategoryCardItem;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 
 /**
  * A simple {@link Fragment} subclass.

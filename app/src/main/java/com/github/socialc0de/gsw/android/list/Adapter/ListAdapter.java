@@ -10,15 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.fragments.ProductFragment;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private static Context context;

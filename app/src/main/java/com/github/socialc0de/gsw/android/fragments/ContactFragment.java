@@ -10,15 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.melnykov.fab.FloatingActionButton;
-
-import java.util.ArrayList;
-
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.adapter.view.ContactViewAdapter;
 import com.github.socialc0de.gsw.android.listener.RecyclerItemClickListener;
 import com.github.socialc0de.gsw.android.models.ContactRow;
+import com.melnykov.fab.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class ContactFragment extends android.support.v4.app.Fragment {
     public FloatingActionButton editButton;

@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.github.socialc0de.gsw.android.R;
 
 import java.util.HashMap;
-
-import com.github.socialc0de.gsw.android.R;
 
 public class PhraseDetailFragment extends android.support.v4.app.Fragment {
     private final String TAG = "GSW MainActivity";

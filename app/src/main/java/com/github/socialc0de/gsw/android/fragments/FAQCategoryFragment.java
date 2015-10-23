@@ -8,21 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguage;
 import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguageCollection;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.adapter.FAQCategoryAdapter;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
 import java.util.ArrayList;
-
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.adapter.FAQCategoryAdapter;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 
 /**
  * A simple {@link Fragment} subclass.

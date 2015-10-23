@@ -4,10 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
+import com.github.socialc0de.gsw.android.fragments.CategoryListTabFragment;
 
 import java.util.ArrayList;
-
-import com.github.socialc0de.gsw.android.fragments.CategoryListTabFragment;
 
 /**
  * Created by hp1 on 21-01-2015.

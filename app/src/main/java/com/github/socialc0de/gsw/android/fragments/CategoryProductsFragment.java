@@ -13,27 +13,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.Category;
 import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLon;
 import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleImageUrlsCategoriesLatLonCollection;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.SlidingTabLayout;
+import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
+import com.github.socialc0de.gsw.android.list.items.ListItem;
+import com.github.socialc0de.gsw.android.models.ListTabContainer;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.github.socialc0de.gsw.android.MainActivity;
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.SlidingTabLayout;
-import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
-import com.github.socialc0de.gsw.android.list.items.ListItem;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
-import com.github.socialc0de.gsw.android.models.*;
 
 public class CategoryProductsFragment extends Fragment {
     public ArrayList<ListItem> offerList;

@@ -9,13 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.github.socialc0de.gsw.android.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
-import com.github.socialc0de.gsw.android.R;
 
 public class PhraseListAdapter extends ArrayAdapter<HashMap<String, String>> {
     private int targetedLayout;
@@ -56,7 +53,7 @@ public class PhraseListAdapter extends ArrayAdapter<HashMap<String, String>> {
         fields.put(R.id.german_phrase, "German");
         fields.put(R.id.english_phrase, "English");
         fields.put(R.id.arabic_phrase, "Arabic / Syrian");
-        for (HashMap.Entry<Integer, String> entry: fields.entrySet()) {
+        for (HashMap.Entry<Integer, String> entry : fields.entrySet()) {
             TextView tv = (TextView) v.findViewById(entry.getKey().intValue());
             tv.setText(currentData.get(entry.getValue()));
             tv.setTypeface(typeface1);

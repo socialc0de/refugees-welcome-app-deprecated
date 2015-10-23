@@ -6,12 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.models.ContactRow;
 import com.github.socialc0de.gsw.android.models.holder.ContactRowHolder;
+
+import java.util.ArrayList;
 
 public class ContactViewAdapter extends RecyclerView.Adapter<ContactRowHolder> {
     Context context;

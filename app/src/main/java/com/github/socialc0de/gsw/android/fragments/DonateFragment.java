@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -24,7 +22,6 @@ public class DonateFragment extends Fragment {
 
     private static final int REQUEST_CODE_PAYMENT = 1;
     private Double donation = 0.5d;
-
 
 
     public DonateFragment() {
@@ -51,8 +48,8 @@ public class DonateFragment extends Fragment {
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = progress;
-                moneyText.setText((progress >=50 ? (1d * progress) : (0.5d * progress)) + " €");
-                donation = (progress >=50 ? (1d * progress) : (0.5d * progress));
+                moneyText.setText((progress >= 50 ? (1d * progress) : (0.5d * progress)) + " €");
+                donation = (progress >= 50 ? (1d * progress) : (0.5d * progress));
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {

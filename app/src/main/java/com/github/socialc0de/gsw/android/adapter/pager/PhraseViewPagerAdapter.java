@@ -3,10 +3,9 @@ package com.github.socialc0de.gsw.android.adapter.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import com.github.socialc0de.gsw.android.fragments.PhraseListTabFragment;
 
 import java.util.ArrayList;
-
-import com.github.socialc0de.gsw.android.fragments.PhraseListTabFragment;
 
 /**
  * Created by hp1 on 21-01-2015.

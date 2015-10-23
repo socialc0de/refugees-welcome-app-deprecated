@@ -1,6 +1,8 @@
 package com.github.socialc0de.gsw.android.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,15 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.ArrayList;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import com.melnykov.fab.FloatingActionButton;
-
-import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.list.adapter.ListAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
+import com.melnykov.fab.FloatingActionButton;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,10 +29,12 @@ public class ListTabFragment extends Fragment implements View.OnClickListener {
     Boolean offer;
     Boolean mentoring;
     Boolean internship;
+
     public ListTabFragment(ArrayList<ListItem> arli, String ttl) {
         arrayList = arli;
         title = ttl;
     }
+
     public ListTabFragment(ArrayList<ListItem> arli, String ttl, Boolean off, Boolean ment, Boolean intern) {
         arrayList = arli;
         title = ttl;
@@ -73,7 +75,7 @@ public class ListTabFragment extends Fragment implements View.OnClickListener {
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             listView.setLayoutManager(llm);
-            Log.d("MainA" + title,arrayList.toString());
+            Log.d("MainA" + title, arrayList.toString());
             ListAdapter listAdapter = new ListAdapter(getActivity(), R.layout.list_layout, arrayList);
 
             Log.d("R.layout.list_layout = ", "" + R.layout.list_layout);
@@ -89,6 +91,7 @@ public class ListTabFragment extends Fragment implements View.OnClickListener {
     public String getTitle() {
         return title;
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

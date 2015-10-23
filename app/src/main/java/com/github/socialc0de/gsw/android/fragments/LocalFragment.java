@@ -3,6 +3,7 @@ package com.github.socialc0de.gsw.android.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,27 +16,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.*;
 import com.github.androidprogresslayout.ProgressLayout;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.melnykov.fab.FloatingActionButton;
-import android.content.Intent;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
+import com.github.socialc0de.gsw.android.AppConfig;
+import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.SlidingTabLayout;
 import com.github.socialc0de.gsw.android.adapter.pager.ViewPagerAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
+import com.github.socialc0de.gsw.android.locationpicker.LocationPickerActivity;
+import com.github.socialc0de.gsw.android.models.ListTabContainer;
 import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
-import com.github.socialc0de.gsw.android.*;
-import com.github.socialc0de.gsw.android.models.*;
-import com.github.socialc0de.gsw.android.locationpicker.*;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+
+import java.util.ArrayList;
+
 public class LocalFragment extends Fragment implements View.OnClickListener {
     public ArrayList<ListItem> offerList;
     ArrayList<ListItem> mentoringList;
@@ -119,7 +118,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
     }
 
     public void loadDataWithBbox(final String bbox) {
-        Log.d("MainActivity",bbox);
+        Log.d("MainActivity", bbox);
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -211,6 +210,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
         };
         new Thread(runnable).start();
     }
+
     public void loadData(final Location loc) {
         if (loc != null) {
             double r = 6371;  // earth radius in km
@@ -229,6 +229,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
             startActivityForResult(pickup, LOCATION_PICKER);
         }
     }
+
     public Location getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
@@ -275,6 +276,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LOCATION_PICKER) {

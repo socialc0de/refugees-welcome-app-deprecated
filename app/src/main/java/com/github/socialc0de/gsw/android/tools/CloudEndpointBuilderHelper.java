@@ -13,13 +13,12 @@
  */
 package com.github.socialc0de.gsw.android.tools;
 
+import com.github.socialc0de.gsw.android.MainActivity;
 import com.google.api.client.googleapis.services.AbstractGoogleClient;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-
-import com.github.socialc0de.gsw.android.MainActivity;
 
 /**
  * Allows configuring Cloud Endpoint builders to support authenticated calls, as well as calls to

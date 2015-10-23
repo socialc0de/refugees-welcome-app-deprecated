@@ -9,16 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ScrollView;
-
-import com.melnykov.fab.FloatingActionButton;
-
-import java.util.ArrayList;
-
 import com.github.socialc0de.gsw.android.ExpandableGridView;
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.adapter.ImageAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
+import com.melnykov.fab.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     public ScrollView scrollView;

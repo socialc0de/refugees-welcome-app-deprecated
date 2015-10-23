@@ -13,13 +13,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.list.items.ListItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.list.items.ListItem;
 
 public class ImageAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;

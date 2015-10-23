@@ -22,13 +22,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.Category;
-import com.appspot.donate_backend.donate.model.Offer;
-import com.appspot.donate_backend.donate.model.*;
+import com.appspot.donate_backend.donate.model.InternshipOfferProtoTitleSubtitleDescriptionImageLatLonEndDate;
+import com.appspot.donate_backend.donate.model.MentoringRequestProtoTitleSubtitleDescriptionImageLatLonEndDate;
+import com.appspot.donate_backend.donate.model.OfferProtoTitleSubtitleDescriptionCategoriesImagesLatLonEndDate;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.github.socialc0de.gsw.android.AppConfig;
+import com.github.socialc0de.gsw.android.ExpandableGridView;
+import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.list.items.ListItem;
+import com.github.socialc0de.gsw.android.locationpicker.LocationPickerActivity;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,14 +53,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-
-import com.github.socialc0de.gsw.android.AppConfig;
-import com.github.socialc0de.gsw.android.ExpandableGridView;
-import com.github.socialc0de.gsw.android.locationpicker.LocationPickerActivity;
-import com.github.socialc0de.gsw.android.MainActivity;
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.list.items.ListItem;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 
 //import com.github.socialc0de.gsw.android.*;
 
@@ -77,6 +76,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     Boolean offer = true;
     Boolean mentoring = false;
     Boolean internship = false;
+
     public NewOfferFragment(Context context, ArrayList<ListItem> arrayList) {
         this.mContext = context;
         this.arrayList = arrayList;
@@ -86,12 +86,14 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
     public NewOfferFragment(Context context) {
         this.mContext = context;
     }
+
     public NewOfferFragment(Context context, Boolean off, Boolean ment, Boolean intern) {
         this.mContext = context;
         offer = off;
         mentoring = ment;
         internship = intern;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -347,7 +349,7 @@ public class NewOfferFragment extends Fragment implements View.OnClickListener, 
                         new_intern.setImage(BitMapToString(resizeImageForImageView(offerImage)));
                     }
                 }
-                
+
                 try {
                     if (offer) {
                         result = service.offer().create(new_offer).execute();

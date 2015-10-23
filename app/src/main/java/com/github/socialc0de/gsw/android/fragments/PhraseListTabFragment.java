@@ -10,13 +10,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.list.adapter.PhraseListAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.

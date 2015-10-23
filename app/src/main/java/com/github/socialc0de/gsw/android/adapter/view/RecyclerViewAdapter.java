@@ -7,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.models.CategoryCardItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.models.CategoryCardItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ContactViewHolder> {
 

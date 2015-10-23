@@ -14,12 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.UserProtoAddressImInterestImage;
 import com.appspot.donate_backend.donate.model.UserProtoImAddressNameImageUrl;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.models.Person;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -27,16 +30,10 @@ import com.melnykov.fab.FloatingActionButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-
-import com.github.socialc0de.gsw.android.MainActivity;
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.models.Person;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -8,11 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.list.items.CategoryListItem;
+
+import java.util.ArrayList;
 
 public class CategoryListAdapter extends ArrayAdapter<CategoryListItem> {
     private int targetedLayout;

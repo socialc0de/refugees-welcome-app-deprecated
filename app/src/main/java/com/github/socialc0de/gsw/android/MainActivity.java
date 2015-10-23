@@ -31,16 +31,13 @@ import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.DonateScopes;
-import com.appspot.donate_backend.donate.model.Category;
-import com.appspot.donate_backend.donate.model.CategoryCollection;
-import com.appspot.donate_backend.donate.model.User;
-import com.appspot.donate_backend.donate.model.UserProto;
-import com.appspot.donate_backend.donate.model.UserProtoImAddressNameImageUrl;
-import com.github.socialc0de.gsw.android.fragments.DonateFragment;
+import com.appspot.donate_backend.donate.model.*;
+import com.github.socialc0de.gsw.android.fragments.*;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
+import com.github.socialc0de.gsw.android.tools.TinyDB;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -54,36 +51,14 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.paypal.android.sdk.payments.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import com.github.socialc0de.gsw.android.fragments.AboutFragment;
-import com.github.socialc0de.gsw.android.fragments.AuthorityMapFragment;
-import com.github.socialc0de.gsw.android.fragments.CategoryFragment;
-import com.github.socialc0de.gsw.android.fragments.FAQFragment;
-import com.github.socialc0de.gsw.android.fragments.LocalFragment;
-import com.github.socialc0de.gsw.android.fragments.PhraseFragment;
-import com.github.socialc0de.gsw.android.fragments.ProfileFragment;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
-import com.github.socialc0de.gsw.android.tools.TinyDB;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.paypal.android.sdk.payments.PayPalAuthorization;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
-import com.paypal.android.sdk.payments.PayPalProfileSharingActivity;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
+import java.util.*;
 
 /**
  * Activity that allows the user to select the account they want to use to sign in. The class also

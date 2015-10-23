@@ -13,32 +13,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.appspot.donate_backend.donate.Donate;
 import com.appspot.donate_backend.donate.Donate.Builder;
 import com.appspot.donate_backend.donate.model.OfferProtoId;
 import com.appspot.donate_backend.donate.model.OfferProtoIdTitleSubtitleDescriptionCategoriesImageUrlsLatLonOwnerEndDateOwnerKey;
 import com.github.androidprogresslayout.ProgressLayout;
+import com.github.socialc0de.gsw.android.MainActivity;
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.models.ContactRow;
+import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import com.github.socialc0de.gsw.android.MainActivity;
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.models.ContactRow;
-import com.github.socialc0de.gsw.android.tools.CloudEndpointBuilderHelper;
+import java.util.*;
 
 public class ProductFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     private final String TAG = "GSW MainActivity";

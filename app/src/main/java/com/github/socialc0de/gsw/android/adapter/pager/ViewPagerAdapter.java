@@ -3,12 +3,10 @@ package com.github.socialc0de.gsw.android.adapter.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
+import com.github.socialc0de.gsw.android.models.ListTabContainer;
 
 import java.util.ArrayList;
-import com.github.socialc0de.gsw.android.models.*;
-import com.github.socialc0de.gsw.android.fragments.ListTabFragment;
 
 /**
  * Created by hp1 on 21-01-2015.

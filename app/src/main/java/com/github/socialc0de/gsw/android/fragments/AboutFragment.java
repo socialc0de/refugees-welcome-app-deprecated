@@ -8,10 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.github.socialc0de.gsw.android.R;
 
 import java.io.InputStream;
-
-import com.github.socialc0de.gsw.android.R;
 
 public class AboutFragment extends Fragment {
 

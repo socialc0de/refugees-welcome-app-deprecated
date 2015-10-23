@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.SlidingTabLayout;
+import com.github.socialc0de.gsw.android.adapter.pager.PhraseViewPagerAdapter;
+import com.github.socialc0de.gsw.android.list.adapter.CategoryListAdapter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,11 +20,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.SlidingTabLayout;
-import com.github.socialc0de.gsw.android.adapter.pager.PhraseViewPagerAdapter;
-import com.github.socialc0de.gsw.android.list.adapter.CategoryListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

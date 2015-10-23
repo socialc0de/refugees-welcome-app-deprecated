@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.github.socialc0de.gsw.android.R;
+import com.github.socialc0de.gsw.android.models.Authority;
+import com.github.socialc0de.gsw.android.models.WifiLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,7 +28,6 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.melnykov.fab.FloatingActionButton;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,10 +36,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.models.Authority;
-import com.github.socialc0de.gsw.android.models.WifiLocation;
 
 public class AuthorityMapFragment extends Fragment implements View.OnClickListener {
 

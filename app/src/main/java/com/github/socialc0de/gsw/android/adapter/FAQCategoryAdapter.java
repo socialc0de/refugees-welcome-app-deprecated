@@ -13,12 +13,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
-
 import com.appspot.donate_backend.donate.model.FAQItemProtoQuestionAnswerLanguage;
+import com.github.socialc0de.gsw.android.R;
 
 import java.util.ArrayList;
-
-import com.github.socialc0de.gsw.android.R;
 
 public class FAQCategoryAdapter extends BaseExpandableListAdapter {
 

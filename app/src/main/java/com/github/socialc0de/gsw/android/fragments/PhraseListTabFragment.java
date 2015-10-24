@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.list.adapter.PhraseListAdapter;
+import com.github.socialc0de.gsw.android.list.Adapter.PhraseListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

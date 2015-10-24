@@ -1,8 +1,7 @@
-package com.github.socialc0de.gsw.android.list.adapter;
+package com.github.socialc0de.gsw.android.list.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,7 +98,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             Log.d("GSW MainActivity", "position = " + getPosition());
-            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(context, arrayList.get(getPosition()).getPrimaryKey())).addToBackStack(null).commit();
+            MainActivity.getMainActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProductFragment(context, arrayList.get(getPosition()).getPrimaryKey())).addToBackStack(null).commit();
             MainActivity.getMainActivity().getmDrawer().setSelection(-1, false);
         }
     }

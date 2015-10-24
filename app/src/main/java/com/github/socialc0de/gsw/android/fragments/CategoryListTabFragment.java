@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.list.adapter.CategoryListAdapter;
+import com.github.socialc0de.gsw.android.list.Adapter.CategoryListAdapter;
 import com.github.socialc0de.gsw.android.list.items.CategoryListItem;
 
 import java.util.ArrayList;

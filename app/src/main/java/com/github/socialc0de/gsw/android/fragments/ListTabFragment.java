@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.github.socialc0de.gsw.android.MainActivity;
 import com.github.socialc0de.gsw.android.R;
-import com.github.socialc0de.gsw.android.list.adapter.ListAdapter;
+import com.github.socialc0de.gsw.android.list.Adapter.ListAdapter;
 import com.github.socialc0de.gsw.android.list.items.ListItem;
 import com.melnykov.fab.FloatingActionButton;
 

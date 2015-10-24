@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.github.socialc0de.gsw.android.R;
 import com.github.socialc0de.gsw.android.SlidingTabLayout;
 import com.github.socialc0de.gsw.android.adapter.pager.PhraseViewPagerAdapter;
-import com.github.socialc0de.gsw.android.list.adapter.CategoryListAdapter;
+import com.github.socialc0de.gsw.android.list.Adapter.CategoryListAdapter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

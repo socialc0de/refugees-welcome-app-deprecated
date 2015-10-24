@@ -1,4 +1,4 @@
-package com.github.socialc0de.gsw.android.list.adapter;
+package com.github.socialc0de.gsw.android.list.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;

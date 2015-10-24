@@ -264,8 +264,11 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             // do something with the clicked item :D
+                            if(getSupportFragmentManager().findFragmentByTag(mFragments.get(position - 1).getClass().getSimpleName()) != null)
+                                return false;
                             getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position - 1)).addToBackStack(null).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragments.get(position - 1), mFragments.get(position - 1).getClass().getSimpleName()).addToBackStack(null).commit();
+
                             // closes Drawer
                             return false;
                         }

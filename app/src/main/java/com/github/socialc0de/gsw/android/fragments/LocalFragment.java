@@ -185,14 +185,14 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
 
                 } catch (UserRecoverableAuthIOException e) {
                     final UserRecoverableAuthIOException e2 = e;
-                    getActivity().runOnUiThread(new Runnable() {
+                    MainActivity.getMainActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             startActivityForResult(e2.getIntent(), 2);
                         }
                     });
                     Log.d("GSW MainActivity", "e", e);
                 } catch (Exception e) {
-                    getActivity().runOnUiThread(new Runnable() {
+                    MainActivity.getMainActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showErrorText(getString(R.string.couldnt_load_offers));
                         }
@@ -200,7 +200,7 @@ public class LocalFragment extends Fragment implements View.OnClickListener {
                     Log.d("GSW MainActivity", "e", e);
                 }
 
-                getActivity().runOnUiThread(new Runnable() {
+                MainActivity.getMainActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         fillLayout();
                         ((ProgressLayout) viewRoot.findViewById(R.id.progress_layout)).showContent();
